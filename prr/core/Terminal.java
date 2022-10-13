@@ -21,12 +21,15 @@ abstract public class Terminal implements Serializable /* FIXME maybe addd more 
   private double _payments;
   private double _debts;
   private Set <Terminal> _friendlyTerminals;
-  private final TerminalType TERMINAL_TYPE; 
+  public final TerminalType TERMINAL_TYPE; 
 
   public Terminal(String key, String type, Client client){
     KEY = key;
-    TERMINAL_TYPE = TerminalType.valueOf(type);
     CLIENT = client;
+
+    TERMINAL_TYPE = TerminalType.valueOf(type) == TerminalType.BASIC ? 
+    TerminalType.BASIC: TerminalType.FANCY;
+
     // _communicationsMade = new List<>();
     // _communicationsReceived = new List<>();
     _terminalState = TerminalState.ON;
@@ -53,6 +56,10 @@ abstract public class Terminal implements Serializable /* FIXME maybe addd more 
   public boolean canStartCommunication() {
     // FIXME add implementation code
   }
+
+  public abstract void makeCommunication(String targetKey, String type);
+
+  public abstract void startInteractiveCommunication(String targetKey, String type);
 
     //      getMethods()                    //
 
