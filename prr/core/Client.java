@@ -1,5 +1,7 @@
 package prr.core;
 
+import java.util.List;
+
 public class Client {
     private String _key;
     private String _name;
@@ -22,4 +24,54 @@ public class Client {
         // _notifications = new List<>();
         _notificationsOn = true;
     }
+
+    public String getKey() {
+        return _key;
+    }
+
+    public String getName() {
+        return _name;
+    }
+
+    public int getTaxNumber() {
+        return _taxNumber;
+    }
+
+    public List<Terminal> getTerminalsList() {
+        return _terminals.unmodifiableList();
+    }
+
+    public ClientType getClientType() {
+        return _clientType;
+    }
+
+    public double getClientPayments() {
+        return _payments;
+    }
+
+    public double getClientDebts() {
+        return _debts;
+    }
+
+    public PricingSystem getPricingSystem() {
+        return _pricingSystem;
+    }
+
+    public List<Notification> getNotificationsList() {
+        return _notifications.unmodifiableList();
+    }
+
+    public boolean getNotificationsOn() {
+        return _notificationsOn;
+    }
+
+    public double getBalance() {
+        return _payments - _debts;
+    }
+
+    public boolean registerTerminal(String key, String type) {
+        Terminal terminal = new Terminal(key, type);
+        return _terminals.add(terminal);
+    }
+
 }
