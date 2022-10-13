@@ -1,7 +1,9 @@
 package prr.core;
 
 import java.io.Serializable;
+import java.util.Collections;
 import java.util.List;
+import java.util.Set;
 // FIXME add more import if needed (cannot import from pt.tecnico or prr.app)
 
 /**
@@ -11,24 +13,24 @@ abstract public class Terminal implements Serializable /* FIXME maybe addd more 
 
   /** Serial number for serialization. */
   private static final long serialVersionUID = 202208091753L;
-  private String _key;
+  private final String KEY;
   //private List <Communication> _communicationsMade;
   //private List <Communication> _communicationsReceived;
-  private TerminalState _state;
-  //private Client _client;
+  private TerminalState _terminalState;
+  private final Client CLIENT;
   private double _payments;
   private double _debts;
-  private List <Terminal> _friendlyTerminals;
-  private TerminalType _terminalType; 
+  private Set <Terminal> _friendlyTerminals;
+  private final TerminalType TERMINAL_TYPE; 
 
-  public Terminal(String key, String type, String clientKey){
-    _key = key;
-    _terminalType = TerminalType.valueOf(type);
-    //_client = network.getclient(clientKey);
+  public Terminal(String key, String type, Client client){
+    KEY = key;
+    TERMINAL_TYPE = TerminalType.valueOf(type);
+    CLIENT = client;
     // _communicationsMade = new List<>();
     // _communicationsReceived = new List<>();
-    _state = TerminalState.ON;
-    // _friendlyTerminals = new List<>();
+    _terminalState = TerminalState.ON;
+    _friendlyTerminals = new Set<>();
 
   }
   // FIXME define methods
@@ -51,4 +53,50 @@ abstract public class Terminal implements Serializable /* FIXME maybe addd more 
   public boolean canStartCommunication() {
     // FIXME add implementation code
   }
+
+    //      getMethods()                    //
+
+  /*
+   * public List <Communication> getCommunicationsMade(){
+   *  return Collections.unmodifiableList(_communicationsMade);
+   * }
+   */
+
+   /*
+    * public List <Communication> getCommunicationsReceived(){
+    *   return Collections.unmodifiableList(_communicationsReceived);
+    *}
+    */
+    
+    public String getKey(){
+      return KEY;
+    }
+
+    public TerminalState getTerminalState(){
+      return _terminalState;
+    }
+
+    public Client getClient(){
+      return CLIENT;
+    }
+
+    public double getPayments(){
+      return _payments;
+    }
+
+    public double getDebts(){
+      return _debts;
+    }
+
+    public Set <Terminal> getFriendlyTerminals(){
+      return Collections.unmodifiableSet(_friendlyTerminals);
+    }
+
+    public TerminalType getTerminalType(){
+      return TERMINAL_TYPE;
+    }
+
+    public boolean addFriendlyTerminal(Terminal newTerminal){
+      return _friendlyTerminals.add(newTerminal);
+    }
 }
