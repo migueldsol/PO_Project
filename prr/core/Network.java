@@ -3,12 +3,15 @@ package prr.core;
 import java.io.Serializable;
 import java.io.IOException;
 import prr.core.exception.UnrecognizedEntryException;
+import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
 import java.util.Collections;
+import java.util.HashMap;
 
 // FIXME add more import if needed (cannot import from pt.tecnico or prr.app)
 
-/**
+/*
  * Class Store implements a store.
  */
 public class Network implements Serializable {
@@ -16,24 +19,27 @@ public class Network implements Serializable {
   /** Serial number for serialization. */
 
   private static final long serialVersionUID = 202208091753L;
-  private List<Client> _clients;
+  private Map<String,Client> _clients;
   private List<PricingSystem> _pricingSystems;
-  private List<Terminal> _terminals;
+  private Map<String,Terminal> _terminals;
   private List<Communication> _communications;
 
   public Network() {
-    // _clients = new ArrayList<Client>();
-    // _pricingSystems = new ArrayList<PricingSystem>();
-    // _terminals = new ArrayList<Terminal>();
-    // _communications = new ArrayList<Communication>();
+    _clients = new HashMap<String,Client>();
+    _pricingSystems = new ArrayList<PricingSystem>();
+    PricingSystem base = new PricingSystem();
+    this.addPricingSystem(base);
+    _terminals = new HashMap<String,Terminal>();
+    _communications = new ArrayList<Communication>();
   }
 
   public void addClient(Client client) {
-    _clients.add(client);
+    _clients.put(client.getKey(),client);
   }
 
-  public List<Client> getAllClients() {
-    return Collections.unmodifiableList(_clients);
+  public Map<String,Client> getAllClients() {
+    //FIXME problemas de privacidade
+    return _clients;
   }
 
   public void addPricingSystem(PricingSystem pricingSystem) {
@@ -42,11 +48,12 @@ public class Network implements Serializable {
   
 
   public void addTerminal(Terminal terminal) {
-    _terminals.add(terminal);
+    _terminals.put(terminal.getKey(),terminal);
   }
 
-  public List<Terminal> getAllTerminals() {
-    return Collections.unmodifiableList(_terminals);
+  public Map<String,Terminal> getAllTerminals() {
+    //FIXME problemas de privacidade
+    return _terminals;
   }
 
   
