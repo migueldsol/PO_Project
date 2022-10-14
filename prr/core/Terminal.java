@@ -175,11 +175,13 @@ abstract public class Terminal implements Serializable /* FIXME maybe addd more 
     return Collections.unmodifiableMap(_friendlyTerminals);
   }
 
-  /*
-   * public boolean addFriendlyTerminal(Terminal newTerminal) {
-   * _friendlyTerminals.put(newTerminal.getKey(), newTerminal);
-   * }
-   */
+  public boolean addFriendlyTerminal(Terminal newTerminal) {
+    if(_friendlyTerminals.containsKey(newTerminal.getKey())){
+      return false;
+    }
+   _friendlyTerminals.put(newTerminal.getKey(), newTerminal);
+    return true;
+  }
   abstract public TerminalType getTerminalType();
 
   public String toString() {
