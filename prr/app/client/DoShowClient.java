@@ -1,5 +1,6 @@
 package prr.app.client;
 
+import prr.core.Client;
 import prr.core.Network;
 import prr.app.exception.UnknownClientKeyException;
 import pt.tecnico.uilib.menus.Command;
@@ -13,11 +14,13 @@ class DoShowClient extends Command<Network> {
 
   DoShowClient(Network receiver) {
     super(Label.SHOW_CLIENT, receiver);
-    //FIXME add command fields
+    addStringField("clientID","Insert Client ID: ");
   }
   
   @Override
   protected final void execute() throws CommandException {
-    //FIXME implement command
+    String clientID = StringField("clientID");
+    Client client = _receiver.getDeepCLient(String clientID);
+    _display.popup(client.toString());
   }
 }
