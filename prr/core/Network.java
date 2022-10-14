@@ -3,6 +3,7 @@ package prr.core;
 import java.io.Serializable;
 import java.io.IOException;
 import prr.core.exception.UnrecognizedEntryException;
+import java.util.List;
 
 // FIXME add more import if needed (cannot import from pt.tecnico or prr.app)
 
@@ -14,9 +15,9 @@ public class Network implements Serializable {
   /** Serial number for serialization. */
   private static final long serialVersionUID = 202208091753L;
   private List<Client> _clients;
-  private List<PricingSystem> _pricingSystems;
+  //private List<PricingSystem> _pricingSystems;
   private List<Terminal> _terminals;
-  private List<Communication> _communications;
+  //private List<Communication> _communications;
 
   public Network() {
     // _clients = new ArrayList<Client>();
@@ -33,9 +34,10 @@ public class Network implements Serializable {
     return _clients.unmodifiableList();
   }
 
-  public void addPricingSystem(PricingSystem pricingSystem) {
+  /*public void addPricingSystem(PricingSystem pricingSystem) {
     _pricingSystems.add(pricingSystem);
   }
+  */
 
   public void addTerminal(Terminal terminal) {
     _terminals.add(terminal);
@@ -45,6 +47,7 @@ public class Network implements Serializable {
     return _terminals.unmodifiableList();
   }
 
+  /* 
   public void addCommunication(Communication communication) {
     _communications.add(communication);
   }
@@ -52,6 +55,7 @@ public class Network implements Serializable {
   public List<Communication> getAllCommunications() {
     return _communications.unmodifiableList();
   }
+  */
 
   // FIXME define attributes
   // FIXME define contructor(s)
