@@ -2,7 +2,9 @@ package prr.core;
 
 import java.io.Serializable;
 import java.util.Collections;
+import java.util.HashMap;
 import java.util.HashSet;
+import java.util.Map;
 import java.util.Set;
 
 // FIXME add more import if needed (cannot import from pt.tecnico or prr.app)
@@ -15,13 +17,14 @@ abstract public class Terminal implements Serializable /* FIXME maybe addd more 
   /** Serial number for serialization. */
   private static final long serialVersionUID = 202208091753L;
   private final String KEY;
-  // private List <Communication> _communicationsMade;
-  // private List <Communication> _communicationsReceived;
+  private Map<Integer, Communication> _communicationsMade;
+  private Map<Integer, Communication> _communicationsReceived;
   private TerminalState _terminalState;
   private final Client CLIENT;
   private double _payments;
   private double _debts;
-  private Set<Terminal> _friendlyTerminals;
+
+  private Map<String, Terminal> _friendlyTerminals;
 
   public Terminal(String key, TerminalType type, Client client) {
     KEY = key;
@@ -30,10 +33,10 @@ abstract public class Terminal implements Serializable /* FIXME maybe addd more 
     // FIXME nao podemos definir isto aqui porque só podemos alterar no terminal
     // BASIC ou Fancy
 
-    // _communicationsMade = new List<>();
-    // _communicationsReceived = new List<>();
+    _communicationsMade = new HashMap<>();
+    _communicationsReceived = new HashMap<>();
     _terminalState = TerminalState.IDLE;
-    _friendlyTerminals = new HashSet<>();
+    _friendlyTerminals = new HashMap<>();
 
   }
   // FIXME define methods
@@ -49,6 +52,10 @@ abstract public class Terminal implements Serializable /* FIXME maybe addd more 
   public boolean canEndCurrentCommunication() {
     // FIXME add implementation code
     return true;
+  }
+
+  public boolean hasMadeCommunication() {
+    return _communicationsMade.isEmpty() && _communicationsReceived.isEmpty();
   }
   /*
    * public boolean TurnOff() {
@@ -163,11 +170,19 @@ abstract public class Terminal implements Serializable /* FIXME maybe addd more 
     return _debts;
   }
 
-  public Set<Terminal> getFriendlyTerminals() {
-    return Collections.unmodifiableSet(_friendlyTerminals);
+  public Map<String, Terminal> getFriendlyTerminals() {
+    return Collections.unmodifiableMap(_friendlyTerminals);
   }
 
-  public boolean addFriendlyTerminal(Terminal newTerminal) {
-    return _friendlyTerminals.add(newTerminal);
+  /*
+   * public boolean addFriendlyTerminal(Terminal newTerminal) {
+   * _friendlyTerminals.put(newTerminal.getKey(), newTerminal);
+   * }
+   */
+  abstract public TerminalType getTerminalType();
+
+  public String toString() {
+    return getTerminalType().name() + "|" + KEY + "|" + CLIENT.getKey() + "|" + _terminalState.name() + "|"
+        + Double.toString(_debts) + "|" + Double.toString(_payments);
   }
 }
