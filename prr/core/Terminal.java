@@ -72,12 +72,13 @@ abstract public class Terminal implements Serializable /* FIXME maybe addd more 
 
   public boolean changeState(TerminalState state) {
     switch (state) {
-      case TerminalState.IDLE -> changeToIdle();
-      case TerminalState.SILENCE -> changeToSilence();
-      case TerminalState.BUSY -> changeToBusy();
-      case TerminalState.OFF -> changeToOff();
+      case IDLE -> changeToIdle();
+      case SILENCE -> changeToSilence();
+      case BUSY -> changeToBusy();
+      case OFF -> changeToOff();
       default -> throw new IllegalArgumentException("Unexpected value: " + state);
     }
+    return false;
   }
 
   public boolean changeToIdle() {
