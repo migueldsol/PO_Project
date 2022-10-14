@@ -47,11 +47,12 @@ abstract public class Terminal implements Serializable /* FIXME maybe addd more 
    * @return true if this terminal is busy (i.e., it has an active interactive communication) and
    *          it was the originator of this communication.
    **/
-  /* 
+  
   public boolean canEndCurrentCommunication() {
     // FIXME add implementation code
+    return true;
   }
-  */
+  
   
   /**
    * Checks if this terminal can start a new communication.
@@ -59,11 +60,12 @@ abstract public class Terminal implements Serializable /* FIXME maybe addd more 
    * @return true if this terminal is neither off neither busy, false otherwise.
    **/
 
-  /* 
+   
   public boolean canStartCommunication() {
     // FIXME add implementation code
+    return true;
   }
-  */
+  
 
   public abstract void makeCommunication(String targetKey, String type);
 
