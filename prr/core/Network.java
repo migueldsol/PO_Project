@@ -6,6 +6,7 @@ import prr.core.exception.UnrecognizedEntryException;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
+import java.util.Collection;
 import java.util.Collections;
 import java.util.HashMap;
 
@@ -42,10 +43,26 @@ public class Network implements Serializable {
     return true;
   }
 
+  public Client getDeepClient(String clientID){
+    Client client = _clients.get(clientID);
+    Client deepClient = new Client(client.getKey(), client.getName(), client.getTaxNumber());
+    Map <String, Terminal>  deepTerminals = client.getDeepTerminals();
+    deepClient.setTerminals(deepTerminals);
+    
+    Double payments = client.getClientPayments();
+    Double debts = client.getClientDebts();
 
-  public Map<String,Client> getAllClients() {
+    deepClient.setPayments(payments);
+    deepClient.setDebts(debts);
+
+    return deepClient;
+  }
+
+
+  public Collection <Client> getAllClients() {
     //FIXME problemas de privacidade
-    return _clients;
+    Collection <Client> values = _clients.values();
+    return Collections.unmodifiableCollection(values);
   }
 
   public boolean registerTerminal(String key, TerminalType type, Client client){
@@ -63,18 +80,23 @@ public class Network implements Serializable {
       newTerminal = new FancyTerminal(key, type, client);
     }
     
-    _terminals.put(key,newTerminal);
+    this.addTerminal(newTerminal);;
     return true;
   }
+
+  public void addTerminal(Terminal terminal) {
+    _terminals.put(terminal.getKey(),terminal);
+  }
+
+  public Map <String, Terminal> getDeepTerminals(){
+    return Collections.unmodifiableMap(_terminals);
+  } 
 
   public void addPricingSystem(PricingSystem pricingSystem) {
     _pricingSystems.add(pricingSystem);
   }
   
 
-  public void addTerminal(Terminal terminal) {
-    _terminals.put(terminal.getKey(),terminal);
-  }
 
   public Map<String,Terminal> getAllTerminals() {
     //FIXME problemas de privacidade
