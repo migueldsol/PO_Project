@@ -1,9 +1,15 @@
 package prr.core;
 
 public class BasicTerminal extends Terminal{
-    
-    public BasicTerminal(String key, String type, Client client){
+    public final TerminalType TERMINAL_TYPE; 
+
+    public BasicTerminal(String key, TerminalType type, Client client){
         super(key, type, client);
+        TERMINAL_TYPE = TerminalType.BASIC;
+    }
+
+    public TerminalType getTerminalType(){
+        return TERMINAL_TYPE;
     }
 
     public void makeCommunication(String targetKey, String type){

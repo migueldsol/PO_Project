@@ -22,16 +22,12 @@ abstract public class Terminal implements Serializable /* FIXME maybe addd more 
   private double _payments;
   private double _debts;
   private Set <Terminal> _friendlyTerminals;
-  public final TerminalType TERMINAL_TYPE; 
 
-  public Terminal(String key, String type, Client client){
+  public Terminal(String key, TerminalType type, Client client){
     KEY = key;
     CLIENT = client;
 
     //FIXME nao podemos definir isto aqui porque só podemos alterar no terminal BASIC ou Fancy 
-
-    TERMINAL_TYPE = TerminalType.valueOf(type) == TerminalType.BASIC ? 
-    TerminalType.BASIC: TerminalType.FANCY;
 
     // _communicationsMade = new List<>();
     // _communicationsReceived = new List<>();
@@ -107,10 +103,6 @@ abstract public class Terminal implements Serializable /* FIXME maybe addd more 
 
     public Set <Terminal> getFriendlyTerminals(){
       return Collections.unmodifiableSet(_friendlyTerminals);
-    }
-
-    public TerminalType getTerminalType(){
-      return TERMINAL_TYPE;
     }
 
     public boolean addFriendlyTerminal(Terminal newTerminal){

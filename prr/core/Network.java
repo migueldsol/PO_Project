@@ -33,13 +33,38 @@ public class Network implements Serializable {
     _communications = new ArrayList<Communication>();
   }
 
-  public void addClient(Client client) {
-    _clients.put(client.getKey(),client);
+  public boolean registerClient(String key, String name, int taxNumber){
+    Client newClient = new Client(key,name,taxNumber);
+    if (_clients.containsKey(key)){
+      return false;
+    }
+    _clients.put(key,newClient);
+    return true;
   }
+
 
   public Map<String,Client> getAllClients() {
     //FIXME problemas de privacidade
     return _clients;
+  }
+
+  public boolean registerTerminal(String key, TerminalType type, Client client){
+    if (_terminals.containsKey(key)){
+      return false;
+    }
+
+    Terminal newTerminal;
+
+    if(type == TerminalType.BASIC){
+      newTerminal = new BasicTerminal(key, type, client);
+      }
+      
+    else {
+      newTerminal = new FancyTerminal(key, type, client);
+    }
+    
+    _terminals.put(key,newTerminal);
+    return true;
   }
 
   public void addPricingSystem(PricingSystem pricingSystem) {
