@@ -43,6 +43,22 @@ public class Network implements Serializable {
     return true;
   }
 
+
+  public List <String> toStringAllClients(){
+    List <String> message = new ArrayList <>();
+    for (Client i : _clients.values()){
+      message.add(i.toString());
+    }
+    return message;
+  }
+  //QUESTIONS is it important to return a string to not have any clients on the app 
+  //          or should i just deal w clients on the app?
+  public String toStringClient(String clientID){
+    Client client = _clients.get(clientID);
+    return client.toString();
+  }
+
+  //FIXME pode nao ser necessario
   public Client getDeepClient(String clientID){
     Client client = _clients.get(clientID);
     Client deepClient = new Client(client.getKey(), client.getName(), client.getTaxNumber());
@@ -58,9 +74,8 @@ public class Network implements Serializable {
     return deepClient;
   }
 
-
-  public Collection <Client> getAllClients() {
-    //FIXME problemas de privacidade
+  //FIXME pode nao ser necessario
+  public Collection <Client> getAllDeepClients() {
     Collection <Client> values = _clients.values();
     return Collections.unmodifiableCollection(values);
   }

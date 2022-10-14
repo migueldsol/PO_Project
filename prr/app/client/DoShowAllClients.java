@@ -3,6 +3,7 @@ package prr.app.client;
 import prr.core.Network;
 import pt.tecnico.uilib.menus.Command;
 import pt.tecnico.uilib.menus.CommandException;
+import java.util.List;
 
 
 /**
@@ -16,10 +17,10 @@ class DoShowAllClients extends Command<Network> {
   
   @Override
   protected final void execute() throws CommandException {
-    Collection <Client> clientList = _receiver.getAllClients();
-    for (Client i : clientList){
-      _display.addLine(i.toString());
-      _display.display();
+    List <String> message = _receiver.toStringAllClients();
+    for (String i : message){
+      _display.addLine(i);
     }
+    _display.display();
   }
 }

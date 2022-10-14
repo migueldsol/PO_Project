@@ -84,7 +84,10 @@ public class Client {
 
 
     public boolean registerTerminal(Terminal terminal) {
-
-        return _terminals.add(terminal);
+        if (_terminals.containsKey(terminal.getKey())){
+            return false;
+        }
+        _terminals.put(terminal.getKey(),terminal);
+        return true;
     }
 }
