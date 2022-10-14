@@ -4,6 +4,7 @@ import java.io.Serializable;
 import java.io.IOException;
 import prr.core.exception.UnrecognizedEntryException;
 import java.util.List;
+import java.util.Collections;
 
 // FIXME add more import if needed (cannot import from pt.tecnico or prr.app)
 
@@ -13,11 +14,12 @@ import java.util.List;
 public class Network implements Serializable {
 
   /** Serial number for serialization. */
+
   private static final long serialVersionUID = 202208091753L;
   private List<Client> _clients;
-  //private List<PricingSystem> _pricingSystems;
+  private List<PricingSystem> _pricingSystems;
   private List<Terminal> _terminals;
-  //private List<Communication> _communications;
+  private List<Communication> _communications;
 
   public Network() {
     // _clients = new ArrayList<Client>();
@@ -31,31 +33,31 @@ public class Network implements Serializable {
   }
 
   public List<Client> getAllClients() {
-    return _clients.unmodifiableList();
+    return Collections.unmodifiableList(_clients);
   }
 
-  /*public void addPricingSystem(PricingSystem pricingSystem) {
+  public void addPricingSystem(PricingSystem pricingSystem) {
     _pricingSystems.add(pricingSystem);
   }
-  */
+  
 
   public void addTerminal(Terminal terminal) {
     _terminals.add(terminal);
   }
 
   public List<Terminal> getAllTerminals() {
-    return _terminals.unmodifiableList();
+    return Collections.unmodifiableList(_terminals);
   }
 
-  /* 
+  
   public void addCommunication(Communication communication) {
     _communications.add(communication);
   }
 
   public List<Communication> getAllCommunications() {
-    return _communications.unmodifiableList();
+    return Collections.unmodifiableList(_communications);
   }
-  */
+  
 
   // FIXME define attributes
   // FIXME define contructor(s)
