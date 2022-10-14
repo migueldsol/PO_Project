@@ -1,6 +1,8 @@
 package prr.core;
 
 import java.util.List;
+import java.util.ArrayList;
+import java.util.Collections;
 
 public class Client {
     private String _key;
@@ -18,10 +20,10 @@ public class Client {
         _key = key;
         _name = name;
         _taxNumber = taxNumber;
-        // _terminals = new List<>();
-        // _clientType = "Normal":
+        _terminals = new ArrayList<>();
+        _clientType = ClientType.NORMAL;
         _pricingSystem = pricingSystem;
-        // _notifications = new List<>();
+        _notifications = new ArrayList<>();
         _notificationsOn = true;
     }
 
@@ -38,7 +40,7 @@ public class Client {
     }
 
     public List<Terminal> getTerminalsList() {
-        return _terminals.unmodifiableList();
+        return Collections.unmodifiableList(_terminals);
     }
 
     public ClientType getClientType() {
@@ -58,7 +60,7 @@ public class Client {
     }
 
     public List<Notification> getNotificationsList() {
-        return _notifications.unmodifiableList();
+        return Collections.unmodifiableList(_notifications);
     }
 
     public boolean getNotificationsOn() {
@@ -69,9 +71,12 @@ public class Client {
         return _payments - _debts;
     }
 
+    /*  FIXME  dar fix aqui e no terminal 
     public boolean registerTerminal(String key, String type) {
         Terminal terminal = new Terminal(key, type);
+
+
         return _terminals.add(terminal);
     }
-
+    */
 }

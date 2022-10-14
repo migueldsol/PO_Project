@@ -2,8 +2,9 @@ package prr.core;
 
 import java.io.Serializable;
 import java.util.Collections;
-import java.util.List;
+import java.util.HashSet;
 import java.util.Set;
+
 // FIXME add more import if needed (cannot import from pt.tecnico or prr.app)
 
 /**
@@ -27,13 +28,15 @@ abstract public class Terminal implements Serializable /* FIXME maybe addd more 
     KEY = key;
     CLIENT = client;
 
+    //FIXME nao podemos definir isto aqui porque só podemos alterar no terminal BASIC ou Fancy 
+
     TERMINAL_TYPE = TerminalType.valueOf(type) == TerminalType.BASIC ? 
     TerminalType.BASIC: TerminalType.FANCY;
 
     // _communicationsMade = new List<>();
     // _communicationsReceived = new List<>();
     _terminalState = TerminalState.ON;
-    _friendlyTerminals = new Set<>();
+    _friendlyTerminals = new HashSet<>();
 
   }
   // FIXME define methods
@@ -44,18 +47,23 @@ abstract public class Terminal implements Serializable /* FIXME maybe addd more 
    * @return true if this terminal is busy (i.e., it has an active interactive communication) and
    *          it was the originator of this communication.
    **/
+  /* 
   public boolean canEndCurrentCommunication() {
     // FIXME add implementation code
   }
+  */
   
   /**
    * Checks if this terminal can start a new communication.
    *
    * @return true if this terminal is neither off neither busy, false otherwise.
    **/
+
+  /* 
   public boolean canStartCommunication() {
     // FIXME add implementation code
   }
+  */
 
   public abstract void makeCommunication(String targetKey, String type);
 
