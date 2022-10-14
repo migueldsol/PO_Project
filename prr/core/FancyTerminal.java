@@ -1,9 +1,15 @@
 package prr.core;
 
 public class FancyTerminal extends Terminal{
-    
-    public FancyTerminal(String key, String type, Client client){
+    public final TerminalType TERMINAL_TYPE; 
+
+    public FancyTerminal(String key, TerminalType type, Client client){
         super(key, type, client);
+        TERMINAL_TYPE = TerminalType.FANCY;
+    }
+
+    public TerminalType getTerminalType(){
+        return TERMINAL_TYPE;
     }
 
     public void makeCommunication(String targetKey, String type){
