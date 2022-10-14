@@ -31,16 +31,16 @@ public class Parser {
   void parseFile(String filename) throws IOException, UnrecognizedEntryException {
     try (BufferedReader reader = new BufferedReader(new FileReader(filename))) {
       String line;
-      
+
       while ((line = reader.readLine()) != null)
         parseLine(line);
     }
   }
-  
+
   private void parseLine(String line) throws UnrecognizedEntryException {
     String[] components = line.split("\\|");
 
-    switch(components[0]) {
+    switch (components[0]) {
       case "CLIENT" -> parseClient(components, line);
       case "BASIC", "FANCY" -> parseTerminal(components, line);
       case "FRIENDS" -> parseFriends(components, line);
@@ -48,11 +48,12 @@ public class Parser {
     }
   }
 
-  private void checkComponentsLength(String[] components, int expectedSize, String line) throws UnrecognizedEntryException {
+  private void checkComponentsLength(String[] components, int expectedSize, String line)
+      throws UnrecognizedEntryException {
     if (components.length != expectedSize)
       throw new UnrecognizedEntryException("Invalid number of fields in line: " + line);
   }
-  
+
   // parse a client with format CLIENT|id|nome|taxId
   private void parseClient(String[] components, String line) throws UnrecognizedEntryException {
     checkComponentsLength(components, 4, line);
@@ -73,27 +74,27 @@ public class Parser {
 
     try {
       Terminal terminal = _network.registerTerminal(components[0], components[1], components[2]);
-      switch(components[3]) {
+      switch (components[3]) {
         case "SILENCE" -> terminal.setOnSilent();
-        case "OFF" -> terminal->turnOff();
+        case "OFF" -> terminal.changeState(TerminalState.OFF);
         default -> {
-         if (!components[3].equals("ON"))
-           throw new UnrecognizedEntryException("Invalid specification in line: " + line);
-        } 
+          if (!components[3].equals("ON"))
+            throw new UnrecognizedEntryException("Invalid specification in line: " + line);
+        }
       }
     } catch (SomeOtherException e) {
       throw new UnrecognizedEntryException("Invalid specification: " + line, e);
     }
   }
 
-  //Parse a line with format FRIENDS|idTerminal|idTerminal1,...,idTerminalN
+  // Parse a line with format FRIENDS|idTerminal|idTerminal1,...,idTerminalN
   private void parseFriends(String[] components, String line) throws UnrecognizedEntryException {
     checkComponentsLength(components, 3, line);
-      
+
     try {
       String terminal = components[1];
       String[] friends = components[2].split(",");
-      
+
       for (String friend : friends)
         _network.addFriend(terminal, friend);
     } catch (OtherException e) {
