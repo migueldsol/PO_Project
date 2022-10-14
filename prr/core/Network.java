@@ -2,6 +2,8 @@ package prr.core;
 
 import java.io.Serializable;
 import java.io.IOException;
+
+import prr.app.exception.UnknownClientKeyException;
 import prr.core.exception.UnrecognizedEntryException;
 import java.util.ArrayList;
 import java.util.List;
@@ -80,9 +82,9 @@ public class Network implements Serializable {
     return Collections.unmodifiableCollection(values);
   }
 
-  public boolean registerTerminal(String key, TerminalType type, Client client){
+  public Terminal registerTerminal(String key, TerminalType type, Client client){
     if (_terminals.containsKey(key)){
-      return false;
+      return null;
     }
 
     Terminal newTerminal;
@@ -96,11 +98,26 @@ public class Network implements Serializable {
     }
     
     this.addTerminal(newTerminal);;
-    return true;
+    return newTerminal;
+  }
+
+  public Terminal registerTerminal(String key, TerminalType type, String clientKey){
+    Client client = this._clients.get(clientKey);
+    return registerTerminal(key,type,client);
   }
 
   public void addTerminal(Terminal terminal) {
     _terminals.put(terminal.getKey(),terminal);
+  }
+
+  public void addFriend(Terminal terminal, Terminal friend){
+    terminal.addFriendlyTerminal(friend);
+  }
+
+  public void addFriend(String terminal, String friend) throws UnknownClientKeyException {
+    Terminal _terminal = this._terminals.get(terminal);
+    Terminal _friend = this._terminals.get(friend);
+    addFriend(_terminal,_friend);
   }
 
   public Map <String, Terminal> getDeepTerminals(){

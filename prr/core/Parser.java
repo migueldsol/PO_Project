@@ -8,8 +8,9 @@ import java.io.BufferedReader;
 import java.util.Collection;
 import java.util.ArrayList;
 
+import prr.app.exception.UnknownClientKeyException;
 import prr.core.exception.UnrecognizedEntryException;
-import prr.core.exception.UnknownIdentifierException;
+//import prr.core.exception.UnknownIdentifierException;
 // import more exception core classes if needed
 
 /* 
@@ -63,7 +64,8 @@ public class Parser {
       _network.registerClient(components[1], components[2], taxNumber);
     } catch (NumberFormatException nfe) {
       throw new UnrecognizedEntryException("Invalid number in line " + line, nfe);
-    } catch (OtherException e) {
+    } catch (
+            Exception e) {
       throw new UnrecognizedEntryException("Invalid specification in line: " + line, e);
     }
   }
@@ -73,16 +75,16 @@ public class Parser {
     checkComponentsLength(components, 4, line);
 
     try {
-      Terminal terminal = _network.registerTerminal(components[0], components[1], components[2]);
+      Terminal terminal = _network.registerTerminal(components[0], TerminalType.valueOf(components[1]), components[2]);
       switch (components[3]) {
-        case "SILENCE" -> terminal.setOnSilent();
+        case "SILENCE" -> terminal.changeState(TerminalState.SILENCE);
         case "OFF" -> terminal.changeState(TerminalState.OFF);
         default -> {
           if (!components[3].equals("ON"))
             throw new UnrecognizedEntryException("Invalid specification in line: " + line);
         }
       }
-    } catch (SomeOtherException e) {
+    } catch (Exception e) {
       throw new UnrecognizedEntryException("Invalid specification: " + line, e);
     }
   }
@@ -97,8 +99,8 @@ public class Parser {
 
       for (String friend : friends)
         _network.addFriend(terminal, friend);
-    } catch (OtherException e) {
-      throw new UnrecognizedEntryException("Some message error in line:  " + line, e);
+    } catch (UnknownClientKeyException friend) {
+      throw new UnrecognizedEntryException("Unknown client key:  " + line, friend);
     }
   }
 }
