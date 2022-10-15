@@ -75,7 +75,7 @@ public class Parser {
     checkComponentsLength(components, 4, line);
 
     try {
-      Terminal terminal = _network.registerTerminal(components[1], TerminalType.valueOf(components[0]), components[2]);
+      Terminal terminal = _network.registerTerminal(Integer.parseInt(components[1]), TerminalType.valueOf(components[0]), components[2]);
       switch (components[3]) {
         case "SILENCE" -> terminal.changeState(TerminalState.SILENCE);
         case "OFF" -> terminal.changeState(TerminalState.OFF);
