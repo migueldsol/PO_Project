@@ -92,7 +92,7 @@ public class Client {
     }
 
     public String toString(){
-        return "CLIENT|" + _key + "|" + _name + "|" + _clientType + "|" + _notifications.toString() +
+        return "CLIENT|" + _key + "|" + _name + "|" + _taxNumber + "|" + _clientType + "|" + _notifications.toString() +
          "|" + _terminals.toString() + "|" + _payments + "|" + _debts; 
 
     }
