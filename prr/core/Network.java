@@ -117,10 +117,13 @@ public class Network implements Serializable {
     terminal.addFriendlyTerminal(friend);
   }
 
-  public void addFriend(String terminal, String friend) throws UnknownClientKeyException {
-    Terminal _terminal = this._terminals.get(terminal);
+  public void addFriend(String terminalKey, String friendKey) throws UnknownClientKeyException {
+
+    Integer terminal = Integer.valueOf(terminalKey);
+    Integer friend = Integer.valueOf(friendKey);
+    Terminal newTerminal = this._terminals.get(terminal);
     Terminal _friend = this._terminals.get(friend);
-    addFriend(_terminal,_friend);
+    addFriend(newTerminal,_friend);
   }
 
   public Map <Integer, Terminal> getDeepTerminals(){
