@@ -37,11 +37,14 @@ public class Network implements Serializable {
     _communications = new ArrayList<Communication>();
   }
 
+
   public boolean registerClient(String key, String name, int taxNumber) throws DuplicateClientKeyException {
     Client newClient = new Client(key,name,taxNumber);
     if (_clients.containsKey(key)) {
       throw new DuplicateClientKeyException(key);
+
     }
+    Client newClient = new Client(key,name,taxNumber);
     _clients.put(key,newClient);
     return true;
   }
@@ -51,7 +54,6 @@ public class Network implements Serializable {
     List <String> message = new ArrayList <>();
     for (Client i : _clients.values()){
       message.add(i.toString());
-      System.out.println(i.toString());
     }
     return message;
   }
