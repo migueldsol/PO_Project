@@ -50,6 +50,7 @@ public class Network implements Serializable {
     List <String> message = new ArrayList <>();
     for (Client i : _clients.values()){
       message.add(i.toString());
+      System.out.println(i.toString());
     }
     return message;
   }
@@ -158,6 +159,7 @@ public class Network implements Serializable {
    *                                    the text file
    */
   void importFile(String filename) throws UnrecognizedEntryException, IOException /* FIXME maybe other exceptions */ {
-    // FIXME implement method
+    Parser parser = new Parser(this);
+    parser.parseFile(filename);
   }
 }

@@ -25,9 +25,9 @@ Menu de Gestão de Terminais -- implementar as operações "Mostrar todos os ter
 
 Menu de gestão de clientes -- implementar as operações "Visualizar cliente", "Visualizar todos os clientes" e "Registar cliente".
 
-- [ ] Visualizar Cliente
-- [ ] Visualizar todos os clientes
-- [ ] Registrar Cliente
+- [x] Visualizar Cliente
+- [x] Visualizar todos os clientes
+- [x] Registrar Cliente
 
 Menu de Consultas -- implementar a operação "Mostrar terminais sem actividade".
 

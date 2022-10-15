@@ -13,11 +13,23 @@ class DoRegisterClient extends Command<Network> {
 
   DoRegisterClient(Network receiver) {
     super(Label.REGISTER_CLIENT, receiver);
-    //FIXME add command fields
+    addStringField("clientID", "Insert client's ID: ");
+    addStringField("clientName", "Insert client's name: ");
+    addIntegerField("clientTaxNumber", "Insert client's tax number: ");
   }
   
   @Override
   protected final void execute() throws CommandException {
-    //FIXME implement command
+    String clientID = stringField("clientID");
+    String clientName = stringField("clientName");
+    Integer clientTaxNumber = integerField("clientTaxNumber");
+    String message;
+
+    if (_receiver.registerClient(clientID,clientName,clientTaxNumber)){
+      message = "Client registered";
+    }
+    else {message = "Client not registered";}
+    _display.popup(message); 
   }
 }
+
