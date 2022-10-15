@@ -11,7 +11,7 @@ public class Client {
     private String _key;
     private String _name;
     private int _taxNumber;
-    private Map<String,Terminal> _terminals;
+    private Map<Integer,Terminal> _terminals;
     private ClientType _clientType;
     private double _payments;
     private double _debts;
@@ -42,11 +42,11 @@ public class Client {
         return _taxNumber;
     }
 
-    public Map<String,Terminal> getDeepTerminals() {
+    public Map<Integer,Terminal> getDeepTerminals() {
         return Collections.unmodifiableMap(_terminals);
     }
 
-    public void setTerminals(Map <String, Terminal> map){
+    public void setTerminals(Map <Integer, Terminal> map){
         _terminals = map;
     }
 
