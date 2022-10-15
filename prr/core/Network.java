@@ -39,7 +39,6 @@ public class Network implements Serializable {
 
 
   public boolean registerClient(String key, String name, int taxNumber) throws DuplicateClientKeyException {
-    Client newClient = new Client(key,name,taxNumber);
     if (_clients.containsKey(key)) {
       throw new DuplicateClientKeyException(key);
 
