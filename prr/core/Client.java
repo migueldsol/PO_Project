@@ -90,4 +90,11 @@ public class Client {
         _terminals.put(terminal.getKey(),terminal);
         return true;
     }
+
+    public String toString(){
+        return "CLIENT|" + _key + "|" + _name + "|" + _clientType + "|" + _notifications.toString() +
+         "|" + _terminals.toString() + "|" + _payments + "|" + _debts; 
+
+    }
+
 }
