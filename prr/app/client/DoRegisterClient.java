@@ -23,13 +23,21 @@ class DoRegisterClient extends Command<Network> {
     String clientID = stringField("clientID");
     String clientName = stringField("clientName");
     Integer clientTaxNumber = integerField("clientTaxNumber");
-    String message;
 
+    try{
+      _receiver.registerClient(clientID,clientName,clientTaxNumber);
+    } catch (DuplicateClientKeyException message) {
+      _display.popup(message);
+    }
+    _display.popup("Client registered");
+    }
+    /*
     if (_receiver.registerClient(clientID,clientName,clientTaxNumber)){
       message = "Client registered";
     }
     else {message = "Client not registered";}
     _display.popup(message); 
   }
+     */
 }
 

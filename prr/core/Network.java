@@ -3,6 +3,7 @@ package prr.core;
 import java.io.Serializable;
 import java.io.IOException;
 
+import prr.app.exception.DuplicateClientKeyException;
 import prr.app.exception.UnknownClientKeyException;
 import prr.core.exception.UnrecognizedEntryException;
 import java.util.ArrayList;
@@ -36,9 +37,12 @@ public class Network implements Serializable {
     _communications = new ArrayList<Communication>();
   }
 
-  public boolean registerClient(String key, String name, int taxNumber){
-    if (_clients.containsKey(key)){
-      return false;
+
+  public boolean registerClient(String key, String name, int taxNumber) throws DuplicateClientKeyException {
+    Client newClient = new Client(key,name,taxNumber);
+    if (_clients.containsKey(key)) {
+      throw new DuplicateClientKeyException(key);
+
     }
     Client newClient = new Client(key,name,taxNumber);
     _clients.put(key,newClient);
