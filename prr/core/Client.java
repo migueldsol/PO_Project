@@ -1,13 +1,15 @@
 package prr.core;
 
 import java.util.List;
+import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Collection;
 import java.util.Map;
 import java.util.HashMap;
+import java.io.Serializable;
 
-public class Client {
+public class Client implements Serializable{
     private String _key;
     private String _name;
     private int _taxNumber;
