@@ -1,5 +1,7 @@
 package prr.core;
 
-public class Communication {
+import java.io.Serializable;
+
+public class Communication implements Serializable{
     
 }

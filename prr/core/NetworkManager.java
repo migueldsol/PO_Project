@@ -1,7 +1,12 @@
 package prr.core;
 
 import java.io.IOException;
+import java.io.ObjectInput;
+import java.io.ObjectInputStream;
+import java.io.ObjectOutputStream;
+import java.io.FileInputStream;
 import java.io.FileNotFoundException;
+import java.io.FileOutputStream;
 
 import prr.core.exception.ImportFileException;
 import prr.core.exception.MissingFileAssociationException;
@@ -17,10 +22,15 @@ public class NetworkManager {
 
   /** The network itself. */
   private Network _network = new Network();
+  private String _fileName;
   //FIXME  addmore fields if needed
   
   public Network getNetwork() {
     return _network;
+  }
+
+  public String getFileName(){
+    return _fileName;
   }
   
   /**
@@ -30,7 +40,17 @@ public class NetworkManager {
    *         an error while processing this file.
    */
   public void load(String filename) throws UnavailableFileException {
-    //FIXME implement serialization method
+
+    try{
+      FileInputStream fis = new FileInputStream(filename);
+      ObjectInputStream ois = new ObjectInputStream(fis);
+      Object network = ois.readObject();
+      ois.close();
+      _network = (Network) network;
+      _fileName = filename;
+    } catch (IOException|ClassNotFoundException e){
+      throw new UnavailableFileException(filename);
+    }
   }
   
   /**
@@ -41,7 +61,12 @@ public class NetworkManager {
    * @throws IOException if there is some error while serializing the state of the network to disk.
    */
   public void save() throws FileNotFoundException, MissingFileAssociationException, IOException {
-    //FIXME implement serialization method
+
+      //QUESTIONS esta shit e mm necessario?
+    if (_fileName == null){
+      throw new MissingFileAssociationException();
+    }
+    saveAs(_fileName);
   }
   
   /**
@@ -53,8 +78,24 @@ public class NetworkManager {
    * @throws MissingFileAssociationException if the current network does not have a file.
    * @throws IOException if there is some error while serializing the state of the network to disk.
    */
-  public void saveAs(String filename) throws FileNotFoundException, MissingFileAssociationException, IOException {
-    //FIXME implement serialization method
+
+  //FIXME falta o MissingFileAssociationException
+  public void saveAs(String filename) throws FileNotFoundException, IOException {
+    
+    //QUESTIONS esta shit e mm necessario? ALSO porque é que isto da throw a um MissingFileAssociationException??
+    /* 
+    if (this.getFileName() == null){
+      throw new MissingFileAssociationException();
+    }
+    */
+    this._fileName = filename;
+
+    FileOutputStream fos = new FileOutputStream(filename);
+    ObjectOutputStream oos = new ObjectOutputStream(fos);
+    oos.writeObject(this.getNetwork());
+    fos.close();    //QUESTIONS como fazẽ-lo fechar sempre?
+    
+
   }
   
   /**

@@ -1,5 +1,7 @@
 package prr.core;
 
-public class PricingSystem {
+import java.io.Serializable;
+
+public class PricingSystem implements Serializable{
     
 }

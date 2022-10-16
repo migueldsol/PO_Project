@@ -34,3 +34,5 @@ Menu de Consultas -- implementar a operação "Mostrar terminais sem actividade"
 - [x] ~~_Mostrar terminais sem actividade_~~ [2022-10-14]
 
 * [ ] perguntar ao professor se necessário implementar comunicação?
+
+* [ ] perguntar ao professor como funciona o save e o saveAs.
