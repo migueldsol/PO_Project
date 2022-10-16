@@ -31,13 +31,5 @@ class DoRegisterClient extends Command<Network> {
     }
     _display.popup("Client registered");
     }
-    /*
-    if (_receiver.registerClient(clientID,clientName,clientTaxNumber)){
-      message = "Client registered";
-    }
-    else {message = "Client not registered";}
-    _display.popup(message); 
-  }
-     */
 }
 
