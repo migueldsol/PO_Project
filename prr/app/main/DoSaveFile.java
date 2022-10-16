@@ -19,23 +19,11 @@ import pt.tecnico.uilib.menus.CommandException;
  * Command to save a file.
  */
 class DoSaveFile extends Command<NetworkManager> {
+  private Form _formulario = new Form("nomeFicheiro");
 
   DoSaveFile(NetworkManager receiver) {
     super(Label.SAVE_FILE, receiver);
-    if (_receiver.getFileName() == null){
-      addStringField("fileName",Message.newSaveAs());
-      //QUESTIONS cm meter o programa a perguntar só no execute()
-    }
-    /* 
-    try{
-      _receiver.save();
-    } catch (MissingFileAssociationException mfe){
-      addStringField("fileName", Message.saveAs());
-    } catch (Exception e){
-
-      //FIXME colocar o addStringField aqui causa bue problemas
-    }
-    */
+    _formulario.addStringField("fileName",Message.newSaveAs());
   }
   
   @Override
@@ -44,9 +32,9 @@ class DoSaveFile extends Command<NetworkManager> {
     try {
       _receiver.save();
     } catch (MissingFileAssociationException mfe){
-
       try {
-        String fileName = stringField("fileName");
+        _formulario.parse();
+        String fileName = _formulario.stringField("fileName");
         _receiver.saveAs(fileName);
       } catch (IOException e){
         throw new FileOpenFailedException(e);
@@ -56,6 +44,5 @@ class DoSaveFile extends Command<NetworkManager> {
       throw new FileOpenFailedException(e);
     }
     
-    _display.popup("File saved successfully");
   } 
 }
