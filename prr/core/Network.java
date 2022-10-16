@@ -4,6 +4,8 @@ import java.io.Serializable;
 import java.io.IOException;
 
 import prr.app.exception.DuplicateClientKeyException;
+import prr.app.exception.DuplicateTerminalKeyException;
+import prr.app.exception.InvalidTerminalKeyException;
 import prr.app.exception.UnknownClientKeyException;
 import prr.core.exception.UnrecognizedEntryException;
 import java.util.ArrayList;
@@ -25,7 +27,7 @@ public class Network implements Serializable {
   private static final long serialVersionUID = 202208091753L;
   private Map<String,Client> _clients;
   private List<PricingSystem> _pricingSystems;
-  private Map<Integer,Terminal> _terminals;
+  private Map<String,Terminal> _terminals;
   private List<Communication> _communications;
 
   public Network() {
@@ -33,7 +35,7 @@ public class Network implements Serializable {
     _pricingSystems = new ArrayList<PricingSystem>();
     PricingSystem base = new PricingSystem();
     this.addPricingSystem(base);
-    _terminals = new HashMap<Integer,Terminal>();
+    _terminals = new HashMap<String,Terminal>();
     _communications = new ArrayList<Communication>();
   }
 
@@ -67,7 +69,7 @@ public class Network implements Serializable {
   public Client getDeepClient(String clientID){
     Client client = _clients.get(clientID);
     Client deepClient = new Client(client.getKey(), client.getName(), client.getTaxNumber());
-    Map <Integer, Terminal>  deepTerminals = client.getDeepTerminals();
+    Map <String, Terminal>  deepTerminals = client.getDeepTerminals();
     deepClient.setTerminals(deepTerminals);
     
     Double payments = client.getClientPayments();
@@ -85,9 +87,17 @@ public class Network implements Serializable {
     return Collections.unmodifiableCollection(values);
   }
 
-  public Terminal registerTerminal(int key, TerminalType type, Client client){
+  public Terminal registerTerminal(String key, TerminalType type, Client client) throws InvalidTerminalKeyException, DuplicateTerminalKeyException{
+    try{
+      Integer.parseInt(key);
+    } catch (NumberFormatException e){
+      throw new InvalidTerminalKeyException(key);
+    }
+    if (key.length() != 6){
+      throw new InvalidTerminalKeyException(key);
+    }
     if (_terminals.containsKey(key)){
-      return null;
+      throw new DuplicateTerminalKeyException(key);
     }
 
     Terminal newTerminal;
@@ -104,7 +114,7 @@ public class Network implements Serializable {
     return newTerminal;
   }
 
-  public Terminal registerTerminal(int key, TerminalType type, String clientKey){
+  public Terminal registerTerminal(String key, TerminalType type, String clientKey) throws DuplicateTerminalKeyException, InvalidTerminalKeyException {
     Client client = this._clients.get(clientKey);
     return registerTerminal(key,type,client);
   }
@@ -126,7 +136,7 @@ public class Network implements Serializable {
     addFriend(newTerminal,_friend);
   }
 
-  public Map <Integer, Terminal> getDeepTerminals(){
+  public Map <String, Terminal> getDeepTerminals(){
     return Collections.unmodifiableMap(_terminals);
   } 
 
@@ -136,7 +146,7 @@ public class Network implements Serializable {
   
 
 
-  public Map<Integer,Terminal> getAllTerminals() {
+  public Map<String,Terminal> getAllTerminals() {
     //FIXME problemas de privacidade
     return _terminals;
   }

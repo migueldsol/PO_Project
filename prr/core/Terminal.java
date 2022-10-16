@@ -16,7 +16,7 @@ abstract public class Terminal implements Serializable /* FIXME maybe addd more 
 
   /** Serial number for serialization. */
   private static final long serialVersionUID = 202208091753L;
-  private final int KEY;
+  private final String KEY;
   private Map<Integer, Communication> _communicationsMade;
   private Map<Integer, Communication> _communicationsReceived;
   private TerminalState _terminalState;
@@ -24,9 +24,9 @@ abstract public class Terminal implements Serializable /* FIXME maybe addd more 
   private double _payments;
   private double _debts;
 
-  private Map<Integer, Terminal> _friendlyTerminals;
+  private Map<String, Terminal> _friendlyTerminals;
 
-  public Terminal(int key, TerminalType type, Client client) {
+  public Terminal(String key, TerminalType type, Client client) {
     KEY = key;
     CLIENT = client;
 
@@ -151,7 +151,7 @@ abstract public class Terminal implements Serializable /* FIXME maybe addd more 
    * }
    */
 
-  public int getKey() {
+  public String getKey() {
     return KEY;
   }
 
@@ -171,7 +171,7 @@ abstract public class Terminal implements Serializable /* FIXME maybe addd more 
     return _debts;
   }
 
-  public Map<Integer, Terminal> getFriendlyTerminals() {
+  public Map<String, Terminal> getFriendlyTerminals() {
     return Collections.unmodifiableMap(_friendlyTerminals);
   }
 
