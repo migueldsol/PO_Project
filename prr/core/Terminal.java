@@ -189,7 +189,7 @@ abstract public class Terminal implements Serializable /* FIXME maybe addd more 
   public String toString() {
     if (_friendlyTerminals.isEmpty()) {
       return getTerminalType().name() + "|" + KEY + "|" + CLIENT.getKey() + "|" + _terminalState.name() + "|"
-              + _debts + "|" + _payments;
+              + Math.round(_debts) + "|" + Math.round(_payments);
     }
     return getTerminalType().name() + "|" + KEY + "|" + CLIENT.getKey() + "|" + _terminalState.name() + "|"
             + _debts + "|" + _payments + "|" + String.join(",",_friendlyTerminals.keySet());
