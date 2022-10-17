@@ -13,7 +13,7 @@ class DoOpenMenuTerminalConsole extends Command<Network> {
 
   DoOpenMenuTerminalConsole(Network receiver) {
     super(Label.OPEN_MENU_TERMINAL, receiver);
-    addStringField("terminalID","Insert terminal id:");
+    addStringField("terminalID",Message.terminalKey());
   }
 
   @Override
