@@ -17,10 +17,9 @@ class DoTurnOffTerminal extends TerminalCommand {
   
   @Override
   protected final void execute() throws CommandException {
-    try{
-      _receiver.changeState(TerminalState.OFF);
-    }catch (IllegalArgumentException iae){
-
+    if(_receiver.getTerminalState() == TerminalState.OFF){
+      _display.popup(Message.alreadyOff());
     }
+    _receiver.changeState(TerminalState.OFF);
   }
 }

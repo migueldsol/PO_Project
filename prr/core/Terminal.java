@@ -78,7 +78,6 @@ abstract public class Terminal implements Serializable /* FIXME maybe addd more 
       case SILENCE -> changeToSilence();
       case BUSY -> changeToBusy();
       case OFF -> changeToOff();
-      default -> throw new IllegalArgumentException("Unexpected value: " + state);
     }
     return false;
   }
@@ -177,14 +176,13 @@ abstract public class Terminal implements Serializable /* FIXME maybe addd more 
     return Collections.unmodifiableMap(_friendlyTerminals);
   }
 
-  public boolean addFriendlyTerminal(Terminal newTerminal) {
-    if (_friendlyTerminals.containsKey(newTerminal.getKey())) {
-      return false;
-    }
+  public void addFriendlyTerminal(Terminal newTerminal) {
     _friendlyTerminals.put(newTerminal.getKey(), newTerminal);
-    return true;
   }
 
+  public void removeFriendlyTerminal(Terminal newTerminal){
+    _friendlyTerminals.remove(newTerminal.getKey(),newTerminal);
+  }
   abstract public TerminalType getTerminalType();
 
 
