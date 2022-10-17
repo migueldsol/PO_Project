@@ -72,7 +72,7 @@ abstract public class Terminal implements Serializable /* FIXME maybe addd more 
   // public boolean changeState that receives a TerminalState and uses a switch
   // case to verify if it can change to given state
 
-  public boolean changeState(TerminalState state) {
+  public boolean changeState(TerminalState state) throws IllegalArgumentException{
     switch (state) {
       case IDLE -> changeToIdle();
       case SILENCE -> changeToSilence();

@@ -13,14 +13,16 @@ class DoOpenMenuTerminalConsole extends Command<Network> {
 
   DoOpenMenuTerminalConsole(Network receiver) {
     super(Label.OPEN_MENU_TERMINAL, receiver);
-    //FIXME add command fields
+    addStringField("terminalID","Insert terminal id:");
   }
 
   @Override
   protected final void execute() throws CommandException {
-    //FIXME implement command
-    // create an instance of prr.app.terminal.Menu with the
-    // selected Terminal and open it
-    
+    String terminalID = stringField("terminalID");
+    try {
+      (new prr.app.terminal.Menu(_receiver, _receiver.getTerminal(terminalID))).open();
+    } catch(UnknownTerminalKeyException utke){
+      throw new UnknownTerminalKeyException(terminalID);
+    }
   }
 }
