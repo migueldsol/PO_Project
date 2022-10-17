@@ -61,6 +61,9 @@ public class Network implements Serializable {
   //          or should i just deal w clients on the app?
   public String toStringClient(String clientID){
     Client client = _clients.get(clientID);
+    if (client == null){
+      return null;
+    }
     return client.toString();
   }
 
