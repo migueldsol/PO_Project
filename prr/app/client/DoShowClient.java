@@ -2,6 +2,7 @@ package prr.app.client;
 
 import prr.core.Client;
 import prr.core.Network;
+import prr.app.exception.DuplicateClientKeyException;
 import prr.app.exception.UnknownClientKeyException;
 import pt.tecnico.uilib.menus.Command;
 import pt.tecnico.uilib.menus.CommandException;
@@ -21,6 +22,13 @@ class DoShowClient extends Command<Network> {
   @Override
   protected final void execute() throws CommandException {
     String clientID = stringField("clientID");
+    
+    String stringClient = _receiver.toStringClient(clientID);
+
+    if (stringClient == null){
+      throw new UnknownClientKeyException(clientID);
+    }
+
     _display.popup(_receiver.toStringClient(clientID));
   }
 }
