@@ -14,7 +14,9 @@ import java.util.Set;
  */
 abstract public class Terminal implements Serializable /* FIXME maybe addd more interfaces */ {
 
-  /** Serial number for serialization. */
+  /**
+   * Serial number for serialization.
+   */
   private static final long serialVersionUID = 202208091753L;
   private final String KEY;
   private Map<Integer, Communication> _communicationsMade;
@@ -45,8 +47,8 @@ abstract public class Terminal implements Serializable /* FIXME maybe addd more 
    * Checks if this terminal can end the current interactive communication.
    *
    * @return true if this terminal is busy (i.e., it has an active interactive
-   *         communication) and
-   *         it was the originator of this communication.
+   * communication) and
+   * it was the originator of this communication.
    **/
 
   public boolean canEndCurrentCommunication() {
@@ -83,7 +85,7 @@ abstract public class Terminal implements Serializable /* FIXME maybe addd more 
 
   public boolean changeToIdle() {
     if (_terminalState == TerminalState.SILENCE || _terminalState == TerminalState.OFF
-        || _terminalState == TerminalState.BUSY) {
+            || _terminalState == TerminalState.BUSY) {
       _terminalState = TerminalState.IDLE;
       return true;
     } else {
@@ -176,16 +178,29 @@ abstract public class Terminal implements Serializable /* FIXME maybe addd more 
   }
 
   public boolean addFriendlyTerminal(Terminal newTerminal) {
-    if(_friendlyTerminals.containsKey(newTerminal.getKey())){
+    if (_friendlyTerminals.containsKey(newTerminal.getKey())) {
       return false;
     }
-   _friendlyTerminals.put(newTerminal.getKey(), newTerminal);
+    _friendlyTerminals.put(newTerminal.getKey(), newTerminal);
     return true;
   }
+
   abstract public TerminalType getTerminalType();
 
+  public String toStringFriendlyTerminals() {
+    String amigos = "";
+    for (String key : _friendlyTerminals.keySet()) {
+      amigos += key;
+    }
+    return amigos;
+  }
+
   public String toString() {
+    if (_friendlyTerminals.isEmpty()) {
+      return getTerminalType().name() + "|" + KEY + "|" + CLIENT.getKey() + "|" + _terminalState.name() + "|"
+              + _debts + "|" + _payments;
+    }
     return getTerminalType().name() + "|" + KEY + "|" + CLIENT.getKey() + "|" + _terminalState.name() + "|"
-        + Double.toString(_debts) + "|" + Double.toString(_payments);
+            + _debts + "|" + _payments + "|" + toStringFriendlyTerminals();
   }
 }
