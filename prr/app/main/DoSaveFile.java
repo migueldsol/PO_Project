@@ -23,23 +23,20 @@ class DoSaveFile extends Command<NetworkManager> {
 
   DoSaveFile(NetworkManager receiver) {
     super(Label.SAVE_FILE, receiver);
-    _formulario.addStringField("fileName",Message.newSaveAs());
   }
   
   @Override
   protected final void execute() throws CommandException{
-
+      //QUESTIONS posso fazer isto / é boa pratica?
     try {
       _receiver.save();
     } catch (MissingFileAssociationException mfe){
       try {
-        _formulario.parse();
-        String fileName = _formulario.stringField("fileName");
+        String fileName = _formulario.requestString(Message.newSaveAs());
         _receiver.saveAs(fileName);
       } catch (IOException e){
         throw new FileOpenFailedException(e);
       }
-
     } catch (IOException e){
       throw new FileOpenFailedException(e);
     }
