@@ -25,7 +25,7 @@ class DoRegisterClient extends Command<Network> {
     Integer clientTaxNumber = integerField("clientTaxNumber");
 
     if (!_receiver.registerClient(clientID,clientName,clientTaxNumber)){
-      throw new DuplicateClientKeyException(clientName);
+      throw new DuplicateClientKeyException(clientID);
     }
   }
 }

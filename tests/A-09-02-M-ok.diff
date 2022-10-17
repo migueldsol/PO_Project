@@ -1,19 +1,12 @@
-*** tests/A-09-02-M-ok.out	2022-10-10 10:30:18.141778000 +0100
---- tests/A-09-02-M-ok.outhyp	2022-10-17 23:07:33.934658023 +0100
+*** tests/A-09-02-M-ok.out	2022-10-17 22:32:26.051738121 +0100
+--- tests/A-09-02-M-ok.outhyp	2022-10-18 00:28:10.571700579 +0100
 ***************
-*** 21,27 ****
-  7 - Consultar saldo
-  8 - Enviar comunicação de texto
-  9 - Iniciar comunicação
-! 11 - Mostrar comunicação em curso
-  0 - Sair
-  Escolha uma opção: GESTÃO DE TERMINAIS
-  1 - Mostrar todos os terminais
+*** 21,26 ****
 --- 21,27 ----
   7 - Consultar saldo
   8 - Enviar comunicação de texto
   9 - Iniciar comunicação
-! 10 - Terminar comunicação activa
++ 10 - Terminar comunicação activa
+  11 - Mostrar comunicação em curso
   0 - Sair
   Escolha uma opção: GESTÃO DE TERMINAIS
-  1 - Mostrar todos os terminais

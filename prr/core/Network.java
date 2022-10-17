@@ -116,6 +116,7 @@ public class Network implements Serializable {
     }
     
     this.addTerminal(newTerminal);;
+    client.registerTerminal(newTerminal);
     return newTerminal;
   }
 
