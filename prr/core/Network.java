@@ -135,13 +135,23 @@ public class Network implements Serializable {
     terminal.addFriendlyTerminal(friend);
   }
 
-  public void addFriend(String terminalKey, String friendKey) throws UnknownClientKeyException {
-
-    Integer terminal = Integer.valueOf(terminalKey);
-    Integer friend = Integer.valueOf(friendKey);
-    Terminal newTerminal = this._terminals.get(terminal);
-    Terminal _friend = this._terminals.get(friend);
+  public void addFriend(String terminalKey, String friendKey) throws UnknownTerminalKeyException {
+    if(!_terminals.containsKey(friendKey)){
+      throw new UnknownTerminalKeyException(friendKey);
+    }
+    Terminal newTerminal = this._terminals.get(terminalKey);
+    Terminal _friend = this._terminals.get(friendKey);
     addFriend(newTerminal,_friend);
+  }
+
+  public void removeFriend(Terminal terminal, Terminal friend){ terminal.removeFriendlyTerminal(friend);}
+  public void removeFriend(String terminalKey, String friendKey) throws UnknownTerminalKeyException{
+    if(!_terminals.containsKey(friendKey)){
+      throw new UnknownTerminalKeyException(friendKey);
+    }
+    Terminal newTerminal = this._terminals.get(terminalKey);
+    Terminal _friend = this._terminals.get(friendKey);
+    removeFriend(newTerminal,_friend);
   }
 
   public List <String> toStringAllTerminals(){

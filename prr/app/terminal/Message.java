@@ -103,7 +103,7 @@ interface Message {
    * @param debts
    * @return report message.
    */
-  static String terminalPaymentsAndDebts(String key, long payments, long debts) {
+  static String terminalPaymentsAndDebts(String key, double payments, double debts) {
     return "Valores para o terminal '\" + key + \"':" + payments + " (pagamentos),  " + debts + " (dívidas).";
   }
 
