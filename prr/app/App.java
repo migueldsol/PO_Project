@@ -14,7 +14,6 @@ public class App {
       var receiver = new NetworkManager();
       
       String datafile = System.getProperty("import");
-      System.out.println(datafile);
       if (datafile != null) {
         try {
           receiver.importFile(datafile);
