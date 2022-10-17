@@ -77,8 +77,8 @@ public class Network implements Serializable {
     Map <String, Terminal>  deepTerminals = client.getDeepTerminals();
     deepClient.setTerminals(deepTerminals);
     
-    Double payments = client.getClientPayments();
-    Double debts = client.getClientDebts();
+    float payments = client.getClientPayments();
+    float debts = client.getClientDebts();
 
     deepClient.setPayments(payments);
     deepClient.setDebts(debts);
