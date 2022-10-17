@@ -11,7 +11,7 @@ Escolha uma opção: GESTÃO DE TERMINAIS
 2 - Registar terminal
 3 - Operações de terminal
 0 - Sair
-Escolha uma opção: Insert terminal's ID:Insert Terminal's Type (BASIC or FANCY):Insert client:Terminal registered
+Escolha uma opção: Número do terminal: Insert Terminal's Type (BASIC or FANCY):Identificador do cliente: Terminal registered
 GESTÃO DE TERMINAIS
 1 - Mostrar todos os terminais
 2 - Registar terminal
