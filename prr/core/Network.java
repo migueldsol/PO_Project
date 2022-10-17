@@ -136,6 +136,20 @@ public class Network implements Serializable {
     addFriend(newTerminal,_friend);
   }
 
+  public List <String> toStringAllTerminals(){
+    List <String> message = new ArrayList <>();
+    for (Terminal i : _terminals.values()){
+      message.add(i.toString());
+    }
+    return message;
+  }
+  //QUESTIONS is it important to return a string to not have any clients on the app
+  //          or should i just deal w clients on the app?
+  public String toStringTerminal(Terminal terminalID){
+    Terminal terminal = _terminals.get(terminalID);
+    return terminal.toString();
+  }
+
   public Map <String, Terminal> getDeepTerminals(){
     return Collections.unmodifiableMap(_terminals);
   } 
