@@ -1,0 +1,19 @@
+*** tests/A-01-04-M-ok.out	2022-10-01 07:57:42.644088000 +0100
+--- tests/A-01-04-M-ok.outhyp	2022-10-17 22:21:48.376383566 +0100
+***************
+*** 11,17 ****
+  2 - Registar terminal
+  3 - Operações de terminal
+  0 - Sair
+! Escolha uma opção: BASIC|969001|cli001|IDLE|0|0
+  GESTÃO DE TERMINAIS
+  1 - Mostrar todos os terminais
+  2 - Registar terminal
+--- 11,17 ----
+  2 - Registar terminal
+  3 - Operações de terminal
+  0 - Sair
+! Escolha uma opção: BASIC|969001|cli001|IDLE|0.0|0.0
+  GESTÃO DE TERMINAIS
+  1 - Mostrar todos os terminais
+  2 - Registar terminal

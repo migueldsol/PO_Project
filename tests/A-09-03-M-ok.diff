@@ -1,0 +1,98 @@
+*** tests/A-09-03-M-ok.out	2022-10-10 10:32:19.447584000 +0100
+--- tests/A-09-03-M-ok.outhyp	2022-10-17 22:21:50.300269924 +0100
+***************
+*** 11,17 ****
+  2 - Registar terminal
+  3 - Operações de terminal
+  0 - Sair
+! Escolha uma opção: Número do terminal: OPERAÇÕES DO TERMINAL
+  1 - Ligar
+  2 - Colocar no silêncio
+  3 - Desligar
+--- 11,17 ----
+  2 - Registar terminal
+  3 - Operações de terminal
+  0 - Sair
+! Escolha uma opção: Insert terminal id:OPERAÇÕES DO TERMINAL
+  1 - Ligar
+  2 - Colocar no silêncio
+  3 - Desligar
+***************
+*** 21,34 ****
+  7 - Consultar saldo
+  8 - Enviar comunicação de texto
+  9 - Iniciar comunicação
+! 11 - Mostrar comunicação em curso
+  0 - Sair
+  Escolha uma opção: GESTÃO DE TERMINAIS
+  1 - Mostrar todos os terminais
+  2 - Registar terminal
+  3 - Operações de terminal
+  0 - Sair
+! Escolha uma opção: Número do terminal: OPERAÇÕES DO TERMINAL
+  1 - Ligar
+  2 - Colocar no silêncio
+  3 - Desligar
+--- 21,34 ----
+  7 - Consultar saldo
+  8 - Enviar comunicação de texto
+  9 - Iniciar comunicação
+! 10 - Terminar comunicação activa
+  0 - Sair
+  Escolha uma opção: GESTÃO DE TERMINAIS
+  1 - Mostrar todos os terminais
+  2 - Registar terminal
+  3 - Operações de terminal
+  0 - Sair
+! Escolha uma opção: Insert terminal id:OPERAÇÕES DO TERMINAL
+  1 - Ligar
+  2 - Colocar no silêncio
+  3 - Desligar
+***************
+*** 38,51 ****
+  7 - Consultar saldo
+  8 - Enviar comunicação de texto
+  9 - Iniciar comunicação
+! 11 - Mostrar comunicação em curso
+  0 - Sair
+  Escolha uma opção: GESTÃO DE TERMINAIS
+  1 - Mostrar todos os terminais
+  2 - Registar terminal
+  3 - Operações de terminal
+  0 - Sair
+! Escolha uma opção: Número do terminal: OPERAÇÕES DO TERMINAL
+  1 - Ligar
+  2 - Colocar no silêncio
+  3 - Desligar
+--- 38,51 ----
+  7 - Consultar saldo
+  8 - Enviar comunicação de texto
+  9 - Iniciar comunicação
+! 10 - Terminar comunicação activa
+  0 - Sair
+  Escolha uma opção: GESTÃO DE TERMINAIS
+  1 - Mostrar todos os terminais
+  2 - Registar terminal
+  3 - Operações de terminal
+  0 - Sair
+! Escolha uma opção: Insert terminal id:OPERAÇÕES DO TERMINAL
+  1 - Ligar
+  2 - Colocar no silêncio
+  3 - Desligar
+***************
+*** 55,61 ****
+  7 - Consultar saldo
+  8 - Enviar comunicação de texto
+  9 - Iniciar comunicação
+! 11 - Mostrar comunicação em curso
+  0 - Sair
+  Escolha uma opção: GESTÃO DE TERMINAIS
+  1 - Mostrar todos os terminais
+--- 55,61 ----
+  7 - Consultar saldo
+  8 - Enviar comunicação de texto
+  9 - Iniciar comunicação
+! 10 - Terminar comunicação activa
+  0 - Sair
+  Escolha uma opção: GESTÃO DE TERMINAIS
+  1 - Mostrar todos os terminais
