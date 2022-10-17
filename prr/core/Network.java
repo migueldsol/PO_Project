@@ -3,10 +3,7 @@ package prr.core;
 import java.io.Serializable;
 import java.io.IOException;
 
-import prr.app.exception.DuplicateClientKeyException;
-import prr.app.exception.DuplicateTerminalKeyException;
-import prr.app.exception.InvalidTerminalKeyException;
-import prr.app.exception.UnknownClientKeyException;
+import prr.app.exception.*;
 import prr.core.exception.UnrecognizedEntryException;
 import java.util.ArrayList;
 import java.util.List;
@@ -39,6 +36,12 @@ public class Network implements Serializable {
     _communications = new ArrayList<Communication>();
   }
 
+  public Terminal getTerminal(String terminalID) throws UnknownTerminalKeyException {
+    if(!_terminals.containsKey(terminalID)){
+      throw new UnknownTerminalKeyException(terminalID);
+    }
+    return _terminals.get(terminalID);
+  }
 
   public boolean registerClient(String key, String name, int taxNumber){
     if (_clients.containsKey(key)) {
