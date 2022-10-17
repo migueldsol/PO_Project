@@ -20,27 +20,24 @@ class DoRegisterTerminal extends Command<Network> {
   DoRegisterTerminal(Network receiver) {
     super(Label.REGISTER_TERMINAL, receiver);
     addStringField("terminalKey","Insert terminal's ID:");
-    addStringField("terminalType","Insert Terminal's Type: (BASIC or FANCY) ");
+    addOptionField("terminalType","Insert Terminal's Type (BASIC or FANCY):","BASIC","FANCY");
     addStringField("clientID" ,"Insert client:");
   }
 
   @Override
   protected final void execute() throws CommandException {
-
-    /*_formulario.parse();
-    while(_formulario.stringField("terminalType") != "BASIC" && _formulario.stringField("terminalType") != "FANCY"){
-      _formulario.parse();
-    }*/
-
+    String terminalID = stringField("terminalKey");
+    TerminalType terminalType = TerminalType.valueOf(stringField("terminalType"));
+    String clientID = stringField("clientID");
     try{
-      String terminalID = stringField("terminalKey");
-      TerminalType terminalType = TerminalType.valueOf(stringField("terminalType"));
-      String clientID = stringField("clientID");
       _receiver.registerTerminal(terminalID,terminalType,clientID);
-    } catch(InvalidTerminalKeyException | DuplicateTerminalKeyException message){
-        _display.popup(message);
+    } catch(InvalidTerminalKeyException itke){
+        throw new InvalidTerminalKeyException(terminalID);
+    } catch(DuplicateTerminalKeyException dtle){
+      throw new DuplicateTerminalKeyException(terminalID);
+    } catch(UnknownClientKeyException ucke){
+      throw new UnknownClientKeyException(clientID);
     }
-
     _display.popup("Terminal registered");
 
   }

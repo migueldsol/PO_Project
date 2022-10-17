@@ -116,8 +116,11 @@ public class Network implements Serializable {
     return newTerminal;
   }
 
-  public Terminal registerTerminal(String key, TerminalType type, String clientKey) throws DuplicateTerminalKeyException, InvalidTerminalKeyException {
+  public Terminal registerTerminal(String key, TerminalType type, String clientKey) throws DuplicateTerminalKeyException, InvalidTerminalKeyException, UnknownClientKeyException {
     Client client = this._clients.get(clientKey);
+    if(client == null){
+      throw new UnknownClientKeyException(key);
+    }
     return registerTerminal(key,type,client);
   }
 

@@ -187,13 +187,6 @@ abstract public class Terminal implements Serializable /* FIXME maybe addd more 
 
   abstract public TerminalType getTerminalType();
 
-  public String toStringFriendlyTerminals() {
-    String amigos = "";
-    for (String key : _friendlyTerminals.keySet()) {
-      amigos += key;
-    }
-    return amigos;
-  }
 
   public String toString() {
     if (_friendlyTerminals.isEmpty()) {
@@ -201,6 +194,6 @@ abstract public class Terminal implements Serializable /* FIXME maybe addd more 
               + _debts + "|" + _payments;
     }
     return getTerminalType().name() + "|" + KEY + "|" + CLIENT.getKey() + "|" + _terminalState.name() + "|"
-            + _debts + "|" + _payments + "|" + toStringFriendlyTerminals();
+            + _debts + "|" + _payments + "|" + String.join(",",_friendlyTerminals.keySet());
   }
 }

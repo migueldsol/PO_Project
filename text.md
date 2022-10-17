@@ -19,8 +19,8 @@ Menu principal: Gestão e consulta de dados da aplicação: abertura dos vários
 
 Menu de Gestão de Terminais -- implementar as operações "Mostrar todos os terminais", "Registar terminal" e "Menu da consola de um terminal".
 
-- [ ] Mostrar todos os Terminais
-- [ ] Resgistrar Terminal
+- [x] Mostrar todos os Terminais
+- [x] Resgistrar Terminal
 - [ ] Menu da consola de um terminal
 
 Menu de gestão de clientes -- implementar as operações "Visualizar cliente", "Visualizar todos os clientes" e "Registar cliente".
