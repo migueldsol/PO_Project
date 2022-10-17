@@ -13,7 +13,7 @@ class DoRemoveFriend extends TerminalCommand {
 
   DoRemoveFriend(Network context, Terminal terminal) {
     super(Label.REMOVE_FRIEND, context, terminal);
-    addStringField("terminalID","Insert Terminal ID:");
+    addStringField("terminalID",Message.clientKey());
   }
   
   @Override

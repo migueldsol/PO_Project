@@ -13,7 +13,7 @@ class DoAddFriend extends TerminalCommand {
 
   DoAddFriend(Network context, Terminal terminal) {
     super(Label.ADD_FRIEND, context, terminal);
-    addStringField("friendID","Insert Friend ID:");
+    addStringField("friendID",Message.clientKey());
   }
   
   @Override
