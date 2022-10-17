@@ -22,6 +22,7 @@ Escolha uma opção: Número do terminal: OPERAÇÕES DO TERMINAL
 8 - Enviar comunicação de texto
 9 - Iniciar comunicação
 10 - Terminar comunicação activa
+11 - Mostrar comunicação em curso
 0 - Sair
 Escolha uma opção: GESTÃO DE TERMINAIS
 1 - Mostrar todos os terminais

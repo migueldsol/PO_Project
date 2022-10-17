@@ -1,11 +1,7 @@
 package prr.core;
 
 import java.io.Serializable;
-import java.util.Collections;
-import java.util.HashMap;
-import java.util.HashSet;
-import java.util.Map;
-import java.util.Set;
+import java.util.*;
 
 // FIXME add more import if needed (cannot import from pt.tecnico or prr.app)
 
@@ -191,7 +187,10 @@ abstract public class Terminal implements Serializable /* FIXME maybe addd more 
       return getTerminalType().name() + "|" + KEY + "|" + CLIENT.getKey() + "|" + _terminalState.name() + "|"
               + Math.round(_debts) + "|" + Math.round(_payments);
     }
+    List<String> friends = new ArrayList<>(_friendlyTerminals.keySet());
+    Collections.sort(friends);
+
     return getTerminalType().name() + "|" + KEY + "|" + CLIENT.getKey() + "|" + _terminalState.name() + "|"
-            + _debts + "|" + _payments + "|" + String.join(",",_friendlyTerminals.keySet());
+            + _debts + "|" + _payments + "|" + String.join(",",friends);
   }
 }

@@ -20,7 +20,7 @@ class DoRegisterTerminal extends Command<Network> {
   DoRegisterTerminal(Network receiver) {
     super(Label.REGISTER_TERMINAL, receiver);
     addStringField("terminalKey",Message.terminalKey());
-    addOptionField("terminalType","Insert Terminal's Type (BASIC or FANCY):","BASIC","FANCY");
+    addOptionField("terminalType",Message.terminalType(),"BASIC","FANCY");
     addStringField("clientID" ,Message.clientKey());
   }
 
@@ -38,7 +38,5 @@ class DoRegisterTerminal extends Command<Network> {
     } catch(UnknownClientKeyException ucke){
       throw new UnknownClientKeyException(clientID);
     }
-    _display.popup("Terminal registered");
-
   }
 }

@@ -11,9 +11,9 @@ Escolha uma opção: GESTÃO DE TERMINAIS
 2 - Registar terminal
 3 - Operações de terminal
 0 - Sair
-Escolha uma opção: BASIC|969003|cli003|IDLE|0.0|0.0
-BASIC|969002|cli002|IDLE|0.0|0.0
-BASIC|969001|cli001|IDLE|0.0|0.0
+Escolha uma opção: BASIC|969003|cli003|IDLE|0|0
+BASIC|969002|cli002|IDLE|0|0
+BASIC|969001|cli001|IDLE|0|0
 GESTÃO DE TERMINAIS
 1 - Mostrar todos os terminais
 2 - Registar terminal
