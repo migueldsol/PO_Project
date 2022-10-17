@@ -1,5 +1,5 @@
 *** tests/A-07-02-M-ok.out	2022-10-02 13:24:57.006817000 +0100
---- tests/A-07-02-M-ok.outhyp	2022-10-17 22:21:49.440320650 +0100
+--- tests/A-07-02-M-ok.outhyp	2022-10-17 23:07:33.026653186 +0100
 ***************
 *** 11,22 ****
   2 - Registar terminal
@@ -18,7 +18,7 @@
   2 - Registar terminal
   3 - Operações de terminal
   0 - Sair
-! Escolha uma opção: Insert terminal's ID:Insert Terminal's Type (BASIC or FANCY):Insert client:Terminal registered
+! Escolha uma opção: Número do terminal: Insert Terminal's Type (BASIC or FANCY):Identificador do cliente: Terminal registered
 ! GESTÃO DE TERMINAIS
   1 - Mostrar todos os terminais
   2 - Registar terminal

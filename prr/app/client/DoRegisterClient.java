@@ -13,9 +13,9 @@ class DoRegisterClient extends Command<Network> {
 
   DoRegisterClient(Network receiver) {
     super(Label.REGISTER_CLIENT, receiver);
-    addStringField("clientID", "Insert client's ID: ");
-    addStringField("clientName", "Insert client's name: ");
-    addIntegerField("clientTaxNumber", "Insert client's tax number: ");
+    addStringField("clientID", Message.key());
+    addStringField("clientName", Message.name());
+    addIntegerField("clientTaxNumber", Message.taxId());
   }
   
   @Override
@@ -27,7 +27,6 @@ class DoRegisterClient extends Command<Network> {
     if (!_receiver.registerClient(clientID,clientName,clientTaxNumber)){
       throw new DuplicateClientKeyException(clientName);
     }
-    _display.popup("Client registered");
   }
 }
 

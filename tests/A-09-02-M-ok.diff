@@ -1,22 +1,5 @@
 *** tests/A-09-02-M-ok.out	2022-10-10 10:30:18.141778000 +0100
---- tests/A-09-02-M-ok.outhyp	2022-10-17 22:21:50.212275106 +0100
-***************
-*** 11,17 ****
-  2 - Registar terminal
-  3 - Operações de terminal
-  0 - Sair
-! Escolha uma opção: Número do terminal: OPERAÇÕES DO TERMINAL
-  1 - Ligar
-  2 - Colocar no silêncio
-  3 - Desligar
---- 11,17 ----
-  2 - Registar terminal
-  3 - Operações de terminal
-  0 - Sair
-! Escolha uma opção: Insert terminal id:OPERAÇÕES DO TERMINAL
-  1 - Ligar
-  2 - Colocar no silêncio
-  3 - Desligar
+--- tests/A-09-02-M-ok.outhyp	2022-10-17 23:07:33.934658023 +0100
 ***************
 *** 21,27 ****
   7 - Consultar saldo

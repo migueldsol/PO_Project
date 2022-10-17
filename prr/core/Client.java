@@ -4,10 +4,8 @@ import java.util.List;
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.Collections;
-import java.util.Collection;
 import java.util.Map;
 import java.util.HashMap;
-import java.io.Serializable;
 
 public class Client implements Serializable{
     private String _key;
@@ -93,9 +91,17 @@ public class Client implements Serializable{
         return true;
     }
 
+
+    public String getStringNotificationsOn(){
+        if (_notificationsOn == true){
+            return "YES";
+        }
+        return "NO";
+    }
+
     public String toString(){
-        return "CLIENT|" + _key + "|" + _name + "|" + _taxNumber + "|" + _clientType + "|" + _notifications.toString() +
-         "|" + _terminals.toString() + "|" + _payments + "|" + _debts; 
+        return "CLIENT|" + _key + "|" + _name + "|" + _taxNumber + "|" + _clientType.toString() + "|" + getStringNotificationsOn() +
+         "|" + Integer.toString(_terminals.size()) + "|" + Double.toString(_payments) + "|" + Double.toString(_debts); 
 
     }
 
