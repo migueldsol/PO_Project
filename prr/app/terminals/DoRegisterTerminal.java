@@ -6,10 +6,12 @@ import prr.app.exception.DuplicateTerminalKeyException;
 import prr.app.exception.InvalidTerminalKeyException;
 import prr.app.exception.UnknownClientKeyException;
 import prr.core.TerminalType;
+import prr.core.exception.InvalidSizeKey;
+import prr.core.exception.KeyNotFoundException;
+import prr.core.exception.TerminalKeyAlreadyExistsException;
 import pt.tecnico.uilib.forms.Form;
 import pt.tecnico.uilib.menus.Command;
 import pt.tecnico.uilib.menus.CommandException;
-//FIXME add more imports if needed
 
 /**
  * Register terminal.
@@ -31,11 +33,11 @@ class DoRegisterTerminal extends Command<Network> {
     String clientID = stringField("clientID");
     try{
       _receiver.registerTerminal(terminalID,terminalType,clientID);
-    } catch(InvalidTerminalKeyException itke){
+    } catch(NumberFormatException|InvalidSizeKey nfe){
         throw new InvalidTerminalKeyException(terminalID);
-    } catch(DuplicateTerminalKeyException dtle){
+    } catch(TerminalKeyAlreadyExistsException tkaee){
       throw new DuplicateTerminalKeyException(terminalID);
-    } catch(UnknownClientKeyException ucke){
+    } catch(KeyNotFoundException cknfe){
       throw new UnknownClientKeyException(clientID);
     }
   }

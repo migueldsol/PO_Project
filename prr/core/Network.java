@@ -4,8 +4,7 @@ import java.io.Serializable;
 import java.io.IOException;
 
 
-import prr.app.exception.*;
-import prr.core.exception.UnrecognizedEntryException;
+import prr.core.exception.*;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
@@ -42,9 +41,9 @@ public class Network implements Serializable {
     int newNumber = (int) number;
     return newNumber;
   }
-  public Terminal getTerminal(String terminalID) throws UnknownTerminalKeyException {
+  public Terminal getTerminal(String terminalID) throws KeyNotFoundException {
     if(!_terminals.containsKey(terminalID)){
-      throw new UnknownTerminalKeyException(terminalID);
+      throw new KeyNotFoundException(terminalID);
     }
     return _terminals.get(terminalID);
   }
@@ -100,17 +99,15 @@ public class Network implements Serializable {
     return Collections.unmodifiableCollection(values);
   }
 
-  public Terminal registerTerminal(String key, TerminalType type, Client client) throws InvalidTerminalKeyException, DuplicateTerminalKeyException{
-    try{
-      Integer.parseInt(key);
-    } catch (NumberFormatException e){
-      throw new InvalidTerminalKeyException(key);
-    }
+  public Terminal registerTerminal(String key, TerminalType type, Client client) throws NumberFormatException,InvalidSizeKey, TerminalKeyAlreadyExistsException{
+    
+    Integer.parseInt(key);
+
     if (key.length() != 6){
-      throw new InvalidTerminalKeyException(key);
+      throw new InvalidSizeKey(key);
     }
     if (_terminals.containsKey(key)){
-      throw new DuplicateTerminalKeyException(key);
+      throw new TerminalKeyAlreadyExistsException(key);
     }
 
     Terminal newTerminal;
@@ -123,15 +120,16 @@ public class Network implements Serializable {
       newTerminal = new FancyTerminal(key, type, client);
     }
     
-    this.addTerminal(newTerminal);;
+    this.addTerminal(newTerminal);
     client.registerTerminal(newTerminal);
     return newTerminal;
   }
 
-  public Terminal registerTerminal(String key, TerminalType type, String clientKey) throws DuplicateTerminalKeyException, InvalidTerminalKeyException, UnknownClientKeyException {
+  public Terminal registerTerminal(String key, TerminalType type, String clientKey)
+  throws NumberFormatException, InvalidSizeKey, KeyNotFoundException, TerminalKeyAlreadyExistsException {
     Client client = this._clients.get(clientKey);
     if(client == null){
-      throw new UnknownClientKeyException(key);
+      throw new KeyNotFoundException(key);
     }
     return registerTerminal(key,type,client);
   }
@@ -144,9 +142,9 @@ public class Network implements Serializable {
     terminal.addFriendlyTerminal(friend);
   }
 
-  public void addFriend(String terminalKey, String friendKey) throws UnknownTerminalKeyException {
+  public void addFriend(String terminalKey, String friendKey) throws KeyNotFoundException {
     if(!_terminals.containsKey(friendKey)){
-      throw new UnknownTerminalKeyException(friendKey);
+      throw new KeyNotFoundException(friendKey);
     }
     Terminal newTerminal = this._terminals.get(terminalKey);
     Terminal _friend = this._terminals.get(friendKey);
@@ -154,9 +152,9 @@ public class Network implements Serializable {
   }
 
   public void removeFriend(Terminal terminal, Terminal friend){ terminal.removeFriendlyTerminal(friend);}
-  public void removeFriend(String terminalKey, String friendKey) throws UnknownTerminalKeyException{
+  public void removeFriend(String terminalKey, String friendKey) throws KeyNotFoundException{
     if(!_terminals.containsKey(friendKey)){
-      throw new UnknownTerminalKeyException(friendKey);
+      throw new KeyNotFoundException(friendKey);
     }
     Terminal newTerminal = this._terminals.get(terminalKey);
     Terminal _friend = this._terminals.get(friendKey);

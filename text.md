@@ -36,4 +36,5 @@ Menu de Consultas -- implementar a operação "Mostrar terminais sem actividade"
 * [x] perguntar ao professor se necessário implementar comunicação?
 
 * [ ] perguntar ao professor como funciona o save e o saveAs.
-* [ ] perguntar ao prof se e preciso implementar funcs do menu consulta 
+* [ ] perguntar ao prof se e preciso implementar funcs do menu consulta.
+* [ ] perguntar ao prof sobre exceptions da app no core.
