@@ -19,10 +19,6 @@ class DoShowAllTerminals extends Command<Network> {
 
   @Override
   protected final void execute() throws CommandException {
-    List<String> message = _receiver.toStringAllTerminals();
-    for (String i: message){
-      _display.addLine(i);
-    }
-    _display.display();
-    }
+    _display.popup(_receiver.toStringAllTerminals());
   }
+}
