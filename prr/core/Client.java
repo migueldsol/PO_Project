@@ -13,8 +13,8 @@ public class Client implements Serializable{
     private final int TAX_NUMBER;
     private Map<String,Terminal> _terminals;
     private ClientType _clientType;
-    private float _payments;
-    private float _debts;
+    private double _payments;
+    private double _debts;
     private List<Notification> _notifications;
     private boolean _notificationsOn;
 
@@ -54,27 +54,19 @@ public class Client implements Serializable{
         return _clientType;
     }
 
-    public float getClientPayments() {
+    public double getClientPayments() {
         return _payments;
     }
 
-    public String getStringPayments(){
-        Integer payments = Math.round(_payments);
-        return Integer.toString(payments);
-    }
 
     public void setPayments(float payments){
         _payments = payments;
     }
 
-    public float getClientDebts(){
+    public double getClientDebts(){
         return _debts;
     }
         //FIXME usar metodo abstrato para duplicar metodos em debts e payments
-    public String getStringDebts(){
-        Integer debts = Math.round(_debts);
-        return Integer.toString(debts);
-    }
 
     public void setDebts(float debts){
         _debts = debts;
@@ -88,7 +80,7 @@ public class Client implements Serializable{
         return _notificationsOn;
     }
 
-    public float getBalance() {
+    public double getBalance() {
         return _payments - _debts;
     }
 
@@ -111,7 +103,7 @@ public class Client implements Serializable{
 
     public String toString(){
         return "CLIENT|" + KEY + "|" + NAME + "|" + TAX_NUMBER + "|" + _clientType.toString() + "|" + getStringNotificationsOn() +
-         "|" + Integer.toString(_terminals.size()) + "|" + getStringPayments() + "|" + getStringDebts(); 
+         "|" + Integer.toString(_terminals.size()) + "|" + Network.roundDouble(getClientPayments()) + "|" + Network.roundDouble(getClientDebts());
 
     }
 

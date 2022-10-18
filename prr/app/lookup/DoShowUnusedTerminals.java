@@ -17,12 +17,7 @@ class DoShowUnusedTerminals extends Command<Network> {
 
   @Override
   protected final void execute() throws CommandException {
-    // get terminals list from network
-    //TODO need to be added a map iterator
-    /*for (Terminal terminal : _receiver.getAllTerminals(){
-      if (terminal.hasMadeCommunication()) {
-        _display.addLine(terminal.getKey());
-      }
-    }*/
+    _display.popup(_receiver.unusedTerminalsToString());
+    }
   }
-}
+

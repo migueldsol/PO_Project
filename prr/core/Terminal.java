@@ -48,8 +48,10 @@ abstract public class Terminal implements Serializable /* FIXME maybe addd more 
    **/
 
   public boolean canEndCurrentCommunication() {
-    // FIXME add implementation code
-    return true;
+    if(getTerminalState() == TerminalState.BUSY){
+      return true;
+    }
+    return false;
   }
 
   public boolean hasMadeCommunication() {
@@ -181,7 +183,12 @@ abstract public class Terminal implements Serializable /* FIXME maybe addd more 
   }
   abstract public TerminalType getTerminalType();
 
-
+  public boolean hasActivity(){
+    if(_communicationsMade.size() != 0 || _communicationsReceived.size() != 0 ){
+      return true;
+    }
+    return false;
+  }
   public String toString() {
     if (_friendlyTerminals.isEmpty()) {
       return getTerminalType().name() + "|" + KEY + "|" + CLIENT.getKey() + "|" + _terminalState.name() + "|"
@@ -191,6 +198,6 @@ abstract public class Terminal implements Serializable /* FIXME maybe addd more 
     Collections.sort(friends);
 
     return getTerminalType().name() + "|" + KEY + "|" + CLIENT.getKey() + "|" + _terminalState.name() + "|"
-            + _debts + "|" + _payments + "|" + String.join(",",friends);
+            + Math.round(_debts) + "|" + Math.round(_payments) + "|" + String.join(",",friends);
   }
 }

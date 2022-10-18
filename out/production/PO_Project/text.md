@@ -21,7 +21,7 @@ Menu de Gestão de Terminais -- implementar as operações "Mostrar todos os ter
 
 - [x] Mostrar todos os Terminais
 - [x] Resgistrar Terminal
-- [ ] Menu da consola de um terminal
+- [x] Menu da consola de um terminal
 
 Menu de gestão de clientes -- implementar as operações "Visualizar cliente", "Visualizar todos os clientes" e "Registar cliente".
 
