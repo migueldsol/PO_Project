@@ -3,6 +3,7 @@ package prr.core;
 import java.io.Serializable;
 import java.io.IOException;
 
+
 import prr.app.exception.*;
 import prr.core.exception.UnrecognizedEntryException;
 import java.util.ArrayList;
@@ -36,6 +37,11 @@ public class Network implements Serializable {
     _communications = new ArrayList<Communication>();
   }
 
+  static int roundDouble(double num){
+    float number = Math.round(num);
+    int newNumber = (int) number;
+    return newNumber;
+  }
   public Terminal getTerminal(String terminalID) throws UnknownTerminalKeyException {
     if(!_terminals.containsKey(terminalID)){
       throw new UnknownTerminalKeyException(terminalID);
@@ -54,8 +60,10 @@ public class Network implements Serializable {
 
 
   public List <String> toStringAllClients(){
-    List <String> message = new ArrayList <>();
-    for (Client i : _clients.values()){
+    List<String> message = new ArrayList<>();
+    List<Client> order = new ArrayList<>(_clients.values());
+    Collections.sort(order,new ClientComparator());
+    for (Client i : order){
       message.add(i.toString());
     }
     return message;
@@ -77,8 +85,8 @@ public class Network implements Serializable {
     Map <String, Terminal>  deepTerminals = client.getDeepTerminals();
     deepClient.setTerminals(deepTerminals);
     
-    float payments = client.getClientPayments();
-    float debts = client.getClientDebts();
+    float payments = roundDouble(client.getClientPayments());
+    float debts = roundDouble(client.getClientDebts());
 
     deepClient.setPayments(payments);
     deepClient.setDebts(debts);
@@ -155,9 +163,23 @@ public class Network implements Serializable {
     removeFriend(newTerminal,_friend);
   }
 
+  public List<String> unusedTerminalsToString() {
+    List<String> message = new ArrayList<>();
+    List<Terminal> order = new ArrayList<>(_terminals.values());
+    Collections.sort(order, new TerminalComparator());
+    for (Terminal i : order) {
+      if (!i.hasActivity()) {
+        message.add(i.toString());
+      }
+    }
+      return message;
+  }
+
   public List <String> toStringAllTerminals(){
     List <String> message = new ArrayList <>();
-    for (Terminal i : _terminals.values()){
+    List<Terminal> order = new ArrayList<>(_terminals.values());
+    Collections.sort(order,new TerminalComparator());
+    for (Terminal i : order){
       message.add(i.toString());
     }
     return message;

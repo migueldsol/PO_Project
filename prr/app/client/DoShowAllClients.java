@@ -14,13 +14,9 @@ class DoShowAllClients extends Command<Network> {
   DoShowAllClients(Network receiver) {
     super(Label.SHOW_ALL_CLIENTS, receiver);
   }
-  
+
   @Override
   protected final void execute() throws CommandException {
-    List <String> message = _receiver.toStringAllClients();
-    for (String i : message){
-      _display.addLine(i);
-    }
-    _display.display();
+    _display.popup(_receiver.toStringAllClients());
   }
 }
