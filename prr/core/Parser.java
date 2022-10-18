@@ -8,7 +8,7 @@ import java.io.BufferedReader;
 import java.util.Collection;
 import java.util.ArrayList;
 
-import prr.app.exception.UnknownTerminalKeyException;
+import prr.core.exception.KeyNotFoundException;
 import prr.core.exception.UnrecognizedEntryException;
 //import prr.core.exception.UnknownIdentifierException;
 // import more exception core classes if needed
@@ -99,7 +99,7 @@ public class Parser {
 
       for (String friend : friends)
         _network.addFriend(terminal, friend);
-    } catch (UnknownTerminalKeyException friend) {
+    } catch (KeyNotFoundException friend) {
       throw new UnrecognizedEntryException("Unknown client key:  " + line, friend);
     }
   }
