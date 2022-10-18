@@ -184,9 +184,8 @@ public class Network implements Serializable {
     }
     return message;
   }
-  //QUESTIONS is it important to return a string to not have any clients on the app
-  //          or should i just deal w clients on the app?
-  public String toStringTerminal(Terminal terminalID){
+
+  public String toStringTerminal(String terminalID){
     Terminal terminal = _terminals.get(terminalID);
     return terminal.toString();
   }
@@ -215,10 +214,6 @@ public class Network implements Serializable {
     return Collections.unmodifiableList(_communications);
   }
   
-
-  // FIXME define attributes
-  // FIXME define contructor(s)
-  // FIXME define methods
 
   /**
    * Read text input file and create corresponding domain entities.

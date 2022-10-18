@@ -1,7 +1,5 @@
 package prr.core;
 
-import prr.core.Client;
-
 import java.util.Comparator;
 
 public class ClientComparator implements Comparator<Client> {

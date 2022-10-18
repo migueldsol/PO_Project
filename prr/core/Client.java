@@ -66,7 +66,6 @@ public class Client implements Serializable{
     public double getClientDebts(){
         return _debts;
     }
-        //FIXME usar metodo abstrato para duplicar metodos em debts e payments
 
     public void setDebts(float debts){
         _debts = debts;
@@ -101,6 +100,8 @@ public class Client implements Serializable{
         return "NO";
     }
 
+
+    //FIXME passar ints/doubles para strings
     public String toString(){
         return "CLIENT|" + KEY + "|" + NAME + "|" + TAX_NUMBER + "|" + _clientType.toString() + "|" + getStringNotificationsOn() +
          "|" + Integer.toString(_terminals.size()) + "|" + Network.roundDouble(getClientPayments()) + "|" + Network.roundDouble(getClientDebts());
