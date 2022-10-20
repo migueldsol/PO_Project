@@ -1,6 +1,7 @@
 package prr.app.client;
 
 import prr.core.Network;
+import prr.core.exception.ClientKeyAlreadyExistsException;
 import prr.app.exception.DuplicateClientKeyException;
 import pt.tecnico.uilib.menus.Command;
 import pt.tecnico.uilib.menus.CommandException;
@@ -24,8 +25,10 @@ class DoRegisterClient extends Command<Network> {
     String clientName = stringField("clientName");
     Integer clientTaxNumber = integerField("clientTaxNumber");
 
-    if (!_receiver.registerClient(clientID,clientName,clientTaxNumber)){
-      throw new DuplicateClientKeyException(clientID);
+    try{
+      _receiver.registerClient(clientID,clientName,clientTaxNumber);
+    } catch (ClientKeyAlreadyExistsException ckaee){
+        throw new DuplicateClientKeyException(clientID);
     }
   }
 }

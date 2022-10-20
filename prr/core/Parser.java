@@ -1,26 +1,12 @@
 package prr.core;
 
-import java.io.Reader;
 import java.io.FileReader;
 import java.io.IOException;
 import java.io.BufferedReader;
 
-import java.util.Collection;
-import java.util.ArrayList;
 
 import prr.core.exception.KeyNotFoundException;
 import prr.core.exception.UnrecognizedEntryException;
-//import prr.core.exception.UnknownIdentifierException;
-// import more exception core classes if needed
-
-/* 
- * A concretização desta classe depende da funcionalidade suportada pelas entidades do core:
- *  - adicionar um cliente e terminal a uma rede de terminais;
- *  - indicar o estado de um terminal
- *  - adicionar um amigo a um dado terminal
- * A forma como estas funcionalidades estão concretizaas terão impacto depois na concretização dos
- * métodos parseClient, parseTerminal e parseFriends
- */
 
 public class Parser {
   private final Network _network;
@@ -75,10 +61,10 @@ public class Parser {
     checkComponentsLength(components, 4, line);
 
     try {
-      Terminal terminal = _network.registerTerminal(components[1], TerminalType.valueOf(components[0]), components[2]);
+      _network.registerTerminal(components[1], TerminalType.valueOf(components[0]), components[2]);
       switch (components[3]) {
-        case "SILENCE" -> terminal.changeState(TerminalState.SILENCE);
-        case "OFF" -> terminal.changeState(TerminalState.OFF);
+        case "SILENCE" -> _network.getTerminal(components[1]).changeState(TerminalState.SILENCE);
+        case "OFF" -> _network.getTerminal(components[1]).changeState(TerminalState.OFF);
         default -> {
           if (!components[3].equals("ON"))
             throw new UnrecognizedEntryException("Invalid specification in line: " + line);

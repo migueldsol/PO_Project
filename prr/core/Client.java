@@ -33,10 +33,10 @@ public class Client implements Serializable{
         String deepKey = KEY;
         return deepKey;
     }
+
     public double getClientPayments() {
         return _payments;
     }
-
 
     public double getClientDebts(){
         return _debts;
@@ -50,7 +50,6 @@ public class Client implements Serializable{
         return true;
     }
 
-
     public String getStringNotificationsOn(){
         if (_notificationsOn){
             return "YES";
@@ -58,11 +57,9 @@ public class Client implements Serializable{
         return "NO";
     }
 
-
     public String toString(){
         return "CLIENT|" + KEY + "|" + NAME + "|" + TAX_NUMBER + "|" + _clientType.toString() + "|" + getStringNotificationsOn() +
          "|" + _terminals.size() + "|" + Math.round(getClientPayments()) + "|" + Math.round(getClientDebts());
 
     }
-
 }
