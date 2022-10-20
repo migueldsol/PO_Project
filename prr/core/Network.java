@@ -8,7 +8,6 @@ import prr.core.exception.*;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
-import java.util.Collection;
 import java.util.Collections;
 import java.util.HashMap;
 
@@ -121,11 +120,14 @@ public class Network implements Serializable {
       throw new KeyNotFoundException(friendKey);
     }
     Terminal newTerminal = this._terminals.get(terminalKey);
-    Terminal _friend = this._terminals.get(friendKey);
-    addFriend(newTerminal,_friend);
+    Terminal friend = this._terminals.get(friendKey);
+    addFriend(newTerminal, friend);
   }
 
-  public void removeFriend(Terminal terminal, Terminal friend){ terminal.removeFriendlyTerminal(friend);}
+  public void removeFriend(Terminal terminal, Terminal friend){ 
+    terminal.removeFriendlyTerminal(friend);
+  }
+
   public void removeFriend(String terminalKey, String friendKey) throws KeyNotFoundException{
     if(!_terminals.containsKey(friendKey)){
       throw new KeyNotFoundException(friendKey);
@@ -162,28 +164,14 @@ public class Network implements Serializable {
     return terminal.toString();
   }
 
-  public Map <String, Terminal> getDeepTerminals(){
-    return Collections.unmodifiableMap(_terminals);
-  } 
-
   public void addPricingSystem(PricingSystem pricingSystem) {
     _pricingSystems.add(pricingSystem);
   }
   
 
-
-  public Map<String,Terminal> getAllTerminals() {
-    //FIXME problemas de privacidade
-    return _terminals;
-  }
-
   
   public void addCommunication(Communication communication) {
     _communications.add(communication);
-  }
-
-  public List<Communication> getAllCommunications() {
-    return Collections.unmodifiableList(_communications);
   }
   
 
