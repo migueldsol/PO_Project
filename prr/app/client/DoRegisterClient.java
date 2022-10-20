@@ -5,7 +5,6 @@ import prr.core.exception.ClientKeyAlreadyExistsException;
 import prr.app.exception.DuplicateClientKeyException;
 import pt.tecnico.uilib.menus.Command;
 import pt.tecnico.uilib.menus.CommandException;
-//FIXME add more imports if needed
 
 /**
  * Register new client.

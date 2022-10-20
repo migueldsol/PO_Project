@@ -1,5 +1,6 @@
 package prr.app.main;
 
+import prr.app.exception.ChangedFileAssociationException;
 import prr.app.exception.FileOpenFailedException;
 import prr.core.NetworkManager;
 import prr.core.exception.MissingFileAssociationException;
@@ -13,7 +14,7 @@ import java.io.FilenameFilter;
 import java.io.IOException;
 import java.io.ObjectOutputStream;
 import pt.tecnico.uilib.menus.CommandException;
-//FIXME add more imports if needed
+
 
 /**
  * Command to save a file.
@@ -25,7 +26,6 @@ class DoSaveFile extends Command<NetworkManager> {
   
   @Override
   protected final void execute() throws CommandException{
-      //QUESTIONS posso fazer isto / é boa pratica?
     try {
       _receiver.save();
     } catch (MissingFileAssociationException mfe){
@@ -35,7 +35,7 @@ class DoSaveFile extends Command<NetworkManager> {
       } catch (IOException e){
         throw new FileOpenFailedException(e);
       } catch(MissingFileAssociationException mfe2){
-        System.out.println("Erro interno");
+        throw new ChangedFileAssociationException();
       }
     } catch (IOException e){
       throw new FileOpenFailedException(e);
