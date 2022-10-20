@@ -36,6 +36,8 @@ class DoSaveFile extends Command<NetworkManager> {
         _receiver.saveAs(fileName);
       } catch (IOException e){
         throw new FileOpenFailedException(e);
+      } catch(MissingFileAssociationException mfe2){
+        System.out.println("Erro interno");
       }
     } catch (IOException e){
       throw new FileOpenFailedException(e);

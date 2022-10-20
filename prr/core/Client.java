@@ -8,6 +8,8 @@ import java.util.Map;
 import java.util.HashMap;
 
 public class Client implements Serializable{
+
+    private static final long serialVersionUID = 202208091753L;
     private final String KEY;
     private final String NAME;
     private final int TAX_NUMBER;
@@ -59,16 +61,8 @@ public class Client implements Serializable{
     }
 
 
-    public void setPayments(float payments){
-        _payments = payments;
-    }
-
     public double getClientDebts(){
         return _debts;
-    }
-
-    public void setDebts(float debts){
-        _debts = debts;
     }
 
     public List<Notification> getNotificationsList() {
