@@ -59,7 +59,6 @@ public class NetworkManager {
    */
   public void save() throws FileNotFoundException, MissingFileAssociationException, IOException {
 
-      //QUESTIONS esta shit e mm necessario?
     if (_fileName == null){
       throw new MissingFileAssociationException();
     }

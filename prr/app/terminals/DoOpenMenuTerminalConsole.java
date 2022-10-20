@@ -5,7 +5,6 @@ import prr.core.exception.KeyNotFoundException;
 import prr.app.exception.UnknownTerminalKeyException;
 import pt.tecnico.uilib.menus.Command;
 import pt.tecnico.uilib.menus.CommandException;
-//FIXME add mode import if needed
 
 /**
  * Open a specific terminal's menu.

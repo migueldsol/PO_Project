@@ -1,14 +1,17 @@
 package prr.core;
 
 import java.io.Serializable;
-import java.util.*;
+import java.util.Map;
+import java.util.HashMap;
+import java.util.TreeMap;
+import java.util.List;
+import java.util.ArrayList;
 
-// FIXME add more import if needed (cannot import from pt.tecnico or prr.app)
 
 /**
  * Abstract terminal.
  */
-abstract public class Terminal implements Serializable /* FIXME maybe addd more interfaces */ {
+abstract public class Terminal implements Serializable{
 
   /**
    * Serial number for serialization.
