@@ -33,7 +33,7 @@ public class Network implements Serializable {
   /**
    * getTerminal -> returns a terminal given a certain terminal id
    * @param terminalID
-   * @return
+   * @return returns the terminal with given terminalID
    * @throws KeyNotFoundException
    */
   public Terminal getTerminal(String terminalID) throws KeyNotFoundException {
@@ -45,24 +45,23 @@ public class Network implements Serializable {
 
   /**
    * registerClient -> register a new client
-   * @param key
+   * @param key 
    * @param name
    * @param taxNumber
-   * @return
+   * @return  return if the client was added to the network
    */
 
-  public boolean registerClient(String key, String name, int taxNumber){
+  public void registerClient(String key, String name, int taxNumber) throws ClientKeyAlreadyExistsException{
     if (_clients.containsKey(key)) {
-      return false;
+      throw new ClientKeyAlreadyExistsException(key);
     }
     Client newClient = new Client(key,name,taxNumber);
     _clients.put(key,newClient);
-    return true;
   }
 
   /**
    * toStringAllClients -> returns a string with all the clients
-   * @return
+   * @return returns a String List with all the clients ready to print
    */
   public List <String> toStringAllClients(){
     List<String> message = new ArrayList<>();
@@ -77,7 +76,7 @@ public class Network implements Serializable {
   /**
    * toStringClient -> returns a string with all the information of a client
    * @param clientID
-   * @return
+   * @return returns client as a String ready to show
    */
   public String toStringClient(String clientID){
     Client client = _clients.get(clientID);
@@ -92,13 +91,12 @@ public class Network implements Serializable {
    * @param key
    * @param type
    * @param client
-   * @return
    * @throws NumberFormatException
    * @throws InvalidSizeKey
    * @throws TerminalKeyAlreadyExistsException
    */
 
-  public Terminal registerTerminal(String key, TerminalType type, Client client) throws NumberFormatException,InvalidSizeKey, TerminalKeyAlreadyExistsException{
+  public void registerTerminal(String key, TerminalType type, Client client) throws NumberFormatException,InvalidSizeKey, TerminalKeyAlreadyExistsException{
     
     Integer.parseInt(key);
 
@@ -121,27 +119,26 @@ public class Network implements Serializable {
     
     this.addTerminal(newTerminal);
     client.registerTerminal(newTerminal);
-    return newTerminal;
   }
 
   /**
-   * refisterTerminal -> adds a terminal
+   * registerTerminal -> gets the client to register the terminal
+   * and registers the terminal
    * @param key
    * @param type
    * @param clientKey
-   * @return
    * @throws NumberFormatException
    * @throws InvalidSizeKey
    * @throws KeyNotFoundException
    * @throws TerminalKeyAlreadyExistsException
    */
-  public Terminal registerTerminal(String key, TerminalType type, String clientKey)
+  public void registerTerminal(String key, TerminalType type, String clientKey)
   throws NumberFormatException, InvalidSizeKey, KeyNotFoundException, TerminalKeyAlreadyExistsException {
-    Client client = this._clients.get(clientKey);
+    Client client = _clients.get(clientKey);
     if(client == null){
       throw new KeyNotFoundException(key);
     }
-    return registerTerminal(key,type,client);
+    registerTerminal(key,type,client);
   }
 
   /**
@@ -172,8 +169,8 @@ public class Network implements Serializable {
     if(!_terminals.containsKey(friendKey)){
       throw new KeyNotFoundException(friendKey);
     }
-    Terminal newTerminal = this._terminals.get(terminalKey);
-    Terminal friend = this._terminals.get(friendKey);
+    Terminal newTerminal = _terminals.get(terminalKey);
+    Terminal friend = _terminals.get(friendKey);
     addFriend(newTerminal, friend);
   }
 
@@ -187,7 +184,8 @@ public class Network implements Serializable {
   }
 
   /**
-   * removeFriend -> remove a friend from a terminal
+   * removeFriend -> gets the terminal and its friend
+   * and removes the friend 
    * @param terminalKey
    * @param friendKey
    * @throws KeyNotFoundException
@@ -196,8 +194,8 @@ public class Network implements Serializable {
     if(!_terminals.containsKey(friendKey)){
       throw new KeyNotFoundException(friendKey);
     }
-    Terminal newTerminal = this._terminals.get(terminalKey);
-    Terminal _friend = this._terminals.get(friendKey);
+    Terminal newTerminal = _terminals.get(terminalKey);
+    Terminal _friend = _terminals.get(friendKey);
     removeFriend(newTerminal,_friend);
   }
 

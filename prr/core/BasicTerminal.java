@@ -12,9 +12,11 @@ public class BasicTerminal extends Terminal{
         return TERMINAL_TYPE;
     }
 
+    @Override
     public void makeCommunication(String targetKey, String type){
     }
 
+    @Override
     public void startInteractiveCommunication(String targetKey, String type){
     }
 }
