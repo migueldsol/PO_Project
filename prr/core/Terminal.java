@@ -22,7 +22,7 @@ abstract public class Terminal implements Serializable /* FIXME maybe addd more 
   private double _payments;
   private double _debts;
 
-  private Map<String, Terminal> _friendlyTerminals;
+  private TreeMap<String, Terminal> _friendlyTerminals;
 
   public Terminal(String key, TerminalType type, Client client) {
     KEY = key;
@@ -34,7 +34,7 @@ abstract public class Terminal implements Serializable /* FIXME maybe addd more 
     _communicationsMade = new HashMap<>();
     _communicationsReceived = new HashMap<>();
     _terminalState = TerminalState.IDLE;
-    _friendlyTerminals = new HashMap<>();
+    _friendlyTerminals = new TreeMap<>();
 
   }
   // FIXME define methods
@@ -195,7 +195,6 @@ abstract public class Terminal implements Serializable /* FIXME maybe addd more 
               + Math.round(_debts) + "|" + Math.round(_payments);
     }
     List<String> friends = new ArrayList<>(_friendlyTerminals.keySet());
-    Collections.sort(friends);
 
     return getTerminalType().name() + "|" + KEY + "|" + CLIENT.getKey() + "|" + _terminalState.name() + "|"
             + Math.round(_debts) + "|" + Math.round(_payments) + "|" + String.join(",",friends);
