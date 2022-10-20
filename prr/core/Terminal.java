@@ -27,17 +27,12 @@ abstract public class Terminal implements Serializable /* FIXME maybe addd more 
   public Terminal(String key, TerminalType type, Client client) {
     KEY = key;
     CLIENT = client;
-
-    // FIXME nao podemos definir isto aqui porque só podemos alterar no terminal
-    // BASIC ou Fancy
-
     _communicationsMade = new HashMap<>();
     _communicationsReceived = new HashMap<>();
     _terminalState = TerminalState.IDLE;
     _friendlyTerminals = new TreeMap<>();
 
   }
-  // FIXME define methods
 
   /**
    * Checks if this terminal can end the current interactive communication.
@@ -53,22 +48,6 @@ abstract public class Terminal implements Serializable /* FIXME maybe addd more 
     }
     return false;
   }
-
-  public boolean hasMadeCommunication() {
-    return _communicationsMade.isEmpty() && _communicationsReceived.isEmpty();
-  }
-  /*
-   * public boolean TurnOff() {
-   * if (_terminalState == TerminalState.IDLE || _terminalState ==
-   * TerminalState.SILENCE) {
-   * _terminalState = TerminalState.OFF;
-   * return true;
-   * }
-   * return false;
-   * }
-   */
-  // public boolean changeState that receives a TerminalState and uses a switch
-  // case to verify if it can change to given state
 
   public boolean changeState(TerminalState state){
     switch (state) {
@@ -138,20 +117,6 @@ abstract public class Terminal implements Serializable /* FIXME maybe addd more 
 
   public abstract void startInteractiveCommunication(String targetKey, String type);
 
-  // getMethods() //
-
-  /*
-   * public List <Communication> getCommunicationsMade(){
-   * return Collections.unmodifiableList(_communicationsMade);
-   * }
-   */
-
-  /*
-   * public List <Communication> getCommunicationsReceived(){
-   * return Collections.unmodifiableList(_communicationsReceived);
-   * }
-   */
-
   public String getKey() {
     return KEY;
   }
@@ -186,11 +151,12 @@ abstract public class Terminal implements Serializable /* FIXME maybe addd more 
   abstract public TerminalType getTerminalType();
 
   public boolean hasActivity(){
-    if(_communicationsMade.size() != 0 || _communicationsReceived.size() != 0 ){
+    if(!_communicationsMade.isEmpty() || !_communicationsReceived.isEmpty()){
       return true;
     }
     return false;
   }
+  @Override
   public String toString() {
     if (_friendlyTerminals.isEmpty()) {
       return getTerminalType().name() + "|" + KEY + "|" + CLIENT.getKey() + "|" + _terminalState.name() + "|"

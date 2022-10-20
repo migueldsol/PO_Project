@@ -78,15 +78,12 @@ public class NetworkManager {
    * @throws IOException if there is some error while serializing the state of the network to disk.
    */
 
-  //FIXME falta o MissingFileAssociationException
-  public void saveAs(String filename) throws FileNotFoundException, IOException {
-    
-    //QUESTIONS esta shit e mm necessario? ALSO porque é que isto da throw a um MissingFileAssociationException??
-    /* 
-    if (this.getFileName() == null){
+  public void saveAs(String filename) throws FileNotFoundException, IOException, MissingFileAssociationException {
+
+    if (this.getFileName() == null) {
       throw new MissingFileAssociationException();
     }
-    */
+
     this._fileName = filename;
 
     FileOutputStream fos = new FileOutputStream(filename);

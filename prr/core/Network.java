@@ -12,11 +12,6 @@ import java.util.Collection;
 import java.util.Collections;
 import java.util.HashMap;
 
-// FIXME add more import if needed (cannot import from pt.tecnico or prr.app)
-
-/*
- * Class Store implements a store.
- */
 public class Network implements Serializable {
 
   /** Serial number for serialization. */
