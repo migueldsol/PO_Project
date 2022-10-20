@@ -1,6 +1,6 @@
 package prr.core;
 
 public enum TerminalType {
-    BASIC, FANCY;        
+    BASIC, FANCY
 }
 

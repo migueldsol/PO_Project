@@ -16,10 +16,10 @@ public class Network implements Serializable {
   /** Serial number for serialization. */
 
   private static final long serialVersionUID = 202208091753L;
-  private Map<String,Client> _clients;
-  private List<PricingSystem> _pricingSystems;
-  private Map<String,Terminal> _terminals;
-  private List<Communication> _communications;
+  private final Map<String,Client> _clients;
+  private final List<PricingSystem> _pricingSystems;
+  private final Map<String,Terminal> _terminals;
+  private final List<Communication> _communications;
 
   public Network() {
     _clients = new HashMap<String,Client>();
@@ -30,17 +30,26 @@ public class Network implements Serializable {
     _communications = new ArrayList<Communication>();
   }
 
-  static int roundDouble(double num){
-    float number = Math.round(num);
-    int newNumber = (int) number;
-    return newNumber;
-  }
+  /**
+   * getTerminal -> returns a terminal given a certain terminal id
+   * @param terminalID
+   * @return
+   * @throws KeyNotFoundException
+   */
   public Terminal getTerminal(String terminalID) throws KeyNotFoundException {
     if(!_terminals.containsKey(terminalID)){
       throw new KeyNotFoundException(terminalID);
     }
     return _terminals.get(terminalID);
   }
+
+  /**
+   * registerClient -> register a new client
+   * @param key
+   * @param name
+   * @param taxNumber
+   * @return
+   */
 
   public boolean registerClient(String key, String name, int taxNumber){
     if (_clients.containsKey(key)) {
@@ -51,7 +60,10 @@ public class Network implements Serializable {
     return true;
   }
 
-
+  /**
+   * toStringAllClients -> returns a string with all the clients
+   * @return
+   */
   public List <String> toStringAllClients(){
     List<String> message = new ArrayList<>();
     List<Client> order = new ArrayList<>(_clients.values());
@@ -61,8 +73,12 @@ public class Network implements Serializable {
     }
     return message;
   }
-  //QUESTIONS is it important to return a string to not have any clients on the app 
-  //          or should i just deal w clients on the app?
+
+  /**
+   * toStringClient -> returns a string with all the information of a client
+   * @param clientID
+   * @return
+   */
   public String toStringClient(String clientID){
     Client client = _clients.get(clientID);
     if (client == null){
@@ -71,6 +87,16 @@ public class Network implements Serializable {
     return client.toString();
   }
 
+  /**
+   * registerTerminal -> register a terminal in the network
+   * @param key
+   * @param type
+   * @param client
+   * @return
+   * @throws NumberFormatException
+   * @throws InvalidSizeKey
+   * @throws TerminalKeyAlreadyExistsException
+   */
 
   public Terminal registerTerminal(String key, TerminalType type, Client client) throws NumberFormatException,InvalidSizeKey, TerminalKeyAlreadyExistsException{
     
@@ -98,6 +124,17 @@ public class Network implements Serializable {
     return newTerminal;
   }
 
+  /**
+   * refisterTerminal -> adds a terminal
+   * @param key
+   * @param type
+   * @param clientKey
+   * @return
+   * @throws NumberFormatException
+   * @throws InvalidSizeKey
+   * @throws KeyNotFoundException
+   * @throws TerminalKeyAlreadyExistsException
+   */
   public Terminal registerTerminal(String key, TerminalType type, String clientKey)
   throws NumberFormatException, InvalidSizeKey, KeyNotFoundException, TerminalKeyAlreadyExistsException {
     Client client = this._clients.get(clientKey);
@@ -107,14 +144,30 @@ public class Network implements Serializable {
     return registerTerminal(key,type,client);
   }
 
+  /**
+   * addTerminal -> adds a terminal to the network
+   * @param terminal
+   */
+
   public void addTerminal(Terminal terminal) {
     _terminals.put(terminal.getKey(),terminal);
   }
-
+  /**
+   * addFriend -> addFriendlyTerminal
+   * @param terminal
+   * @param friend
+   * @throws KeyNotFoundException
+   */
   public void addFriend(Terminal terminal, Terminal friend){
     terminal.addFriendlyTerminal(friend);
   }
 
+  /**
+   * addFriend -> addFriendlyTerminal
+   * @param terminalKey
+   * @param friendKey
+   * @throws KeyNotFoundException
+   */
   public void addFriend(String terminalKey, String friendKey) throws KeyNotFoundException {
     if(!_terminals.containsKey(friendKey)){
       throw new KeyNotFoundException(friendKey);
@@ -124,10 +177,21 @@ public class Network implements Serializable {
     addFriend(newTerminal, friend);
   }
 
+  /**
+   * removeFriend -> remove a friend from a terminal
+   * @param terminal
+   * @param friend
+   */
   public void removeFriend(Terminal terminal, Terminal friend){ 
     terminal.removeFriendlyTerminal(friend);
   }
 
+  /**
+   * removeFriend -> remove a friend from a terminal
+   * @param terminalKey
+   * @param friendKey
+   * @throws KeyNotFoundException
+   */
   public void removeFriend(String terminalKey, String friendKey) throws KeyNotFoundException{
     if(!_terminals.containsKey(friendKey)){
       throw new KeyNotFoundException(friendKey);
@@ -137,6 +201,10 @@ public class Network implements Serializable {
     removeFriend(newTerminal,_friend);
   }
 
+  /**
+   * unusedTerminalsToString -> returns a string with all the unused terminals
+   * @return
+   */
   public List<String> unusedTerminalsToString() {
     List<String> message = new ArrayList<>();
     List<Terminal> order = new ArrayList<>(_terminals.values());
@@ -149,6 +217,10 @@ public class Network implements Serializable {
       return message;
   }
 
+  /**
+   * toStringAllTerminals -> returns a message with all terminals
+   * @return
+   */
   public List <String> toStringAllTerminals(){
     List <String> message = new ArrayList <>();
     List<Terminal> order = new ArrayList<>(_terminals.values());
@@ -159,24 +231,16 @@ public class Network implements Serializable {
     return message;
   }
 
-  public String toStringTerminal(String terminalID){
-    Terminal terminal = _terminals.get(terminalID);
-    return terminal.toString();
-  }
-
+  /**
+   * addPricingSystem -> adds a pricing system to the network
+   * @param pricingSystem
+   */
   public void addPricingSystem(PricingSystem pricingSystem) {
     _pricingSystems.add(pricingSystem);
   }
-  
-
-  
-  public void addCommunication(Communication communication) {
-    _communications.add(communication);
-  }
-  
 
   /**
-   * Read text input file and create corresponding domain entities.
+   * importFile ->Read text input file and create corresponding domain entities.
    * 
    * @param filename name of the text input file
    * @throws UnrecognizedEntryException if some entry is not correct

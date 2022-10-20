@@ -65,7 +65,14 @@ public class NetworkManager {
     if (_fileName == null){
       throw new MissingFileAssociationException();
     }
-    saveAs(_fileName);
+    try{
+      FileOutputStream fos = new FileOutputStream(_fileName);
+      ObjectOutputStream oos = new ObjectOutputStream(fos);
+      oos.writeObject(this.getNetwork());
+      fos.close();    //QUESTIONS como fazẽ-lo fechar sempre?
+    } catch (IOException e){
+        throw new IOException(e);
+    }
   }
   
   /**
@@ -79,17 +86,8 @@ public class NetworkManager {
    */
 
   public void saveAs(String filename) throws FileNotFoundException, IOException, MissingFileAssociationException {
-
-    if (this.getFileName() == null) {
-      throw new MissingFileAssociationException();
-    }
-
-    this._fileName = filename;
-
-    FileOutputStream fos = new FileOutputStream(filename);
-    ObjectOutputStream oos = new ObjectOutputStream(fos);
-    oos.writeObject(this.getNetwork());
-    fos.close();    //QUESTIONS como fazẽ-lo fechar sempre?
+    _fileName = filename;
+    this.save();
     
 
   }
