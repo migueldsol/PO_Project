@@ -77,27 +77,6 @@ public class Network implements Serializable {
     return client.toString();
   }
 
-  //FIXME pode nao ser necessario
-  public Client getDeepClient(String clientID){
-    Client client = _clients.get(clientID);
-    Client deepClient = new Client(client.getKey(), client.getName(), client.getTaxNumber());
-    Map <String, Terminal>  deepTerminals = client.getDeepTerminals();
-    deepClient.setTerminals(deepTerminals);
-    
-    float payments = roundDouble(client.getClientPayments());
-    float debts = roundDouble(client.getClientDebts());
-
-    deepClient.setPayments(payments);
-    deepClient.setDebts(debts);
-
-    return deepClient;
-  }
-
-  //FIXME pode nao ser necessario
-  public Collection <Client> getAllDeepClients() {
-    Collection <Client> values = _clients.values();
-    return Collections.unmodifiableCollection(values);
-  }
 
   public Terminal registerTerminal(String key, TerminalType type, Client client) throws NumberFormatException,InvalidSizeKey, TerminalKeyAlreadyExistsException{
     

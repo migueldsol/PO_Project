@@ -48,7 +48,7 @@ abstract public class Terminal implements Serializable /* FIXME maybe addd more 
    **/
 
   public boolean canEndCurrentCommunication() {
-    if(getTerminalState() == TerminalState.BUSY){
+    if(_terminalState == TerminalState.BUSY){
       return true;
     }
     return false;
@@ -128,7 +128,9 @@ abstract public class Terminal implements Serializable /* FIXME maybe addd more 
    **/
 
   public boolean canStartCommunication() {
-    // FIXME add implementation code
+    if(_terminalState == TerminalState.OFF || _terminalState == TerminalState.BUSY){
+      return false;
+    }
     return true;
   }
 
