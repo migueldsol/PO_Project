@@ -4,7 +4,7 @@ public class BasicTerminal extends Terminal{
     public final TerminalType TERMINAL_TYPE; 
 
     public BasicTerminal(String key, TerminalType type, Client client){
-        super(key, type, client);
+        super(key, client);
         TERMINAL_TYPE = TerminalType.BASIC;
     }
 

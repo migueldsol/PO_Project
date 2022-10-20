@@ -17,8 +17,6 @@ import pt.tecnico.uilib.menus.CommandException;
  * Register terminal.
  */
 class DoRegisterTerminal extends Command<Network> {
-  private Form _formulario = new Form("Terminal");
-
   DoRegisterTerminal(Network receiver) {
     super(Label.REGISTER_TERMINAL, receiver);
     addStringField("terminalKey",Message.terminalKey());

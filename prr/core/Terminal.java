@@ -15,16 +15,16 @@ abstract public class Terminal implements Serializable /* FIXME maybe addd more 
    */
   private static final long serialVersionUID = 202208091753L;
   private final String KEY;
-  private Map<Integer, Communication> _communicationsMade;
-  private Map<Integer, Communication> _communicationsReceived;
+  private final Map<Integer, Communication> _communicationsMade;
+  private final Map<Integer, Communication> _communicationsReceived;
   private TerminalState _terminalState;
   private final Client CLIENT;
   private double _payments;
   private double _debts;
 
-  private TreeMap<String, Terminal> _friendlyTerminals;
+  private final TreeMap<String, Terminal> _friendlyTerminals;
 
-  public Terminal(String key, TerminalType type, Client client) {
+  public Terminal(String key, Client client) {
     KEY = key;
     CLIENT = client;
     _communicationsMade = new HashMap<>();
@@ -43,10 +43,7 @@ abstract public class Terminal implements Serializable /* FIXME maybe addd more 
    **/
 
   public boolean canEndCurrentCommunication() {
-    if(_terminalState == TerminalState.BUSY){
-      return true;
-    }
-    return false;
+    return _terminalState == TerminalState.BUSY;
   }
 
   public boolean changeState(TerminalState state){
@@ -107,10 +104,7 @@ abstract public class Terminal implements Serializable /* FIXME maybe addd more 
    **/
 
   public boolean canStartCommunication() {
-    if(_terminalState == TerminalState.OFF || _terminalState == TerminalState.BUSY){
-      return false;
-    }
-    return true;
+    return _terminalState != TerminalState.OFF && _terminalState != TerminalState.BUSY;
   }
 
   public abstract void makeCommunication(String targetKey, String type);
@@ -123,10 +117,6 @@ abstract public class Terminal implements Serializable /* FIXME maybe addd more 
 
   public TerminalState getTerminalState() {
     return _terminalState;
-  }
-
-  public Client getClient() {
-    return CLIENT;
   }
 
   public double getPayments() {
@@ -147,10 +137,7 @@ abstract public class Terminal implements Serializable /* FIXME maybe addd more 
   abstract public TerminalType getTerminalType();
 
   public boolean hasActivity(){
-    if(!_communicationsMade.isEmpty() || !_communicationsReceived.isEmpty()){
-      return true;
-    }
-    return false;
+    return !_communicationsMade.isEmpty() || !_communicationsReceived.isEmpty();
   }
   @Override
   public String toString() {

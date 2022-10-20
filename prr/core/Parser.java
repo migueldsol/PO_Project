@@ -23,7 +23,7 @@ import prr.core.exception.UnrecognizedEntryException;
  */
 
 public class Parser {
-  private Network _network;
+  private final Network _network;
 
   Parser(Network network) {
     _network = network;

@@ -12,12 +12,12 @@ public class Client implements Serializable{
     private final String KEY;
     private final String NAME;
     private final int TAX_NUMBER;
-    private Map<String,Terminal> _terminals;
-    private ClientType _clientType;
+    private final Map<String,Terminal> _terminals;
+    private final ClientType _clientType;
     private double _payments;
     private double _debts;
-    private List<Notification> _notifications;
-    private boolean _notificationsOn;
+    private final List<Notification> _notifications;
+    private final boolean _notificationsOn;
 
     public Client(String key, String name, int taxNumber) {
         KEY = key;
@@ -30,23 +30,9 @@ public class Client implements Serializable{
     }
 
     public String getKey() {
-        String deepKey = new String(KEY);
+        String deepKey = KEY;
         return deepKey;
     }
-
-    public String getName() {
-        String deepName = new String(NAME);
-        return deepName;
-    }
-
-    public int getTaxNumber() {
-        return TAX_NUMBER;
-    }
-
-    public ClientType getClientType() {
-        return _clientType;
-    }
-
     public double getClientPayments() {
         return _payments;
     }
@@ -55,15 +41,6 @@ public class Client implements Serializable{
     public double getClientDebts(){
         return _debts;
     }
-
-    public boolean getNotificationsOn() {
-        return _notificationsOn;
-    }
-
-    public double getBalance() {
-        return _payments - _debts;
-    }
-
 
     public boolean registerTerminal(Terminal terminal) {
         if (_terminals.containsKey(terminal.getKey())){
@@ -75,7 +52,7 @@ public class Client implements Serializable{
 
 
     public String getStringNotificationsOn(){
-        if (_notificationsOn == true){
+        if (_notificationsOn){
             return "YES";
         }
         return "NO";
@@ -84,7 +61,7 @@ public class Client implements Serializable{
 
     public String toString(){
         return "CLIENT|" + KEY + "|" + NAME + "|" + TAX_NUMBER + "|" + _clientType.toString() + "|" + getStringNotificationsOn() +
-         "|" + Integer.toString(_terminals.size()) + "|" + Math.round(getClientPayments()) + "|" + Math.round(getClientDebts());
+         "|" + _terminals.size() + "|" + Math.round(getClientPayments()) + "|" + Math.round(getClientDebts());
 
     }
 

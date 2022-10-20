@@ -19,8 +19,6 @@ import pt.tecnico.uilib.menus.CommandException;
  * Command to save a file.
  */
 class DoSaveFile extends Command<NetworkManager> {
-  private Form _formulario = new Form("nomeFicheiro");
-
   DoSaveFile(NetworkManager receiver) {
     super(Label.SAVE_FILE, receiver);
   }
@@ -32,7 +30,7 @@ class DoSaveFile extends Command<NetworkManager> {
       _receiver.save();
     } catch (MissingFileAssociationException mfe){
       try {
-        String fileName = _formulario.requestString(Message.newSaveAs());
+        String fileName = Form.requestString(Message.newSaveAs());
         _receiver.saveAs(fileName);
       } catch (IOException e){
         throw new FileOpenFailedException(e);
