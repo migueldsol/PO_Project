@@ -3,7 +3,6 @@ package prr.core;
 import java.util.List;
 import java.io.Serializable;
 import java.util.ArrayList;
-import java.util.Collections;
 import java.util.Map;
 import java.util.HashMap;
 
@@ -44,14 +43,6 @@ public class Client implements Serializable{
         return TAX_NUMBER;
     }
 
-    public Map<String,Terminal> getDeepTerminals() {
-        return Collections.unmodifiableMap(_terminals);
-    }
-
-    public void setTerminals(Map <String, Terminal> map){
-        _terminals = map;
-    }
-
     public ClientType getClientType() {
         return _clientType;
     }
@@ -63,10 +54,6 @@ public class Client implements Serializable{
 
     public double getClientDebts(){
         return _debts;
-    }
-
-    public List<Notification> getNotificationsList() {
-        return Collections.unmodifiableList(_notifications);
     }
 
     public boolean getNotificationsOn() {
@@ -95,7 +82,6 @@ public class Client implements Serializable{
     }
 
 
-    //FIXME passar ints/doubles para strings
     public String toString(){
         return "CLIENT|" + KEY + "|" + NAME + "|" + TAX_NUMBER + "|" + _clientType.toString() + "|" + getStringNotificationsOn() +
          "|" + Integer.toString(_terminals.size()) + "|" + Math.round(getClientPayments()) + "|" + Math.round(getClientDebts());
