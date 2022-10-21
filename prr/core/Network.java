@@ -110,11 +110,11 @@ public class Network implements Serializable {
     Terminal newTerminal;
 
     if(type == TerminalType.BASIC){
-      newTerminal = new BasicTerminal(key, type, client);
+      newTerminal = new BasicTerminal(key, client);
       }
       
     else {
-      newTerminal = new FancyTerminal(key, type, client);
+      newTerminal = new FancyTerminal(key, client);
     }
     
     this.addTerminal(newTerminal);
