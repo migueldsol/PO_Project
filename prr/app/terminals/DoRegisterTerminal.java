@@ -27,7 +27,7 @@ class DoRegisterTerminal extends Command<Network> {
   @Override
   protected final void execute() throws CommandException {
     String terminalID = stringField("terminalKey");
-    TerminalType terminalType = TerminalType.valueOf(stringField("terminalType"));
+    TerminalType terminalType = TerminalType.valueOf(optionField("terminalType"));
     String clientID = stringField("clientID");
     try{
       _receiver.registerTerminal(terminalID,terminalType,clientID);
