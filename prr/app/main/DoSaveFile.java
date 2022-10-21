@@ -1,12 +1,12 @@
 package prr.app.main;
 
-import prr.app.exception.ChangedFileAssociationException;
 import prr.app.exception.FileOpenFailedException;
 import prr.core.NetworkManager;
 import prr.core.exception.MissingFileAssociationException;
 import pt.tecnico.uilib.forms.Form;
 import pt.tecnico.uilib.menus.Command;
 import java.io.Serializable;
+import java.util.MissingFormatArgumentException;
 import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
@@ -32,11 +32,9 @@ class DoSaveFile extends Command<NetworkManager> {
       try {
         String fileName = Form.requestString(Message.newSaveAs());
         _receiver.saveAs(fileName);
-      } catch (IOException e){
+      } catch (IOException | MissingFileAssociationException e){
         throw new FileOpenFailedException(e);
-      } catch(MissingFileAssociationException mfe2){
-        throw new ChangedFileAssociationException();
-      }
+      } 
     } catch (IOException e){
       throw new FileOpenFailedException(e);
     }
