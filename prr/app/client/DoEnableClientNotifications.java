@@ -13,11 +13,15 @@ class DoEnableClientNotifications extends Command<Network> {
 
   DoEnableClientNotifications(Network receiver) {
     super(Label.ENABLE_CLIENT_NOTIFICATIONS, receiver);
-    //FIXME add command fields
+    addStringField("ClientID", Message.key());
   }
   
   @Override
   protected final void execute() throws CommandException {
-    //FIXME implement command
+    String clientID = stringField("ClientID");
+    
+    if (! _receiver.TurnOnNotification(clientID)){  //FIXME falta implementar esta funcionalidade no core
+      _display.popup(Message.clientNotificationsAlreadyEnabled()); 
+    } 
   }
 }
