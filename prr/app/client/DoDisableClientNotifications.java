@@ -13,11 +13,15 @@ class DoDisableClientNotifications extends Command<Network> {
 
   DoDisableClientNotifications(Network receiver) {
     super(Label.DISABLE_CLIENT_NOTIFICATIONS, receiver);
-    //FIXME add command fields
+    addStringField("ClientID", Message.key());
   }
   
   @Override
   protected final void execute() throws CommandException {
-    //FIXME implement command
+    String clientID = stringField("ClientID");
+
+    if (! _receiver.TurnOffNotification(clientID)){ //FIXME falta implementar esta funcionalidade no core
+      _display.popup(Message.clientNotificationsAlreadyDisabled()); 
+    }
   }
 }
