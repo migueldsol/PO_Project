@@ -1,0 +1,3 @@
+Notificações - Observer
+Plano de tarifario - factory
+Tipo de comunicação que pode fazer - State
