@@ -34,8 +34,12 @@ public class TerminalSilence extends TerminalState{
 
 
     @Override
-    public boolean canReceiveComunication() {
-        // FIXME so pode receber de texto
+    public boolean canReceiveTextCommunication() {
+        return true;
+    }
+
+    @Override
+    public boolean canReceiveInteractiveCommunication(){
         return false;
     }
 

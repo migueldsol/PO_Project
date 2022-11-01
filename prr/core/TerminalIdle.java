@@ -38,7 +38,12 @@ public class TerminalIdle extends TerminalState{
     }
 
     @Override
-    public boolean canReceiveComunication() {
+    public boolean canReceiveTextCommunication(){
+        return true;
+    }
+
+    @Override
+    public boolean canReceiveInteractiveCommunication() {
         return true;
     }
 

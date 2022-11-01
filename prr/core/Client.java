@@ -19,6 +19,9 @@ public class Client implements Serializable{
     private ClientType _normalType;
     private ClientType _goldType;
     private ClientType _platinumType;
+
+    //QUESTIONS vale a pena termos este atributos?
+    //  Pq nao ter só um metodo que calcula qd for preciso?
     private double _payments;
     private double _debts;
     private final List<Notification> _notifications;
