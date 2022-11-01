@@ -22,7 +22,7 @@ public class Client implements Serializable{
     private double _payments;
     private double _debts;
     private final List<Notification> _notifications;
-    private final boolean _notificationsOn;
+    private boolean _notificationsOn;
     private PricingSystem _pricingSystem;
 
     public Client(String key, String name, int taxNumber) {
@@ -108,5 +108,23 @@ public class Client implements Serializable{
     
     public ClientType getPlatinumType(){
         return _platinumType;
+    }
+
+    public boolean setNotificationOn(){
+        if (_notificationsOn != true){
+            _notificationsOn = true;
+            return true;
+        }
+        else {
+            return false;
+        }
+    }
+
+    public boolean setNotificationOff(){
+        if (_notificationsOn != false){
+            _notificationsOn = false;
+            return true;
+        }
+        return false;
     }
 }

@@ -25,7 +25,7 @@ public class Network implements Serializable {
   public Network() {
     _clients = new HashMap<String,Client>();
     _pricingSystems = new ArrayList<PricingSystem>();
-    PricingSystem base = new PricingSystem();
+    PricingSystem base = new BasePricingSystem();
     this.addPricingSystem(base);
     _terminals = new HashMap<String,Terminal>();
     _communications = new ArrayList<Communication>();
@@ -112,6 +112,22 @@ public class Network implements Serializable {
    * @throws InvalidSizeKey
    * @throws TerminalKeyAlreadyExistsException
    */
+
+  public boolean turnOffNotification(String clientID) throws KeyNotFoundException{
+    Client client = _clients.get(clientID);
+    if (client == null){
+      throw new KeyNotFoundException(clientID);
+    }
+    return client.setNotificationOff();
+  }
+
+  public boolean TurnOnNotification(String clientID) throws KeyNotFoundException{
+    Client client = _clients.get(clientID);
+    if (client == null){
+      throw new KeyNotFoundException(clientID);
+    }
+    return client.setNotificationOn();
+  }
 
   public void registerTerminal(String key, TerminalType type, Client client) throws NumberFormatException,InvalidSizeKey, TerminalKeyAlreadyExistsException{
     
