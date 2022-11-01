@@ -129,6 +129,22 @@ public class Network implements Serializable {
     return client.setNotificationOn();
   }
 
+  public double getClientPayments(String clientId) throws KeyNotFoundException{
+    Client client = _clients.get(clientId);
+    if (client == null){
+      throw new KeyNotFoundException(clientId);
+    }
+    return client.getClientPayments();
+  }
+
+  public double getClientDebts(String clientId) throws KeyNotFoundException{
+    Client client = _clients.get(clientId);
+    if (client == null){
+      throw new KeyNotFoundException(clientId);
+    }
+    return client.getClientDebts();
+  }
+
   public void registerTerminal(String key, TerminalType type, Client client) throws NumberFormatException,InvalidSizeKey, TerminalKeyAlreadyExistsException{
     
     Integer.parseInt(key);
