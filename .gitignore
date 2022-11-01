@@ -1,8 +1,4 @@
-prr/core/exception/ImportFileException.class
-prr/core/exception/MissingFileAssociationException.class
-prr/core/exception/UnavailableFileException.class
-prr/core/exception/UnrecognizedEntryException.class
-prr/core/BasicTerminal.class
+**/testsBoth
 **/tests
 *.dat
 **/out
