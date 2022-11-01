@@ -102,15 +102,6 @@ public class Network implements Serializable {
     return client.toString();
   }
 
-  /**
-   * registerTerminal -> register a terminal in the network
-   * @param key
-   * @param type
-   * @param client
-   * @throws NumberFormatException
-   * @throws InvalidSizeKey
-   * @throws TerminalKeyAlreadyExistsException
-   */
 
   public boolean turnOffNotification(String clientID) throws KeyNotFoundException{
     Client client = _clients.get(clientID);
@@ -127,7 +118,16 @@ public class Network implements Serializable {
     }
     return client.setNotificationOn();
   }
-
+  
+ /**
+   * registerTerminal -> register a terminal in the network
+   * @param key
+   * @param type
+   * @param client
+   * @throws NumberFormatException
+   * @throws InvalidSizeKey
+   * @throws TerminalKeyAlreadyExistsException
+   */
   public void registerTerminal(String key, TerminalType type, Client client) throws NumberFormatException,InvalidSizeKey, TerminalKeyAlreadyExistsException{
     
     Integer.parseInt(key);
