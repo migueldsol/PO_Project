@@ -276,16 +276,23 @@ public class Network implements Serializable {
     }
     return _terminals.get(terminal);
   }
+  public void addCommunications(Terminal terminal, Terminal targetTerminal, Communication communication){
+    terminal.addCommunicationMade(communication);
+    targetTerminal.addCommunicationReceived(communication);
+    _communications.add(communication);
+  }
   public boolean textCommunication(Terminal terminal,String secondTerminal,String message) throws  KeyNotFoundException{
     Terminal targetTerminal = checkTerminalKey(secondTerminal);
     if(targetTerminal.getTerminalState() == TerminalState.OFF){
       return false;
     }
-    if(_terminals.isEmpty()) {
+    if(_communications.isEmpty()) {
       TextCommunication communication = new TextCommunication(1, terminal, targetTerminal, message);
+      addCommunications(terminal,targetTerminal,communication);
     }else{
       Communication temp = _communications.get((_communications.size()-1));
       TextCommunication communication = new TextCommunication(temp.getId(), terminal, targetTerminal, message);
+      addCommunications(terminal,targetTerminal,communication);
     }
     return true;
   }

@@ -62,6 +62,13 @@ abstract public class Terminal implements Serializable{
     return false;
   }
 
+  public void addCommunicationMade(Communication communication){
+    _communicationsMade.put(communication.getId(),communication);
+  }
+
+  public void addCommunicationReceived(Communication communication){
+    _communicationsReceived.put(communication.getId(),communication);
+  }
   public Communication getMadeCommunication(int id){
     return _communicationsMade.get(id);
   }

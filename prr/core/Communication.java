@@ -8,6 +8,8 @@ public abstract class Communication implements Serializable{
     private Terminal _origin;
     private Terminal _destination;
 
+    private double _price;
+
     public Communication(int id,Terminal origin, Terminal destination){
         ID = id;
         _origin = origin;
@@ -17,4 +19,5 @@ public abstract class Communication implements Serializable{
     public int getId(){
         return ID;
     }
+
 }
