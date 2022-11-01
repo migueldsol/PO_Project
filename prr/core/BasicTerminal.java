@@ -1,11 +1,9 @@
 package prr.core;
 
 public class BasicTerminal extends Terminal{
-    public final TerminalType TERMINAL_TYPE; 
 
-    public BasicTerminal(String key, Client client){
-        super(key, client);
-        TERMINAL_TYPE = TerminalType.BASIC;
+    public BasicTerminal(String key, Client client, TerminalType terminalType){
+        super(key, client, terminalType);
     }
 
     public TerminalType getTerminalType(){

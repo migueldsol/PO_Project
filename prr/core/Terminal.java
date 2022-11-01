@@ -17,6 +17,8 @@ abstract public class Terminal implements Serializable{
    * Serial number for serialization.
    */
   private static final long serialVersionUID = 202208091753L;
+
+  public final TerminalType TERMINAL_TYPE;
   private final String KEY;
   private final Map<Integer, Communication> _communicationsMade;
   private final Map<Integer, Communication> _communicationsReceived;
@@ -27,13 +29,14 @@ abstract public class Terminal implements Serializable{
 
   private final TreeMap<String, Terminal> _friendlyTerminals;
 
-  public Terminal(String key, Client client) {
+  public Terminal(String key, Client client, TerminalType terminalType) {
     KEY = key;
     CLIENT = client;
     _communicationsMade = new HashMap<>();
     _communicationsReceived = new HashMap<>();
     _terminalState = TerminalState.IDLE;
     _friendlyTerminals = new TreeMap<>();
+    TERMINAL_TYPE = terminalType;
 
   }
 

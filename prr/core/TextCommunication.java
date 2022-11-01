@@ -8,7 +8,4 @@ public class TextCommunication extends Communication{
         _message = message;
     }
 
-    public String getMessage() {
-        return _message;
-    }
 }

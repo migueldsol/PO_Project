@@ -1,11 +1,11 @@
 package prr.core;
 
 public class FancyTerminal extends Terminal{
-    public final TerminalType TERMINAL_TYPE; 
 
-    public FancyTerminal(String key, Client client){
-        super(key, client);
-        TERMINAL_TYPE = TerminalType.FANCY;
+
+    public FancyTerminal(String key, Client client, TerminalType terminalType){
+        super(key, client, terminalType);
+
     }
 
     public TerminalType getTerminalType(){

@@ -4,6 +4,7 @@ import java.io.Serializable;
 import java.io.IOException;
 
 
+import prr.app.exception.UnknownTerminalKeyException;
 import prr.core.exception.*;
 import java.util.ArrayList;
 import java.util.List;
@@ -126,11 +127,11 @@ public class Network implements Serializable {
     Terminal newTerminal;
 
     if(type == TerminalType.BASIC){
-      newTerminal = new BasicTerminal(key, client);
+      newTerminal = new BasicTerminal(key, client, type);
       }
-      
+
     else {
-      newTerminal = new FancyTerminal(key, client);
+      newTerminal = new FancyTerminal(key, client,type);
     }
     
     this.addTerminal(newTerminal);
@@ -253,6 +254,27 @@ public class Network implements Serializable {
     _pricingSystems.add(pricingSystem);
   }
 
+  public Terminal checkTerminalKey(String terminal) throws KeyNotFoundException{
+    if(_terminals.get(terminal)== null){
+      throw new KeyNotFoundException(terminal);
+    }
+    return _terminals.get(terminal);
+  }
+  public boolean textCommunication(Terminal terminal,String secondTerminal,String message) throws  KeyNotFoundException{
+    Terminal targetTerminal = checkTerminalKey(secondTerminal);
+    if(targetTerminal.getTerminalState() == TerminalState.OFF){
+      return false;
+    }
+    if(_terminals.isEmpty()) {
+      TextCommunication communication = new TextCommunication(1, terminal, targetTerminal, message);
+    }else{
+      Communication temp = _communications.get((_communications.size()-1));
+      TextCommunication communication = new TextCommunication(temp.getId(), terminal, targetTerminal, message);
+    }
+    return true;
+  }
+
+
   /**
    * importFile ->Read text input file and create corresponding domain entities.
    * 
@@ -265,4 +287,5 @@ public class Network implements Serializable {
     Parser parser = new Parser(this);
     parser.parseFile(filename);
   }
+
 }
