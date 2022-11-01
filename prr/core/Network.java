@@ -296,6 +296,21 @@ public class Network implements Serializable {
     }
     return true;
   }
+  public double getClientPayments(String clientId) throws KeyNotFoundException{
+    Client client = _clients.get(clientId);
+    if (client == null){
+      throw new KeyNotFoundException(clientId);
+    }
+    return client.getClientPayments();
+  }
+
+  public double getClientDebts(String clientId) throws KeyNotFoundException{
+    Client client = _clients.get(clientId);
+    if (client == null){
+      throw new KeyNotFoundException(clientId);
+    }
+    return client.getClientDebts();
+  }
 
 
   /**
