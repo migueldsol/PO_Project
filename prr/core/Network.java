@@ -31,6 +31,22 @@ public class Network implements Serializable {
   }
 
   /**
+   *
+   * @param id
+   * @param terminal
+   * @return
+   */
+  public boolean payCommunication(int id, Terminal terminal){
+    if(terminal.getMadeCommunication(id) == null){
+      return false;
+    }
+    else{
+      // FIXME: resolve payment
+      return true;
+    }
+  }
+
+  /**
    * getTerminal -> returns a terminal given a certain terminal id
    * @param terminalID
    * @return returns the terminal with given terminalID

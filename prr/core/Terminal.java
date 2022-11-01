@@ -59,6 +59,10 @@ abstract public class Terminal implements Serializable{
     return false;
   }
 
+  public Communication getMadeCommunication(int id){
+    return _communicationsMade.get(id);
+  }
+
   public boolean changeToIdle() {
     if (_terminalState == TerminalState.SILENCE || _terminalState == TerminalState.OFF
             || _terminalState == TerminalState.BUSY) {
