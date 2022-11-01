@@ -23,6 +23,13 @@ abstract public class Terminal implements Serializable{
   private final Map<Integer, Communication> _communicationsMade;
   private final Map<Integer, Communication> _communicationsReceived;
   private TerminalState _terminalState;
+
+  //FIXME colocar final
+  private TerminalState _off;
+  private TerminalState _busy;
+  private TerminalState _silence;
+  private TerminalState _idle;
+
   private final Client CLIENT;
   private double _payments;
   private double _debts;
@@ -34,32 +41,36 @@ abstract public class Terminal implements Serializable{
     CLIENT = client;
     _communicationsMade = new HashMap<>();
     _communicationsReceived = new HashMap<>();
-    _terminalState = TerminalState.IDLE;
+    
+    _off = new TerminalOff(this);
+    _busy = new TerminalBusy(this);
+    _silence = new TerminalSilence(this);
+    _idle = new TerminalIdle(this);
+    _terminalState = _idle;
+
     _friendlyTerminals = new TreeMap<>();
     TERMINAL_TYPE = terminalType;
 
   }
 
-  /**
-   * Checks if this terminal can end the current interactive communication.
-   *
-   * @return true if this terminal is busy (i.e., it has an active interactive
-   * communication) and
-   * it was the originator of this communication.
-   **/
-
-  public boolean canEndCurrentCommunication() {
-    return _terminalState == TerminalState.BUSY;
+  public void setState(TerminalState state){
+    _terminalState = state;
   }
 
-  public boolean changeState(TerminalState state){
-    switch (state) {
-      case IDLE -> changeToIdle();
-      case SILENCE -> changeToSilence();
-      case BUSY -> changeToBusy();
-      case OFF -> changeToOff();
-    }
-    return false;
+  public TerminalState getOff(){
+    return _off;
+  }
+
+  public TerminalState getIdle(){
+    return _idle;
+  }
+  
+  public TerminalState getBusy(){
+    return _busy;
+  }
+
+  public TerminalState getSilence(){
+    return _silence;
   }
 
   public void addCommunicationMade(Communication communication){
@@ -73,56 +84,11 @@ abstract public class Terminal implements Serializable{
     return _communicationsMade.get(id);
   }
 
-  public boolean changeToIdle() {
-    if (_terminalState == TerminalState.SILENCE || _terminalState == TerminalState.OFF
-            || _terminalState == TerminalState.BUSY) {
-      _terminalState = TerminalState.IDLE;
-      return true;
-    } else {
-      return false;
-    }
-
-  }
-
-  public boolean changeToSilence() {
-    if (_terminalState == TerminalState.BUSY || _terminalState == TerminalState.IDLE) {
-      _terminalState = TerminalState.SILENCE;
-      return true;
-    } else {
-      return false;
-    }
-
-  }
-
-  public boolean changeToBusy() {
-    if (_terminalState == TerminalState.IDLE || _terminalState == TerminalState.SILENCE) {
-      _terminalState = TerminalState.BUSY;
-      return true;
-    } else {
-      return false;
-    }
-
-  }
-
-  public boolean changeToOff() {
-    if (_terminalState == TerminalState.IDLE || _terminalState == TerminalState.SILENCE) {
-      _terminalState = TerminalState.OFF;
-      return true;
-    } else {
-      return false;
-    }
-
-  }
-
   /**
    * Checks if this terminal can start a new communication.
    *
    * @return true if this terminal is neither off neither busy, false otherwise.
    **/
-
-  public boolean canStartCommunication() {
-    return _terminalState != TerminalState.OFF && _terminalState != TerminalState.BUSY;
-  }
 
   public abstract void makeCommunication(String targetKey, String type);
 
@@ -159,12 +125,12 @@ abstract public class Terminal implements Serializable{
   @Override
   public String toString() {
     if (_friendlyTerminals.isEmpty()) {
-      return getTerminalType().name() + "|" + KEY + "|" + CLIENT.getKey() + "|" + _terminalState.name() + "|"
+      return getTerminalType().name() + "|" + KEY + "|" + CLIENT.getKey() + "|" + _terminalState.toString() + "|"
               + Math.round(_debts) + "|" + Math.round(_payments);
     }
     List<String> friends = new ArrayList<>(_friendlyTerminals.keySet());
 
-    return getTerminalType().name() + "|" + KEY + "|" + CLIENT.getKey() + "|" + _terminalState.name() + "|"
+    return getTerminalType().name() + "|" + KEY + "|" + CLIENT.getKey() + "|" + _terminalState.toString() + "|"
             + Math.round(_debts) + "|" + Math.round(_payments) + "|" + String.join(",",friends);
   }
 }

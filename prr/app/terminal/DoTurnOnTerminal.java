@@ -17,10 +17,11 @@ class DoTurnOnTerminal extends TerminalCommand {
   
   @Override
   protected final void execute() throws CommandException {
-    if(_receiver.getTerminalState() == TerminalState.IDLE){
+    //QUESTION substituir "SILENCE" pelo atributo da classe? É seguro?
+    if(_receiver.getTerminalState().toString().equals("IDLE")){
       _display.popup(Message.alreadyOn());
     }
-    _receiver.changeState(TerminalState.IDLE);
+    _receiver.setState(_receiver.getIdle());
   }
 }
 

@@ -17,10 +17,11 @@ class DoSilenceTerminal extends TerminalCommand {
   
   @Override
   protected final void execute() throws CommandException {
-    if(_receiver.getTerminalState() == TerminalState.SILENCE){
+    //QUESTION substituir "SILENCE" pelo atributo da classe? É seguro?
+    if(_receiver.getTerminalState().toString().equals("SILENCE")){
       _display.popup(Message.alreadySilent());
     }
-    _receiver.changeState(TerminalState.SILENCE);
+    _receiver.setState(_receiver.getSilence());
   }
 }
 

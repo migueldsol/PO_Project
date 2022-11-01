@@ -2,6 +2,8 @@ package prr.core;
 
 public class GoldType extends ClientType{
 
+    //QUESTIONS coloco isto em singleton?
+    // also faz sentido no Client ter todas as instancias de ClientType diferentes?
     public GoldType(Client client){
         super("GOLD",client);
     }

@@ -283,7 +283,8 @@ public class Network implements Serializable {
   }
   public boolean textCommunication(Terminal terminal,String secondTerminal,String message) throws  KeyNotFoundException{
     Terminal targetTerminal = checkTerminalKey(secondTerminal);
-    if(targetTerminal.getTerminalState() == TerminalState.OFF){
+    //QUESTION substituir "SILENCE" pelo atributo da classe? É seguro?
+    if(targetTerminal.getTerminalState().toString().equals("OFF")){
       return false;
     }
     if(_communications.isEmpty()) {
