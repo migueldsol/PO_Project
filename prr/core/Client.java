@@ -13,20 +13,30 @@ public class Client implements Serializable{
     private final String NAME;
     private final int TAX_NUMBER;
     private final Map<String,Terminal> _terminals;
-    private final ClientType _clientType;
+    private ClientType _clientType;
+
+    //FIXME meter merdas final
+    private ClientType _normalType;
+    private ClientType _goldType;
+    private ClientType _platinumType;
     private double _payments;
     private double _debts;
     private final List<Notification> _notifications;
     private final boolean _notificationsOn;
+    private PricingSystem _pricingSystem;
 
     public Client(String key, String name, int taxNumber) {
         KEY = key;
         NAME = name;
         TAX_NUMBER = taxNumber;
         _terminals = new HashMap<>();
-        _clientType = ClientType.NORMAL;
+        _normalType = new NormalType(this);
+        _goldType = new GoldType(this);
+        _platinumType = new PlatinumType(this);
+        _clientType =  _normalType;
         _notifications = new ArrayList<>();
         _notificationsOn = true;
+        _pricingSystem = new BasePricingSystem();
     }
 
     public String getKey() {
@@ -61,5 +71,42 @@ public class Client implements Serializable{
         return "CLIENT|" + KEY + "|" + NAME + "|" + TAX_NUMBER + "|" + _clientType.toString() + "|" + getStringNotificationsOn() +
          "|" + _terminals.size() + "|" + Math.round(getClientPayments()) + "|" + Math.round(getClientDebts());
 
+    }
+
+    public void setType(ClientType newType){
+        _clientType = newType;
+    }
+
+    public void changeType(){
+        _clientType.changeType();
+    }
+
+    public PricingSystem getPricingSystem(){
+        return _pricingSystem;
+    }
+
+    /*FIXME 
+        temos que pensar se colocamos aqui a communication
+        e deixamos o clientType lidar com o tipo de communication
+        ou se o terminal é que lida com isso
+    */
+    public int getTarrif(){
+        return 0; //FIXME implementar
+    }
+
+    public int getBalance(){
+        return 0; //FIXME implementar, falta communications
+    }
+
+    public ClientType getNormalType(){
+        return _normalType;
+    }
+
+    public ClientType getGoldType(){
+        return _goldType;
+    }
+    
+    public ClientType getPlatinumType(){
+        return _platinumType;
     }
 }
