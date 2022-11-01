@@ -7,7 +7,6 @@ import prr.app.exception.UnknownClientKeyException;
 import pt.tecnico.uilib.menus.Command;
 import pt.tecnico.uilib.menus.CommandException;
 import java.util.List;
-//FIXME add more imports if needed
 
 /**
  * Show specific client: also show previous notifications.

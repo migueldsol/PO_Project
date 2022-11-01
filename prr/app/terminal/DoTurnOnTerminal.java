@@ -4,7 +4,6 @@ import prr.core.Network;
 import prr.core.Terminal;
 import prr.core.TerminalState;
 import pt.tecnico.uilib.menus.CommandException;
-//FIXME add more imports if needed
 
 /**
  * Turn on the terminal.
@@ -17,7 +16,7 @@ class DoTurnOnTerminal extends TerminalCommand {
   
   @Override
   protected final void execute() throws CommandException {
-    //QUESTION substituir "SILENCE" pelo atributo da classe? É seguro?
+    //QUESTIONS substituir "SILENCE" pelo atributo da classe? É seguro?
     if(_receiver.getTerminalState().toString().equals("IDLE")){
       _display.popup(Message.alreadyOn());
     }

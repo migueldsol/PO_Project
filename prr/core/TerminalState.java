@@ -21,7 +21,8 @@ public abstract class TerminalState implements Serializable{
     public abstract boolean changeToSilence();
 
     abstract public boolean canStartCommunication();
-    abstract public boolean canReceiveComunication();
+    abstract public boolean canReceiveTextCommunication();
+    abstract public boolean canReceiveInteractiveCommunication();
     abstract public boolean canEndCurrentCommunication();
 
     public Terminal getTerminal(){

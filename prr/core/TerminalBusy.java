@@ -21,8 +21,12 @@ public class TerminalBusy extends TerminalState{
     }
 
     @Override
-    public boolean canReceiveComunication() {
-        //FIXME Se for de texto pode receber
+    public boolean canReceiveTextCommunication(){
+        return true;
+    }
+
+    @Override
+    public boolean canReceiveInteractiveCommunication() {
         return false;
     }
 

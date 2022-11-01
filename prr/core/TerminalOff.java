@@ -30,7 +30,12 @@ public class TerminalOff extends TerminalState{
     }
 
     @Override
-    public boolean canReceiveComunication() {
+    public boolean canReceiveTextCommunication(){
+        return false;
+    }
+
+    @Override
+    public boolean canReceiveInteractiveCommunication() {
         return false;
     }
 
