@@ -7,7 +7,7 @@ public class GoldType extends ClientType{
     }
     
     public int getTextTarrif(int length){
-        return super.getClient().getPricingSystem().getGoldTextTariff(length):
+        return super.getClient().getPricingSystem().getGoldTextTariff(length);
     }
 
     public int getVoiceTarrif(int duration){

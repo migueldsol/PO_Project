@@ -1,6 +1,7 @@
 package prr.app.client;
 
 import prr.core.Network;
+import prr.core.exception.KeyNotFoundException;
 import prr.app.exception.UnknownClientKeyException;
 import pt.tecnico.uilib.menus.Command;
 import pt.tecnico.uilib.menus.CommandException;
@@ -20,8 +21,12 @@ class DoEnableClientNotifications extends Command<Network> {
   protected final void execute() throws CommandException {
     String clientID = stringField("ClientID");
     
-    if (! _receiver.TurnOnNotification(clientID)){  //FIXME falta implementar esta funcionalidade no core
-      _display.popup(Message.clientNotificationsAlreadyEnabled()); 
-    } 
+    try{
+      if (! _receiver.TurnOnNotification(clientID)){  
+        _display.popup(Message.clientNotificationsAlreadyEnabled()); 
+      } 
+    } catch (KeyNotFoundException knfe){
+      throw new UnknownClientKeyException(clientID);
+    }
   }
 }

@@ -20,7 +20,7 @@ public abstract class ClientType implements Serializable{
 
     abstract void changeType();
     
-    public String getName(){
+    public String toString(){
         return NAME;
     }
 

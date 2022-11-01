@@ -1,6 +1,11 @@
 package prr.core;
 
-public class BaseText {
+import java.io.Serializable;
+
+public class BaseText implements Serializable{
+
+    private static final long serialVersionUID = 202208091753L;
+
     private final int VALUE_1;
     private final int VALUE_2;
 
