@@ -14,7 +14,7 @@ import pt.tecnico.uilib.menus.CommandException;
 class DoSendTextCommunication extends TerminalCommand {
 
   DoSendTextCommunication(Network context, Terminal terminal) {
-    super(Label.SEND_TEXT_COMMUNICATION, context, terminal, receiver -> receiver.canStartCommunication());
+    super(Label.SEND_TEXT_COMMUNICATION, context, terminal, receiver -> receiver.getTerminalState().canStartCommunication());
     addStringField("terminalId",Message.terminalKey());
     addStringField("message",Message.textMessage());
   }

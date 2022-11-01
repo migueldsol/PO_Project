@@ -13,7 +13,7 @@ import pt.tecnico.uilib.menus.CommandException;
 class DoStartInteractiveCommunication extends TerminalCommand {
 
   DoStartInteractiveCommunication(Network context, Terminal terminal) {
-    super(Label.START_INTERACTIVE_COMMUNICATION, context, terminal, receiver -> receiver.canStartCommunication());
+    super(Label.START_INTERACTIVE_COMMUNICATION, context, terminal, receiver -> receiver.getTerminalState().canStartCommunication());
     addStringField("terminalId",Message.terminalKey());
     addOptionField("type",Message.commType(),"VIDEO","VOICE");
   }
