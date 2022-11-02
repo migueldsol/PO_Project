@@ -231,8 +231,8 @@ public class Network implements Serializable {
     removeFriend(newTerminal,_friend);
   }
 
-  public void swag(){}
-  
+  public void swag1(){}
+
   /**
    * unusedTerminalsToString -> returns a string with all the unused terminals
    * @return
