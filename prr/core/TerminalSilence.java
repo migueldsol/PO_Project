@@ -29,7 +29,7 @@ public class TerminalSilence extends TerminalState{
 
     @Override
     public boolean canStartCommunication() {
-        return false;
+        return true;
     }
 
 

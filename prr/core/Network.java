@@ -292,7 +292,7 @@ public class Network implements Serializable {
     if(checkTerminals(terminal,targetTerminal)){
       return true;
     }
-    TextCommunication communication = new TextCommunication((_communications.size()+1), terminal, targetTerminal, message);
+    TextCommunication communication = new TextCommunication((_communications.size()+1), terminal, targetTerminal, message,terminal.getClient().getType().getTextTarrif(message.length()));
     addCommunications(terminal,targetTerminal,communication);
     return true;
   }
@@ -312,6 +312,11 @@ public class Network implements Serializable {
     return client.getClientDebts();
   }
 
+  public void addInteractiveCommunication(Terminal terminal, Terminal targetTerminal,Communication communication){
+      terminal.addInteractiveCommunicationMade(communication);
+      targetTerminal.addInteractiveCommunicationReceived(communication);
+  }
+
   public String startInteractiveCommunication(Terminal terminal,String terminalKey, String typeComm) throws KeyNotFoundException{
       Terminal targetTerminal = checkTerminalKey(terminalKey);
       if(typeComm == "VIDEO" && targetTerminal.getTerminalType() == TerminalType.BASIC){return "UNSUPORTED";}
@@ -328,6 +333,7 @@ public class Network implements Serializable {
       else{
           communication = new VoiceCommunication((_communications.size()+1),terminal,targetTerminal);
       }
+      addInteractiveCommunication(terminal,targetTerminal,communication);
       return "";
   }
 
