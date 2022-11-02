@@ -230,9 +230,6 @@ public class Network implements Serializable {
     Terminal _friend = _terminals.get(friendKey);
     removeFriend(newTerminal,_friend);
   }
-
-  public void swag1(){}
-
   /**
    * unusedTerminalsToString -> returns a string with all the unused terminals
    * @return
@@ -296,6 +293,9 @@ public class Network implements Serializable {
     }
     TextCommunication communication = new TextCommunication((_communications.size()+1), terminal, targetTerminal, message);
     communication.setPrice(terminal.getClient().getType().getTextTarrif(message.length()));
+    if(terminal.isFriend(targetTerminal)){
+        communication.discount();
+    }
     addCommunications(terminal,targetTerminal,communication);
     return true;
   }
@@ -338,6 +338,18 @@ public class Network implements Serializable {
       }
       addInteractiveCommunication(terminal,targetTerminal,communication);
       return "";
+  }
+
+  public double endCommunication(Terminal terminal, int duration){
+      Communication last = terminal.getLastCommunication();
+      last.setDuration(duration);
+      if(last.toString().compareTo("VOICE") == 0){
+          last.setPrice(terminal.getClient().getType().getVoiceTarrif(duration));
+      }
+      else {
+          last.setPrice(terminal.getClient().getType().getVideoTarrif(duration));
+      }
+      return last.getPrice();
   }
 
 

@@ -44,4 +44,9 @@ public abstract class Communication implements Serializable{
         return _price;
     }
 
+    public void discount(){
+        _price *= 0.5;
+    }
+
+
 }
