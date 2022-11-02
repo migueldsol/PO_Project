@@ -4,8 +4,12 @@ import java.util.List;
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.Collection;
+import java.util.Collections;
 import java.util.Map;
+import java.util.TreeMap;
+import java.util.SortedMap;
 import java.util.HashMap;
+import java.util.Iterator;
 
 public class Client implements Serializable{
 
@@ -88,20 +92,50 @@ public class Client implements Serializable{
     public ClientType getType(){
         return _clientType;
     }
-
-    /* 
+    //FIXME ns se esta certo
+    //FIXME codigo repetido
     public boolean verifyGoldToPlatinum(){
-        
-        Collection <Communication> newCollection = new Collection<>() {
-            
-        };
-        Collection <Terminal> terminals = _terminals.values();
-        for (Terminal i : terminals){
-            i._communicationsMade
+        SortedMap <Integer,Communication> communications = this.getCommunicationsMade();
+        List <Communication> communicationList = new ArrayList<>(communications.values());
+        Collections.reverse(communicationList);
+        Iterator<Communication> iterator = communicationList.iterator();
+        Communication communication = iterator.next();
+        int i = 0;
+        while (i < 5){
+            if (!iterator.hasNext()){
+                return false;
+            }
+            else if (!communication.toString().equals("VOICE")){
+                return false;
+            }
+            else if (!communication.hasEnded()){
+                return false;
+            }
+            i++;
+            communication = iterator.next();
         }
-        
+        return true;
     }
-    */
+
+    public boolean verifyPlatinumToGold(){
+        SortedMap<Integer,Communication> communications = this.getCommunicationsMade();
+        List<Communication> communicationsList = new ArrayList<>(communications.values());
+        Collections.reverse(communicationsList);
+        Iterator<Communication> iterator = communicationsList.iterator();
+        Communication communication = iterator.next();
+        int i = 0;
+        while (i < 2){
+            if (!iterator.hasNext()){
+                return false;
+            }
+            else if (!communication.toString().equals("TEXT")){
+                return false;
+            }
+            i++;
+            communication = iterator.next();
+        }
+        return true;
+    }
 
     public PricingSystem getPricingSystem(){
         return _pricingSystem;
@@ -148,5 +182,14 @@ public class Client implements Serializable{
             return true;
         }
         return false;
+    }
+
+    public SortedMap<Integer,Communication> getCommunicationsMade(){
+        SortedMap <Integer, Communication> communications = new TreeMap<>();
+        Collection <Terminal> terminals = _terminals.values();
+        for (Terminal i : terminals){
+            communications.putAll(i.getCommunicationsMade());
+        }
+        return communications;
     }
 }

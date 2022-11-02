@@ -19,7 +19,13 @@ public class PlatinumType extends ClientType{
     }
 
     public void changeType(){
-        //FIXME implementar, faltam communications
+        Client client = super.getClient();
+        if (client.getBalance() < 0){
+            client.setType(client.getNormalType());
+        }
+        else if (client.verifyPlatinumToGold()){
+            client.setType(client.getPlatinumType());
+        }
     }
 
 }
