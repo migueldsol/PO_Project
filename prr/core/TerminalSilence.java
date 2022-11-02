@@ -47,5 +47,10 @@ public class TerminalSilence extends TerminalState{
     public boolean canEndCurrentCommunication() {
         return false;
     }
+
+    @Override
+    public boolean isSilence(){
+        return true;
+    }
     
 }

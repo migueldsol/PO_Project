@@ -8,7 +8,7 @@ import java.util.*;
 /**
  * Abstract terminal.
  */
-abstract public class Terminal implements Serializable{
+abstract public class Terminal implements Serializable, Subject{
 
   /**
    * Serial number for serialization.
@@ -32,6 +32,8 @@ abstract public class Terminal implements Serializable{
   private final Client CLIENT;
   private final TreeMap<String, Terminal> _friendlyTerminals;
 
+  private List <Observer> _observers;
+
   public Terminal(String key, Client client, TerminalType terminalType) {
     KEY = key;
     CLIENT = client;
@@ -46,6 +48,7 @@ abstract public class Terminal implements Serializable{
 
     _friendlyTerminals = new TreeMap<>();
     TERMINAL_TYPE = terminalType;
+    _observers = new ArrayList<>();
 
   }
 
@@ -79,9 +82,36 @@ abstract public class Terminal implements Serializable{
     }
     return payment;
   }
+
+  //FIXME verificar 
   public void setState(TerminalState state){
+    NotificationType notificationType = changeType(this.getTerminalState(), state);
+    if (notificationType != null)
+    notifyObserver(notificationType);
     _terminalState = state;
   }
+
+  public NotificationType changeType(TerminalState inicialState, TerminalState finalState){
+
+    boolean inicialOff = inicialState.isOff();
+    boolean inicialBusy = inicialState.isBusy();
+    boolean finalIdle = inicialState.isIdle();
+    boolean finalSilence = inicialState.isSilence();
+    
+    if (inicialOff && finalSilence){
+        return NotificationType.O2S;
+    }
+    else if (inicialOff && finalIdle){
+        return NotificationType.O2I;
+    }
+    else if (inicialBusy && finalSilence){
+        return NotificationType.B2S;
+    }
+    else if (inicialBusy && finalIdle){
+        return NotificationType.B2I;
+    }
+    return null;
+}
 
   public TerminalState getOff(){
     return _off;
@@ -185,5 +215,20 @@ abstract public class Terminal implements Serializable{
 
     return getTerminalType().name() + "|" + KEY + "|" + CLIENT.getKey() + "|" + _terminalState.toString() + "|"
             + Math.round(getDebts()) + "|" + Math.round(getPayments()) + "|" + String.join(",",friends);
+  }
+  public void registerObserver(Observer observer){
+    _observers.add(observer);
+  }
+    //FIXME posso fazer isto?
+  public void unregisterObservers(){
+    _observers = new ArrayList<>();
+  }
+
+  public void notifyObserver(NotificationType notificationType){
+    for (Observer i : _observers){
+      i.update(notificationType);
+    }
+
+    unregisterObservers();
   }
 }

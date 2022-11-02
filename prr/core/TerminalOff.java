@@ -43,5 +43,10 @@ public class TerminalOff extends TerminalState{
     public boolean canEndCurrentCommunication() {
         return false;
     }
+
+    @Override
+    public boolean isOff(){
+        return true;
+    }
     
 }

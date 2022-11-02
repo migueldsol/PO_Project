@@ -192,4 +192,12 @@ public class Client implements Serializable{
         }
         return communications;
     }
+
+    public void addNotification(Notification newNotification){
+        _notifications.add(newNotification);
+    }
+
+    public boolean getNotificationsOn(){
+        return _notificationsOn;
+    }
 }

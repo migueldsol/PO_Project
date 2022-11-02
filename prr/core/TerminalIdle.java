@@ -51,5 +51,10 @@ public class TerminalIdle extends TerminalState{
     public boolean canEndCurrentCommunication() {
         return false;
     }
+
+    @Override
+    public boolean isIdle(){
+        return true;
+    }
     
 }

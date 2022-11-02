@@ -346,6 +346,12 @@ public class Network implements Serializable {
     if (typeComm == "VIDEO" && targetTerminal.getTerminalType() == TerminalType.BASIC) {
       return "UNSUPORTED";
     } else if (!terminal.getTerminalState().canReceiveInteractiveCommunication()) {
+        if (terminal.getClient().getNotificationsOn()){
+          //FIXME estou a adicionar uma notificação e devia de fazer uma função no network para isto
+          Notification newNotification = new Notification(terminalKey);
+          terminal.registerObserver(newNotification);
+          terminal.getClient().addNotification(newNotification);
+        }
       return terminal.getTerminalState().toString();
     }
     if (checkTerminals(terminal, targetTerminal)) {

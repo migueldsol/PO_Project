@@ -25,6 +25,23 @@ public abstract class TerminalState implements Serializable{
     abstract public boolean canReceiveInteractiveCommunication();
     abstract public boolean canEndCurrentCommunication();
 
+    //FIXME pode estar errado
+    public boolean isOff(){
+        return false;
+    }
+
+    public boolean isIdle(){
+        return false;
+    }
+
+    public boolean isBusy(){
+        return false;
+    }
+
+    public boolean isSilence(){
+        return false;
+    }
+
     public Terminal getTerminal(){
         return _terminal;
     }
