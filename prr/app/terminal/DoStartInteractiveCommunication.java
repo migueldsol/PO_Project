@@ -3,6 +3,7 @@ package prr.app.terminal;
 import prr.core.Network;
 import prr.core.Terminal;
 import prr.app.exception.UnknownTerminalKeyException;
+import prr.core.exception.KeyNotFoundException;
 import pt.tecnico.uilib.forms.Form;
 import pt.tecnico.uilib.menus.CommandException;
 
@@ -19,6 +20,21 @@ class DoStartInteractiveCommunication extends TerminalCommand {
   
   @Override
   protected final void execute() throws CommandException {
-    //FIXME implement command
+    String terminalKey = stringField("terminalId");
+    String type = stringField("type");
+    try{
+      String message = _network.startInteractiveCommunication(_receiver,terminalKey,type);
+      if(message == "OFF"){
+        _display.popup(Message.destinationIsOff(terminalKey));
+      }
+      else if(message == "BUSY"){
+        _display.popup(Message.destinationIsBusy(terminalKey));
+      }
+      else if(message == "SILENCE"){
+        _display.popup(Message.destinationIsSilent(terminalKey));
+      }
+    } catch (KeyNotFoundException knfe){
+      throw new UnknownTerminalKeyException(terminalKey);
+    }
   }
 }
