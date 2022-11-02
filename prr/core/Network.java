@@ -1,6 +1,7 @@
 package prr.core;
 
 import java.io.Serializable;
+import java.lang.reflect.Executable;
 import java.io.IOException;
 
 import prr.core.exception.*;
@@ -299,15 +300,17 @@ public class Network implements Serializable {
     _communications.add(communication);
   }
 
+
+  //FIXME e possivel que seja para por nos terminais (disse o Francisco)
   public boolean textCommunication(Terminal terminal, String secondTerminal, String message)
       throws KeyNotFoundException {
     Terminal targetTerminal = checkTerminalKey(secondTerminal);
     // QUESTIONS substituir "SILENCE" pelo atributo da classe? É seguro?
-    if (targetTerminal.getTerminalState().toString().equals("OFF")) {
+    if (targetTerminal.getTerminalState().isOff()) {
       return false;
     }
     if (checkTerminals(terminal, targetTerminal)) {
-      return true;
+      return true;  //SOL isto esta certo?
     }
     TextCommunication communication = new TextCommunication((_communications.size() + 1), terminal, targetTerminal,
         message);
@@ -344,21 +347,21 @@ public class Network implements Serializable {
   }
 
   public String startInteractiveCommunication(Terminal terminal, String terminalKey, String typeComm)
-      throws KeyNotFoundException {
+      throws KeyNotFoundException, UnsuportedInteractiveCommunicationException, FailedInteractiveCommunicationException,Exception {
     Terminal targetTerminal = checkTerminalKey(terminalKey);
     if (typeComm == "VIDEO" && targetTerminal.getTerminalType() == TerminalType.BASIC) {
-      return "UNSUPORTED";
-    } else if (!terminal.getTerminalState().canReceiveInteractiveCommunication()) {
+      throw new UnsuportedInteractiveCommunicationException();
+    } else if (!targetTerminal.getTerminalState().canReceiveInteractiveCommunication()) {
         if (terminal.getClient().getNotificationsOn()){
           //FIXME estou a adicionar uma notificação e devia de fazer uma função no network para isto
           Notification newNotification = new Notification(terminalKey);
           terminal.registerObserver(newNotification);
           terminal.getClient().addNotification(newNotification);
         }
-      return terminal.getTerminalState().toString();
+      throw new FailedInteractiveCommunicationException(targetTerminal.getTerminalState());
     }
     if (checkTerminals(terminal, targetTerminal)) {
-      return "";
+      throw new Exception();
     }
     InteractiveCommunication communication;
     if (typeComm == "Video") {
@@ -367,7 +370,8 @@ public class Network implements Serializable {
       communication = new VoiceCommunication((_communications.size() + 1), terminal, targetTerminal);
     }
     if (terminal.isFriend(targetTerminal)) {
-      communication.discount();
+      communication.discount(); //SOL mas estas a aplicar um desconto antes de calculares o preço?
+                                // supostamente so se calcula o preço qd se termina a communication
     }
     addInteractiveCommunication(terminal, targetTerminal, communication);
     terminal.addCurrentCommunication(communication);

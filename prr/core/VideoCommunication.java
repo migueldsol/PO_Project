@@ -5,6 +5,7 @@ public class VideoCommunication extends InteractiveCommunication {
         super(id, origin, destination);
     }
 
+    //SOL metodo duplicado
     public String type(){
         return "VIDEO";
     }

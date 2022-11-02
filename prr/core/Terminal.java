@@ -1,7 +1,6 @@
 package prr.core;
 
 import java.io.Serializable;
-import java.text.CollationElementIterator;
 import java.util.*;
 
 
@@ -86,8 +85,9 @@ abstract public class Terminal implements Serializable, Subject{
   //FIXME verificar 
   public void setState(TerminalState state){
     NotificationType notificationType = changeType(this.getTerminalState(), state);
-    if (notificationType != null)
-    notifyObserver(notificationType);
+    if (notificationType != null){
+      notifyObserver(notificationType);
+    }
     _terminalState = state;
   }
 

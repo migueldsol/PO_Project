@@ -9,11 +9,6 @@ public class TerminalOff extends TerminalState{
         super(terminal, STATE_NAME);
     }
 
-    public boolean changeToIdle() {
-        super.getTerminal().setState(new TerminalIdle(super.getTerminal()));
-        return true;
-    }
-
     @Override
     public boolean changeToOff() {
         return false;
@@ -22,6 +17,18 @@ public class TerminalOff extends TerminalState{
     @Override
     public boolean changeToSilence() {
         return false;
+    }
+
+    @Override 
+    public boolean changeToBusy(){
+        return false;
+    }
+
+    @Override
+    public boolean changeToIdle(){
+        Terminal terminal = super.getTerminal();
+        terminal.setState(terminal.getIdle());
+        return true;
     }
 
     @Override

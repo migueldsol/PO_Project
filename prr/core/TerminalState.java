@@ -17,8 +17,11 @@ public abstract class TerminalState implements Serializable{
         _name = name;
     }
 
+    //FIXME Pode gerar duplicação de código
     public abstract boolean changeToOff();
     public abstract boolean changeToSilence();
+    public abstract boolean changeToBusy();
+    public abstract boolean changeToIdle();
 
     abstract public boolean canStartCommunication();
     abstract public boolean canReceiveTextCommunication();
