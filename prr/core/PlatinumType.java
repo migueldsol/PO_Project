@@ -5,17 +5,12 @@ public class PlatinumType extends ClientType{
     public PlatinumType(Client client){
         super("PLATINUM", client);
     }
-    
-    public int getTextTarrif(int length){
-        return super.getClient().getPricingSystem().getPlatinumTextTariff(length);
-    }
 
-    public int getVoiceTarrif(int duration){
-        return super.getClient().getPricingSystem().getPlatinumVoiceTariff(duration);
+    public double getTarrif(TextCommunication communication){
+        return super.getClient().getPricingSystem().getPlatinumTextTariff(communication.getMessage().length());
     }
-
-    public int getVideoTarrif(int duration){
-        return super.getClient().getPricingSystem().getPlatinumVideoTariff(duration);
+    public double getTarrif(InteractiveCommunication communication){
+        return communication.isVideo() ? super.getClient().getPricingSystem().getPlatinumVideoTariff(communication.getDuration()) : super.getClient().getPricingSystem().getPlatinumVoiceTariff(communication.getDuration());
     }
 
     public void changeType(){

@@ -7,17 +7,12 @@ public class GoldType extends ClientType{
     public GoldType(Client client){
         super("GOLD",client);
     }
-    
-    public int getTextTarrif(int length){
-        return super.getClient().getPricingSystem().getGoldTextTariff(length);
-    }
 
-    public int getVoiceTarrif(int duration){
-        return super.getClient().getPricingSystem().getGoldVoiceTariff(duration);
+    public double getTarrif(TextCommunication communication){
+        return super.getClient().getPricingSystem().getGoldTextTariff(communication.getMessage().length());
     }
-
-    public int getVideoTarrif(int duration){
-        return super.getClient().getPricingSystem().getGoldVideoTariff(duration);
+    public double getTarrif(InteractiveCommunication communication){
+        return communication.isVideo() ? super.getClient().getPricingSystem().getGoldVideoTariff(communication.getDuration()) : super.getClient().getPricingSystem().getGoldVoiceTariff(communication.getDuration());
     }
 
     public void changeType(){
