@@ -123,6 +123,10 @@ abstract public class Terminal implements Serializable{
     return _communicationsMade.get(_communicationsMade.lastKey()).hasEnded();
   }
 
+  public Communication getLastCommunication(){
+    return _communicationsMade.get(_communicationsMade.lastKey());
+  }
+
   public void addFriendlyTerminal(Terminal newTerminal) {
     _friendlyTerminals.put(newTerminal.getKey(), newTerminal);
   }
@@ -140,6 +144,10 @@ abstract public class Terminal implements Serializable{
   public void addInteractiveCommunicationReceived(Communication communication){
     _communicationsReceived.put(communication.getId(),communication);
     this.setState(this.getBusy());
+  }
+
+  public boolean isFriend(Terminal terminal){
+    return this._friendlyTerminals.containsKey(terminal.getKey());
   }
 
   public boolean hasActivity(){
