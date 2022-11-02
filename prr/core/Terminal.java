@@ -17,8 +17,8 @@ abstract public class Terminal implements Serializable{
 
   public final TerminalType TERMINAL_TYPE;
   private final String KEY;
-  private final Map<Integer, Communication> _communicationsMade;
-  private final Map<Integer, Communication> _communicationsReceived;
+  private final TreeMap<Integer, Communication> _communicationsMade;
+  private final TreeMap<Integer, Communication> _communicationsReceived;
   private TerminalState _terminalState;
 
   //FIXME colocar final
@@ -33,8 +33,8 @@ abstract public class Terminal implements Serializable{
   public Terminal(String key, Client client, TerminalType terminalType) {
     KEY = key;
     CLIENT = client;
-    _communicationsMade = new HashMap<>();
-    _communicationsReceived = new HashMap<>();
+    _communicationsMade = new TreeMap<>();
+    _communicationsReceived = new TreeMap<>();
     
     _off = new TerminalOff(this);
     _busy = new TerminalBusy(this);
@@ -142,12 +142,13 @@ abstract public class Terminal implements Serializable{
     return !_communicationsMade.isEmpty() || !_communicationsReceived.isEmpty();
   }
 
-  public Collection<Communication> getCommunicationsMade(){
-    return _communicationsMade.values();
+// TODO: pode se passar um treemap normalmente ou tem que ser unmodifyable
+  public TreeMap<Integer,Communication> getCommunicationsMade(){
+    return _communicationsMade;
   }
 
-  public Collection<Communication> getCommunicationsReceived(){
-    return _communicationsReceived.values();
+  public TreeMap<Integer,Communication> getCommunicationsReceived(){
+    return _communicationsReceived;
   }
   @Override
   public String toString() {
