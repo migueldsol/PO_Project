@@ -44,5 +44,10 @@ public class TerminalBusy extends TerminalState{
     public boolean canEndCurrentCommunication() {
         return true;
     }
+
+    @Override
+    public boolean isBusy(){
+        return true;
+    }
     
 }
