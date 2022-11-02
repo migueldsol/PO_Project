@@ -5,4 +5,12 @@ public class VoiceCommunication extends InteractiveCommunication {
         super(id, origin, destination);
     }
 
+    public String toString(){
+        return "VOICE";
+    }
+
+    @Override
+    public boolean isVoice(){
+        return true;
+    }
 }

@@ -105,7 +105,7 @@ public class Client implements Serializable{
             if (!iterator.hasNext()){
                 return false;
             }
-            else if (!communication.toString().equals("VOICE")){
+            else if (!communication.isVoice()){
                 return false;
             }
             else if (!communication.hasEnded()){
@@ -128,7 +128,7 @@ public class Client implements Serializable{
             if (!iterator.hasNext()){
                 return false;
             }
-            else if (!communication.toString().equals("TEXT")){
+            else if (!communication.isText()){
                 return false;
             }
             i++;
