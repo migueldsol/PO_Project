@@ -1,0 +1,4 @@
+!app/*/*.java
+!app/*java
+!core/*/*.java
+!core/*.java
