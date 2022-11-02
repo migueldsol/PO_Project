@@ -119,6 +119,10 @@ abstract public class Terminal implements Serializable{
     return CLIENT;
   }
 
+  public boolean canEndCommunication(){
+    return _communicationsMade.get(_communicationsMade.lastKey()).hasEnded();
+  }
+
   public void addFriendlyTerminal(Terminal newTerminal) {
     _friendlyTerminals.put(newTerminal.getKey(), newTerminal);
   }

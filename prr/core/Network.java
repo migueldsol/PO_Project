@@ -292,7 +292,8 @@ public class Network implements Serializable {
     if(checkTerminals(terminal,targetTerminal)){
       return true;
     }
-    TextCommunication communication = new TextCommunication((_communications.size()+1), terminal, targetTerminal, message,terminal.getClient().getType().getTextTarrif(message.length()));
+    TextCommunication communication = new TextCommunication((_communications.size()+1), terminal, targetTerminal, message);
+    communication.setPrice(terminal.getClient().getType().getTextTarrif(message.length()));
     addCommunications(terminal,targetTerminal,communication);
     return true;
   }
