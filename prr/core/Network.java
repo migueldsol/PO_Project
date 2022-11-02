@@ -358,7 +358,8 @@ public class Network implements Serializable {
       return terminal.getTerminalState().toString();
     }
     if (checkTerminals(terminal, targetTerminal)) {
-      return "";
+      System.out.println("ola");
+      return null;
     }
     InteractiveCommunication communication;
     if (typeComm == "Video") {
