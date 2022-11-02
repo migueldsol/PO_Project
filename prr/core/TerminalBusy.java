@@ -7,12 +7,28 @@ public class TerminalBusy extends TerminalState{
         super(terminal, STATE_NAME);
     }
 
+    @Override
     public boolean changeToIdle() {
+        Terminal terminal = super.getTerminal();
+        terminal.setState(terminal.getIdle());
+        return true;
+    }
+
+    @Override
+    public boolean changeToBusy() {
         return false;
     }
 
-    public boolean changeToBusy() {
+    @Override
+    public boolean changeToOff() {
         return false;
+    }
+
+    @Override
+    public boolean changeToSilence() {
+        Terminal terminal = super.getTerminal();
+        terminal.setState(terminal.getSilence());
+        return true;
     }
 
     @Override
@@ -27,16 +43,6 @@ public class TerminalBusy extends TerminalState{
 
     @Override
     public boolean canReceiveInteractiveCommunication() {
-        return false;
-    }
-
-    @Override
-    public boolean changeToOff() {
-        return false;
-    }
-
-    @Override
-    public boolean changeToSilence() {
         return false;
     }
 
