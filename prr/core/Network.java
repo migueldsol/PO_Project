@@ -269,6 +269,9 @@ public class Network implements Serializable {
     _pricingSystems.add(pricingSystem);
   }
 
+  public boolean checkTerminals(Terminal terminalOne, Terminal terminalTwo){
+    return terminalOne.getKey().equals(terminalTwo.getKey());
+  }
   public Terminal checkTerminalKey(String terminal) throws KeyNotFoundException{
     if(_terminals.get(terminal)== null){
       throw new KeyNotFoundException(terminal);
@@ -286,14 +289,11 @@ public class Network implements Serializable {
     if(targetTerminal.getTerminalState().toString().equals("OFF")){
       return false;
     }
-    if(_communications.isEmpty()) {
-      TextCommunication communication = new TextCommunication(1, terminal, targetTerminal, message);
-      addCommunications(terminal,targetTerminal,communication);
-    }else{
-      Communication temp = _communications.get((_communications.size()-1));
-      TextCommunication communication = new TextCommunication(temp.getId(), terminal, targetTerminal, message);
-      addCommunications(terminal,targetTerminal,communication);
+    if(checkTerminals(terminal,targetTerminal)){
+      return true;
     }
+    TextCommunication communication = new TextCommunication((_communications.size()+1), terminal, targetTerminal, message);
+    addCommunications(terminal,targetTerminal,communication);
     return true;
   }
   public double getClientPayments(String clientId) throws KeyNotFoundException{
@@ -310,6 +310,25 @@ public class Network implements Serializable {
       throw new KeyNotFoundException(clientId);
     }
     return client.getClientDebts();
+  }
+
+  public String startInteractiveCommunication(Terminal terminal,String terminalKey, String typeComm) throws KeyNotFoundException{
+      Terminal targetTerminal = checkTerminalKey(terminalKey);
+      if(typeComm == "VIDEO" && targetTerminal.getTerminalType() == TerminalType.BASIC){return "UNSUPORTED";}
+      else if(!terminal.getTerminalState().canReceiveInteractiveCommunication()){
+          return terminal.getTerminalState().toString();
+      }
+      if(checkTerminals(terminal,targetTerminal)){
+          return "";
+      }
+      Communication communication;
+      if(typeComm == "Video"){
+          communication = new VideoCommunication((_communications.size()+1),terminal,targetTerminal);
+      }
+      else{
+          communication = new VoiceCommunication((_communications.size()+1),terminal,targetTerminal);
+      }
+      return "";
   }
 
 

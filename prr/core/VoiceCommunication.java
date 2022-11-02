@@ -5,9 +5,8 @@ public class VoiceCommunication extends Communication {
 
     private boolean _state;
 
-    public VoiceCommunication(int id, Terminal origin, Terminal destination, int duration) {
+    public VoiceCommunication(int id, Terminal origin, Terminal destination) {
         super(id, origin, destination);
-        _duration = duration;
         _state = true;
     }
 }

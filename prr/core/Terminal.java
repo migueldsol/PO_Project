@@ -102,6 +102,10 @@ abstract public class Terminal implements Serializable{
     return _terminalState;
   }
 
+  public Client getClient() {
+    return CLIENT;
+  }
+
   public double getPayments() {
     return _payments;
   }
