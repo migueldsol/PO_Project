@@ -22,7 +22,7 @@ public abstract class Communication implements Serializable {
         _ended = false;
     }
 
-    public void endInteractiveCommunication() {
+    public void endCommunication() {
         _ended = true;
     }
 
@@ -62,5 +62,16 @@ public abstract class Communication implements Serializable {
 
     public boolean isVideo(){
         return false;
+    }
+
+    public String getState(){
+        return _ended ? "FINISHED" : "ONGOING";
+    }
+    public String getOriginId(){
+        return _origin.getKey();
+    }
+
+    public String getDestinationId(){
+        return _destination.getKey();
     }
 }

@@ -8,6 +8,12 @@ public abstract class InteractiveCommunication extends Communication{
         _ended = false;
     }
 
+    abstract public String type();
+
+    public String toString(){
+        return type() + "|" + getId() + "|" + getOriginId() + "|" +
+                getDestinationId() + "|" + _duration + "|" + Math.round(getPrice()) + "|" + getState();
+    }
     public void setDuration(int duration){
         _duration = duration;
     }

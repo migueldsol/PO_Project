@@ -179,7 +179,7 @@ abstract public class Terminal implements Serializable{
   public String toString() {
     if (_friendlyTerminals.isEmpty()) {
       return getTerminalType().name() + "|" + KEY + "|" + CLIENT.getKey() + "|" + _terminalState.toString() + "|"
-              + Math.round(getDebts()) + "|" + Math.round(getPayments());
+              + Math.round(getPayments()) + "|" + Math.round(getDebts());
     }
     List<String> friends = new ArrayList<>(_friendlyTerminals.keySet());
 
