@@ -1,11 +1,8 @@
 package prr.core;
 
 import java.io.Serializable;
-import java.util.Map;
-import java.util.HashMap;
-import java.util.TreeMap;
-import java.util.List;
-import java.util.ArrayList;
+import java.text.CollationElementIterator;
+import java.util.*;
 
 
 /**
@@ -31,9 +28,6 @@ abstract public class Terminal implements Serializable{
   private TerminalState _idle;
 
   private final Client CLIENT;
-  private double _payments;
-  private double _debts;
-
   private final TreeMap<String, Terminal> _friendlyTerminals;
 
   public Terminal(String key, Client client, TerminalType terminalType) {
@@ -53,6 +47,25 @@ abstract public class Terminal implements Serializable{
 
   }
 
+  public double getDebts(){
+    double debt = 0;
+    for(Communication communication: _communicationsMade.values()){
+      if(!communication.isPaid()){
+        debt += communication.getPrice();
+      }
+    }
+    return debt;
+  }
+
+  public double getPayments(){
+    double payment = 0;
+    for(Communication communication: _communicationsMade.values()){
+      if(communication.isPaid()){
+        payment += communication.getPrice();
+      }
+    }
+    return payment;
+  }
   public void setState(TerminalState state){
     _terminalState = state;
   }
@@ -106,14 +119,6 @@ abstract public class Terminal implements Serializable{
     return CLIENT;
   }
 
-  public double getPayments() {
-    return _payments;
-  }
-
-  public double getDebts() {
-    return _debts;
-  }
-
   public void addFriendlyTerminal(Terminal newTerminal) {
     _friendlyTerminals.put(newTerminal.getKey(), newTerminal);
   }
@@ -123,18 +128,36 @@ abstract public class Terminal implements Serializable{
   }
   abstract public TerminalType getTerminalType();
 
+  public void addInteractiveCommunicationMade(Communication communication){
+    _communicationsMade.put(communication.getId(),communication);
+    this.setState(this.getBusy());
+  }
+
+  public void addInteractiveCommunicationReceived(Communication communication){
+    _communicationsReceived.put(communication.getId(),communication);
+    this.setState(this.getBusy());
+  }
+
   public boolean hasActivity(){
     return !_communicationsMade.isEmpty() || !_communicationsReceived.isEmpty();
+  }
+
+  public Collection<Communication> getCommunicationsMade(){
+    return _communicationsMade.values();
+  }
+
+  public Collection<Communication> getCommunicationsReceived(){
+    return _communicationsReceived.values();
   }
   @Override
   public String toString() {
     if (_friendlyTerminals.isEmpty()) {
       return getTerminalType().name() + "|" + KEY + "|" + CLIENT.getKey() + "|" + _terminalState.toString() + "|"
-              + Math.round(_debts) + "|" + Math.round(_payments);
+              + Math.round(getDebts()) + "|" + Math.round(getPayments());
     }
     List<String> friends = new ArrayList<>(_friendlyTerminals.keySet());
 
     return getTerminalType().name() + "|" + KEY + "|" + CLIENT.getKey() + "|" + _terminalState.toString() + "|"
-            + Math.round(_debts) + "|" + Math.round(_payments) + "|" + String.join(",",friends);
+            + Math.round(getDebts()) + "|" + Math.round(getPayments()) + "|" + String.join(",",friends);
   }
 }
