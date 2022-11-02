@@ -311,7 +311,7 @@ public class Network implements Serializable {
     }
     TextCommunication communication = new TextCommunication((_communications.size() + 1), terminal, targetTerminal,
         message);
-    communication.setPrice(terminal.getClient().getType().getTextTarrif(message.length()));
+    communication.setPrice(terminal.getClient().getType().getTarrif(communication));
     if (terminal.isFriend(targetTerminal)) {
       communication.discount();
     }
@@ -362,14 +362,19 @@ public class Network implements Serializable {
   }
 
   public double endCommunication(Terminal terminal, int duration) {
-    Communication last = terminal.getLastCommunication();
-    last.setDuration(duration);
-    if (last.toString().compareTo("VOICE") == 0) {
-      last.setPrice(terminal.getClient().getType().getVoiceTarrif(duration));
-    } else {
-      last.setPrice(terminal.getClient().getType().getVideoTarrif(duration));
+    InteractiveCommunication current = terminal.getCurrentComunication();
+    current.setPrice(terminal.getClient().getType().getTarrif(current));
+    terminal.removeCurrentCommunication();
+    return current.getPrice();
+  }
+
+
+
+  public String showOngoingCommunication(Terminal terminal) throws OngoingCommunicationNotFound{
+    if(terminal.getCurrentComunication() == null){
+      throw new OngoingCommunicationNotFound();
     }
-    return last.getPrice();
+    return "";
   }
 
   /**

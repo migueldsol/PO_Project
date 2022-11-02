@@ -5,17 +5,12 @@ public class NormalType extends ClientType{
     public NormalType(Client client){
         super("NORMAL", client);
     }
-    
-    public int getTextTarrif(int length){
-        return super.getClient().getPricingSystem().getNormalTextTariff(length);
-    }
 
-    public int getVoiceTarrif(int duration){
-        return super.getClient().getPricingSystem().getNormalVoiceTariff(duration);
+    public double getTarrif(TextCommunication communication){
+        return super.getClient().getPricingSystem().getNormalTextTariff(communication.getMessage().length());
     }
-
-    public int getVideoTarrif(int duration){
-        return super.getClient().getPricingSystem().getNormalVideoTariff(duration);
+    public double getTarrif(InteractiveCommunication communication){
+        return communication.isVideo() ? super.getClient().getPricingSystem().getNormalVideoTariff(communication.getDuration()) : super.getClient().getPricingSystem().getNormalVoiceTariff(communication.getDuration());
     }
 
     public void changeType(){

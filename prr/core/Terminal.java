@@ -21,6 +21,8 @@ abstract public class Terminal implements Serializable{
   private final TreeMap<Integer, Communication> _communicationsReceived;
   private TerminalState _terminalState;
 
+  private InteractiveCommunication _currentCommunication;
+
   //FIXME colocar final
   private TerminalState _off;
   private TerminalState _busy;
@@ -47,6 +49,17 @@ abstract public class Terminal implements Serializable{
 
   }
 
+  public void addCurrentCommunication(InteractiveCommunication communication){
+    _currentCommunication = communication;
+  }
+
+  public void removeCurrentCommunication(){
+    _currentCommunication = null;
+  }
+
+  public InteractiveCommunication getCurrentComunication(){
+    return _currentCommunication;
+  }
   public double getDebts(){
     double debt = 0;
     for(Communication communication: _communicationsMade.values()){
@@ -120,7 +133,7 @@ abstract public class Terminal implements Serializable{
   }
 
   public boolean canEndCommunication(){
-    return _communicationsMade.get(_communicationsMade.lastKey()).hasEnded();
+    return (_currentCommunication != null);
   }
 
   public Communication getLastCommunication(){

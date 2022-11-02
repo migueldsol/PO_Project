@@ -14,9 +14,8 @@ public abstract class ClientType implements Serializable{
         CLIENT = client;
     }
 
-    abstract int getTextTarrif(int length);
-    abstract int getVoiceTarrif(int duration);
-    abstract int getVideoTarrif(int duration);
+    abstract double getTarrif(TextCommunication communication);
+    abstract double getTarrif(InteractiveCommunication communication);
 
     abstract void changeType();
     

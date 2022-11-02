@@ -11,10 +11,13 @@ public class TextCommunication extends Communication{
     public String toString(){
         return "TEXT";
     }
-
     @Override
     public boolean isText(){
         return true;
+    }
+
+    public String getMessage(){
+        return _message;
     }
 
 }
