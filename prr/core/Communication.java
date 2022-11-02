@@ -5,7 +5,6 @@ import java.io.Serializable;
 public abstract class Communication implements Serializable {
     private static final long serialVersionUID = 202208091753L;
     private final int ID;
-    private final String NAME;
 
     private boolean _ended;
 
@@ -15,9 +14,8 @@ public abstract class Communication implements Serializable {
 
     private double _price;
 
-    public Communication(int id, Terminal origin, Terminal destination, String name) {
+    public Communication(int id, Terminal origin, Terminal destination) {
         ID = id;
-        NAME = name;
         _origin = origin;
         _destination = destination;
         _isPaid = false;
@@ -52,8 +50,17 @@ public abstract class Communication implements Serializable {
         _price *= 0.5;
     }
 
-    public String toString() {
-        return new String(NAME);
+    public abstract String toString();
+
+    public boolean isText(){
+        return false;
+    }
+    
+    public boolean isVoice(){
+        return false;
     }
 
+    public boolean isVideo(){
+        return false;
+    }
 }
