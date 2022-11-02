@@ -3,6 +3,7 @@ package prr.core;
 import java.util.List;
 import java.io.Serializable;
 import java.util.ArrayList;
+import java.util.Collection;
 import java.util.Map;
 import java.util.HashMap;
 
@@ -15,7 +16,7 @@ public class Client implements Serializable{
     private final Map<String,Terminal> _terminals;
     private ClientType _clientType;
 
-    //FIXME meter merdas final
+    //FIXME nao e preciso isto;
     private ClientType _normalType;
     private ClientType _goldType;
     private ClientType _platinumType;
@@ -83,6 +84,24 @@ public class Client implements Serializable{
     public void changeType(){
         _clientType.changeType();
     }
+
+    public ClientType getType(){
+        return _clientType;
+    }
+
+    /* 
+    public boolean verifyGoldToPlatinum(){
+        
+        Collection <Communication> newCollection = new Collection<>() {
+            
+        };
+        Collection <Terminal> terminals = _terminals.values();
+        for (Terminal i : terminals){
+            i._communicationsMade
+        }
+        
+    }
+    */
 
     public PricingSystem getPricingSystem(){
         return _pricingSystem;
