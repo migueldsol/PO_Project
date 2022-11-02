@@ -6,7 +6,7 @@ public class VideoCommunication extends Communication {
     private boolean _state;
 
     public VideoCommunication(int id, Terminal origin, Terminal destination) {
-        super(id, origin, destination);
+        super(id, origin, destination, "VIDEO");
         _state = true;
     }
 
