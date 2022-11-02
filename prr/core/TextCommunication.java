@@ -1,15 +1,16 @@
 package prr.core;
 
 public class TextCommunication extends Communication{
-    private String _message;
+    private final String MESSAGE;
 
     public TextCommunication(int id, Terminal origin, Terminal destination, String message) {
         super(id, origin, destination);
-        _message = message;
+        MESSAGE = message;
     }
 
     public String toString(){
-        return "TEXT";
+        return "TEXT" + "|" + getId() + "|" + getOriginId() + "|" +
+                getDestinationId() + "|" + MESSAGE.length() + "|" + Math.round(getPrice()) + "|" + getState();
     }
     @Override
     public boolean isText(){
@@ -17,7 +18,8 @@ public class TextCommunication extends Communication{
     }
 
     public String getMessage(){
-        return _message;
+        return MESSAGE;
     }
+
 
 }

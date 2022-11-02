@@ -5,6 +5,9 @@ public class VideoCommunication extends InteractiveCommunication {
         super(id, origin, destination);
     }
 
+    public String type(){
+        return "VIDEO";
+    }
     public String toString(){
         return "VIDEO";
     }

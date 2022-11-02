@@ -315,6 +315,7 @@ public class Network implements Serializable {
     if (terminal.isFriend(targetTerminal)) {
       communication.discount();
     }
+    communication.endCommunication();
     addCommunications(terminal, targetTerminal, communication);
     return true;
   }
@@ -337,7 +338,9 @@ public class Network implements Serializable {
 
   public void addInteractiveCommunication(Terminal terminal, Terminal targetTerminal, Communication communication) {
     terminal.addInteractiveCommunicationMade(communication);
+    terminal.setState(terminal.getBusy());
     targetTerminal.addInteractiveCommunicationReceived(communication);
+    targetTerminal.setState(targetTerminal.getBusy());
   }
 
   public String startInteractiveCommunication(Terminal terminal, String terminalKey, String typeComm)
@@ -357,30 +360,37 @@ public class Network implements Serializable {
     if (checkTerminals(terminal, targetTerminal)) {
       return "";
     }
-    Communication communication;
+    InteractiveCommunication communication;
     if (typeComm == "Video") {
       communication = new VideoCommunication((_communications.size() + 1), terminal, targetTerminal);
     } else {
       communication = new VoiceCommunication((_communications.size() + 1), terminal, targetTerminal);
     }
+    if (terminal.isFriend(targetTerminal)) {
+      communication.discount();
+    }
     addInteractiveCommunication(terminal, targetTerminal, communication);
-    return "";
+    terminal.addCurrentCommunication(communication);
+    terminal.setState(terminal.getBusy());
+    return null;
   }
 
   public double endCommunication(Terminal terminal, int duration) {
     InteractiveCommunication current = terminal.getCurrentComunication();
+    current.setDuration(duration);
     current.setPrice(terminal.getClient().getType().getTarrif(current));
+    current.endCommunication();
+    _terminals.get(current.getDestinationId()).setState(terminal.getIdle());
     terminal.removeCurrentCommunication();
+    terminal.setState(terminal.getIdle());
     return current.getPrice();
   }
-
-
 
   public String showOngoingCommunication(Terminal terminal) throws OngoingCommunicationNotFound{
     if(terminal.getCurrentComunication() == null){
       throw new OngoingCommunicationNotFound();
     }
-    return "";
+    return terminal.getCurrentComunication().toString();
   }
 
   /**

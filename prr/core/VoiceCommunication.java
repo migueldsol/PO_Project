@@ -5,7 +5,7 @@ public class VoiceCommunication extends InteractiveCommunication {
         super(id, origin, destination);
     }
 
-    public String toString(){
+    public String type(){
         return "VOICE";
     }
 
