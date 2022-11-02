@@ -3,7 +3,6 @@ package prr.core;
 import java.io.Serializable;
 import java.io.IOException;
 
-
 import prr.core.exception.*;
 import java.util.ArrayList;
 import java.util.List;
@@ -16,17 +15,17 @@ public class Network implements Serializable {
   /** Serial number for serialization. */
 
   private static final long serialVersionUID = 202208091753L;
-  private final Map<String,Client> _clients;
+  private final Map<String, Client> _clients;
   private final List<PricingSystem> _pricingSystems;
-  private final Map<String,Terminal> _terminals;
+  private final Map<String, Terminal> _terminals;
   private final List<Communication> _communications;
 
   public Network() {
-    _clients = new HashMap<String,Client>();
+    _clients = new HashMap<String, Client>();
     _pricingSystems = new ArrayList<PricingSystem>();
     PricingSystem base = new BasePricingSystem();
     this.addPricingSystem(base);
-    _terminals = new HashMap<String,Terminal>();
+    _terminals = new HashMap<String, Terminal>();
     _communications = new ArrayList<Communication>();
   }
 
@@ -36,11 +35,10 @@ public class Network implements Serializable {
    * @param terminal
    * @return
    */
-  public boolean payCommunication(int id, Terminal terminal){
-    if(terminal.getMadeCommunication(id) == null){
+  public boolean payCommunication(int id, Terminal terminal) {
+    if (terminal.getMadeCommunication(id) == null) {
       return false;
-    }
-    else{
+    } else {
       // FIXME: resolve payment
       return true;
     }
@@ -48,12 +46,13 @@ public class Network implements Serializable {
 
   /**
    * getTerminal -> returns a terminal given a certain terminal id
+   * 
    * @param terminalID
    * @return returns the terminal with given terminalID
    * @throws KeyNotFoundException
    */
   public Terminal getTerminal(String terminalID) throws KeyNotFoundException {
-    if(!_terminals.containsKey(terminalID)){
+    if (!_terminals.containsKey(terminalID)) {
       throw new KeyNotFoundException(terminalID);
     }
     return _terminals.get(terminalID);
@@ -61,29 +60,31 @@ public class Network implements Serializable {
 
   /**
    * registerClient -> register a new client
-   * @param key 
+   * 
+   * @param key
    * @param name
    * @param taxNumber
-   * @return  return if the client was added to the network
+   * @return return if the client was added to the network
    */
 
-  public void registerClient(String key, String name, int taxNumber) throws ClientKeyAlreadyExistsException{
+  public void registerClient(String key, String name, int taxNumber) throws ClientKeyAlreadyExistsException {
     if (_clients.containsKey(key)) {
       throw new ClientKeyAlreadyExistsException(key);
     }
-    Client newClient = new Client(key,name,taxNumber);
-    _clients.put(key,newClient);
+    Client newClient = new Client(key, name, taxNumber);
+    _clients.put(key, newClient);
   }
 
   /**
    * toStringAllClients -> returns a string with all the clients
+   * 
    * @return returns a String List with all the clients ready to print
    */
-  public List <String> toStringAllClients(){
+  public List<String> toStringAllClients() {
     List<String> message = new ArrayList<>();
     List<Client> order = new ArrayList<>(_clients.values());
-    Collections.sort(order,new ClientComparator());
-    for (Client i : order){
+    Collections.sort(order, new ClientComparator());
+    for (Client i : order) {
       message.add(i.toString());
     }
     return message;
@@ -91,36 +92,37 @@ public class Network implements Serializable {
 
   /**
    * toStringClient -> returns a string with all the information of a client
+   * 
    * @param clientID
    * @return returns client as a String ready to show
    */
-  public String toStringClient(String clientID){
+  public String toStringClient(String clientID) {
     Client client = _clients.get(clientID);
-    if (client == null){
+    if (client == null) {
       return null;
     }
     return client.toString();
   }
 
-
-  public boolean turnOffNotification(String clientID) throws KeyNotFoundException{
+  public boolean turnOffNotification(String clientID) throws KeyNotFoundException {
     Client client = _clients.get(clientID);
-    if (client == null){
+    if (client == null) {
       throw new KeyNotFoundException(clientID);
     }
     return client.setNotificationOff();
   }
 
-  public boolean TurnOnNotification(String clientID) throws KeyNotFoundException{
+  public boolean TurnOnNotification(String clientID) throws KeyNotFoundException {
     Client client = _clients.get(clientID);
-    if (client == null){
+    if (client == null) {
       throw new KeyNotFoundException(clientID);
     }
     return client.setNotificationOn();
   }
-  
- /**
+
+  /**
    * registerTerminal -> register a terminal in the network
+   * 
    * @param key
    * @param type
    * @param client
@@ -128,27 +130,28 @@ public class Network implements Serializable {
    * @throws InvalidSizeKey
    * @throws TerminalKeyAlreadyExistsException
    */
-  public void registerTerminal(String key, TerminalType type, Client client) throws NumberFormatException,InvalidSizeKey, TerminalKeyAlreadyExistsException{
-    
+  public void registerTerminal(String key, TerminalType type, Client client)
+      throws NumberFormatException, InvalidSizeKey, TerminalKeyAlreadyExistsException {
+
     Integer.parseInt(key);
 
-    if (key.length() != 6){
+    if (key.length() != 6) {
       throw new InvalidSizeKey(key);
     }
-    if (_terminals.containsKey(key)){
+    if (_terminals.containsKey(key)) {
       throw new TerminalKeyAlreadyExistsException(key);
     }
 
     Terminal newTerminal;
 
-    if(type == TerminalType.BASIC){
+    if (type == TerminalType.BASIC) {
       newTerminal = new BasicTerminal(key, client, type);
-      }
+    }
 
     else {
-      newTerminal = new FancyTerminal(key, client,type);
+      newTerminal = new FancyTerminal(key, client, type);
     }
-    
+
     this.addTerminal(newTerminal);
     client.registerTerminal(newTerminal);
   }
@@ -156,6 +159,7 @@ public class Network implements Serializable {
   /**
    * registerTerminal -> gets the client to register the terminal
    * and registers the terminal
+   * 
    * @param key
    * @param type
    * @param clientKey
@@ -165,40 +169,44 @@ public class Network implements Serializable {
    * @throws TerminalKeyAlreadyExistsException
    */
   public void registerTerminal(String key, TerminalType type, String clientKey)
-  throws NumberFormatException, InvalidSizeKey, KeyNotFoundException, TerminalKeyAlreadyExistsException {
+      throws NumberFormatException, InvalidSizeKey, KeyNotFoundException, TerminalKeyAlreadyExistsException {
     Client client = _clients.get(clientKey);
-    if(client == null){
+    if (client == null) {
       throw new KeyNotFoundException(key);
     }
-    registerTerminal(key,type,client);
+    registerTerminal(key, type, client);
   }
 
   /**
    * addTerminal -> adds a terminal to the network
+   * 
    * @param terminal
    */
 
   public void addTerminal(Terminal terminal) {
-    _terminals.put(terminal.getKey(),terminal);
+    _terminals.put(terminal.getKey(), terminal);
   }
+
   /**
    * addFriend -> addFriendlyTerminal
+   * 
    * @param terminal
    * @param friend
    * @throws KeyNotFoundException
    */
-  public void addFriend(Terminal terminal, Terminal friend){
+  public void addFriend(Terminal terminal, Terminal friend) {
     terminal.addFriendlyTerminal(friend);
   }
 
   /**
    * addFriend -> addFriendlyTerminal
+   * 
    * @param terminalKey
    * @param friendKey
    * @throws KeyNotFoundException
    */
   public void addFriend(String terminalKey, String friendKey) throws KeyNotFoundException {
-    if(!_terminals.containsKey(friendKey)){
+    if (!_terminals.containsKey(friendKey)) {
       throw new KeyNotFoundException(friendKey);
     }
     Terminal newTerminal = _terminals.get(terminalKey);
@@ -208,31 +216,34 @@ public class Network implements Serializable {
 
   /**
    * removeFriend -> remove a friend from a terminal
+   * 
    * @param terminal
    * @param friend
    */
-  public void removeFriend(Terminal terminal, Terminal friend){ 
+  public void removeFriend(Terminal terminal, Terminal friend) {
     terminal.removeFriendlyTerminal(friend);
   }
 
   /**
    * removeFriend -> gets the terminal and its friend
-   * and removes the friend 
+   * and removes the friend
+   * 
    * @param terminalKey
    * @param friendKey
    * @throws KeyNotFoundException
    */
-  public void removeFriend(String terminalKey, String friendKey) throws KeyNotFoundException{
-    if(!_terminals.containsKey(friendKey)){
+  public void removeFriend(String terminalKey, String friendKey) throws KeyNotFoundException {
+    if (!_terminals.containsKey(friendKey)) {
       throw new KeyNotFoundException(friendKey);
     }
     Terminal newTerminal = _terminals.get(terminalKey);
     Terminal _friend = _terminals.get(friendKey);
-    removeFriend(newTerminal,_friend);
+    removeFriend(newTerminal, _friend);
   }
 
   /**
    * unusedTerminalsToString -> returns a string with all the unused terminals
+   * 
    * @return
    */
   public List<String> unusedTerminalsToString() {
@@ -244,18 +255,19 @@ public class Network implements Serializable {
         message.add(i.toString());
       }
     }
-      return message;
+    return message;
   }
 
   /**
    * toStringAllTerminals -> returns a message with all terminals
+   * 
    * @return
    */
-  public List <String> toStringAllTerminals(){
-    List <String> message = new ArrayList <>();
+  public List<String> toStringAllTerminals() {
+    List<String> message = new ArrayList<>();
     List<Terminal> order = new ArrayList<>(_terminals.values());
-    Collections.sort(order,new TerminalComparator());
-    for (Terminal i : order){
+    Collections.sort(order, new TerminalComparator());
+    for (Terminal i : order) {
       message.add(i.toString());
     }
     return message;
@@ -263,81 +275,102 @@ public class Network implements Serializable {
 
   /**
    * addPricingSystem -> adds a pricing system to the network
+   * 
    * @param pricingSystem
    */
   public void addPricingSystem(PricingSystem pricingSystem) {
     _pricingSystems.add(pricingSystem);
   }
 
-  public boolean checkTerminals(Terminal terminalOne, Terminal terminalTwo){
+  public boolean checkTerminals(Terminal terminalOne, Terminal terminalTwo) {
     return terminalOne.getKey().equals(terminalTwo.getKey());
   }
-  public Terminal checkTerminalKey(String terminal) throws KeyNotFoundException{
-    if(_terminals.get(terminal)== null){
+
+  public Terminal checkTerminalKey(String terminal) throws KeyNotFoundException {
+    if (_terminals.get(terminal) == null) {
       throw new KeyNotFoundException(terminal);
     }
     return _terminals.get(terminal);
   }
-  public void addCommunications(Terminal terminal, Terminal targetTerminal, Communication communication){
+
+  public void addCommunications(Terminal terminal, Terminal targetTerminal, Communication communication) {
     terminal.addCommunicationMade(communication);
     targetTerminal.addCommunicationReceived(communication);
     _communications.add(communication);
   }
-  public boolean textCommunication(Terminal terminal,String secondTerminal,String message) throws  KeyNotFoundException{
+
+  public boolean textCommunication(Terminal terminal, String secondTerminal, String message)
+      throws KeyNotFoundException {
     Terminal targetTerminal = checkTerminalKey(secondTerminal);
-    //QUESTIONS substituir "SILENCE" pelo atributo da classe? É seguro?
-    if(targetTerminal.getTerminalState().toString().equals("OFF")){
+    // QUESTIONS substituir "SILENCE" pelo atributo da classe? É seguro?
+    if (targetTerminal.getTerminalState().toString().equals("OFF")) {
       return false;
     }
-    if(checkTerminals(terminal,targetTerminal)){
+    if (checkTerminals(terminal, targetTerminal)) {
       return true;
     }
-    TextCommunication communication = new TextCommunication((_communications.size()+1), terminal, targetTerminal, message);
+    TextCommunication communication = new TextCommunication((_communications.size() + 1), terminal, targetTerminal,
+        message);
     communication.setPrice(terminal.getClient().getType().getTextTarrif(message.length()));
-    addCommunications(terminal,targetTerminal,communication);
+    if (terminal.isFriend(targetTerminal)) {
+      communication.discount();
+    }
+    addCommunications(terminal, targetTerminal, communication);
     return true;
   }
-  public double getClientPayments(String clientId) throws KeyNotFoundException{
+
+  public double getClientPayments(String clientId) throws KeyNotFoundException {
     Client client = _clients.get(clientId);
-    if (client == null){
+    if (client == null) {
       throw new KeyNotFoundException(clientId);
     }
     return client.getClientPayments();
   }
 
-  public double getClientDebts(String clientId) throws KeyNotFoundException{
+  public double getClientDebts(String clientId) throws KeyNotFoundException {
     Client client = _clients.get(clientId);
-    if (client == null){
+    if (client == null) {
       throw new KeyNotFoundException(clientId);
     }
     return client.getClientDebts();
   }
 
-  public void addInteractiveCommunication(Terminal terminal, Terminal targetTerminal,Communication communication){
-      terminal.addInteractiveCommunicationMade(communication);
-      targetTerminal.addInteractiveCommunicationReceived(communication);
+  public void addInteractiveCommunication(Terminal terminal, Terminal targetTerminal, Communication communication) {
+    terminal.addInteractiveCommunicationMade(communication);
+    targetTerminal.addInteractiveCommunicationReceived(communication);
   }
 
-  public String startInteractiveCommunication(Terminal terminal,String terminalKey, String typeComm) throws KeyNotFoundException{
-      Terminal targetTerminal = checkTerminalKey(terminalKey);
-      if(typeComm == "VIDEO" && targetTerminal.getTerminalType() == TerminalType.BASIC){return "UNSUPORTED";}
-      else if(!terminal.getTerminalState().canReceiveInteractiveCommunication()){
-          return terminal.getTerminalState().toString();
-      }
-      if(checkTerminals(terminal,targetTerminal)){
-          return "";
-      }
-      Communication communication;
-      if(typeComm == "Video"){
-          communication = new VideoCommunication((_communications.size()+1),terminal,targetTerminal);
-      }
-      else{
-          communication = new VoiceCommunication((_communications.size()+1),terminal,targetTerminal);
-      }
-      addInteractiveCommunication(terminal,targetTerminal,communication);
+  public String startInteractiveCommunication(Terminal terminal, String terminalKey, String typeComm)
+      throws KeyNotFoundException {
+    Terminal targetTerminal = checkTerminalKey(terminalKey);
+    if (typeComm == "VIDEO" && targetTerminal.getTerminalType() == TerminalType.BASIC) {
+      return "UNSUPORTED";
+    } else if (!terminal.getTerminalState().canReceiveInteractiveCommunication()) {
+      return terminal.getTerminalState().toString();
+    }
+    if (checkTerminals(terminal, targetTerminal)) {
       return "";
+    }
+    Communication communication;
+    if (typeComm == "Video") {
+      communication = new VideoCommunication((_communications.size() + 1), terminal, targetTerminal);
+    } else {
+      communication = new VoiceCommunication((_communications.size() + 1), terminal, targetTerminal);
+    }
+    addInteractiveCommunication(terminal, targetTerminal, communication);
+    return "";
   }
 
+  public double endCommunication(Terminal terminal, int duration) {
+    Communication last = terminal.getLastCommunication();
+    last.setDuration(duration);
+    if (last.toString().compareTo("VOICE") == 0) {
+      last.setPrice(terminal.getClient().getType().getVoiceTarrif(duration));
+    } else {
+      last.setPrice(terminal.getClient().getType().getVideoTarrif(duration));
+    }
+    return last.getPrice();
+  }
 
   /**
    * importFile ->Read text input file and create corresponding domain entities.
@@ -347,7 +380,7 @@ public class Network implements Serializable {
    * @throws IOException                if there is an IO erro while processing
    *                                    the text file
    */
-  void importFile(String filename) throws UnrecognizedEntryException, IOException{
+  void importFile(String filename) throws UnrecognizedEntryException, IOException {
     Parser parser = new Parser(this);
     parser.parseFile(filename);
   }

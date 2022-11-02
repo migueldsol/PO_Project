@@ -3,3 +3,4 @@
 **/tests
 *.dat
 **/out
+*.iml

@@ -1,22 +1,7 @@
 package prr.core;
 
-public class VideoCommunication extends Communication {
-    private int _duration;
-
-    private boolean _state;
-
+public class VideoCommunication extends InteractiveCommunication {
     public VideoCommunication(int id, Terminal origin, Terminal destination) {
-        super(id, origin, destination, "VIDEO");
-        _state = true;
+        super(id, origin, destination);
     }
-
-    public void setPrice(){
-
-    }
-
-
-
-
-
 }
-
