@@ -2,9 +2,10 @@ package prr.core;
 
 import java.io.Serializable;
 
-public abstract class Communication implements Serializable{
+public abstract class Communication implements Serializable {
     private static final long serialVersionUID = 202208091753L;
     private final int ID;
+    private final String NAME;
 
     private boolean _ended;
 
@@ -14,39 +15,45 @@ public abstract class Communication implements Serializable{
 
     private double _price;
 
-    public Communication(int id,Terminal origin, Terminal destination){
+    public Communication(int id, Terminal origin, Terminal destination, String name) {
         ID = id;
+        NAME = name;
         _origin = origin;
         _destination = destination;
         _isPaid = false;
         _ended = false;
     }
 
-    public void endInteractiveCommunication(){
+    public void endInteractiveCommunication() {
         _ended = true;
     }
 
-    public boolean hasEnded(){
+    public boolean hasEnded() {
         return _ended;
     }
-    public void setPrice(double price){
+
+    public void setPrice(double price) {
         _price = price;
     }
-    public int getId(){
+
+    public int getId() {
         return ID;
     }
 
-    public boolean isPaid(){
+    public boolean isPaid() {
         return _isPaid;
     }
 
-    public double getPrice(){
+    public double getPrice() {
         return _price;
     }
 
-    public void discount(){
+    public void discount() {
         _price *= 0.5;
     }
 
+    public String toString() {
+        return new String(NAME);
+    }
 
 }

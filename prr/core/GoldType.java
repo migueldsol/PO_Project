@@ -25,11 +25,9 @@ public class GoldType extends ClientType{
         if (client.getBalance() < 0){
                 client.setType(client.getNormalType());
         }
-        /*
         else if (client.verifyGoldToPlatinum()){
-
+            client.setType(client.getPlatinumType());
         }
-        */
     }
 
 }

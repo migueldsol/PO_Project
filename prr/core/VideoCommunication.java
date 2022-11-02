@@ -5,4 +5,3 @@ public class VideoCommunication extends InteractiveCommunication {
         super(id, origin, destination);
     }
 }
-
