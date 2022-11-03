@@ -10,6 +10,7 @@ public class TerminalBusy extends TerminalState{
     @Override
     public boolean changeToIdle() {
         Terminal terminal = super.getTerminal();
+        terminal.changePreviousState(terminal.getBusy());
         terminal.setState(terminal.getIdle());
         return true;
     }
@@ -27,6 +28,7 @@ public class TerminalBusy extends TerminalState{
     @Override
     public boolean changeToSilence() {
         Terminal terminal = super.getTerminal();
+        terminal.changePreviousState(terminal.getBusy());
         terminal.setState(terminal.getSilence());
         return true;
     }

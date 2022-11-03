@@ -8,9 +8,6 @@ public class VoiceCommunication extends InteractiveCommunication {
     public String type(){
         return "VOICE";
     }
-
-    //SOL nao ha toString()
-
     @Override
     public boolean isVoice(){
         return true;

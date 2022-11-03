@@ -6,12 +6,7 @@ public class VideoCommunication extends InteractiveCommunication {
     }
 
     //SOL metodo duplicado
-    public String type(){
-        return "VIDEO";
-    }
-    public String toString(){
-        return "VIDEO";
-    }
+    public String type(){return "VIDEO";}
 
     @Override
     public boolean isVideo(){

@@ -28,6 +28,7 @@ abstract public class Terminal implements Serializable, Subject{
   private TerminalState _silence;
   private TerminalState _idle;
 
+  private TerminalState _previousState;
   private final Client CLIENT;
   private final TreeMap<String, Terminal> _friendlyTerminals;
 
@@ -44,6 +45,7 @@ abstract public class Terminal implements Serializable, Subject{
     _silence = new TerminalSilence(this);
     _idle = new TerminalIdle(this);
     _terminalState = _idle;
+    _previousState = _terminalState;
 
     _friendlyTerminals = new TreeMap<>();
     TERMINAL_TYPE = terminalType;
@@ -51,6 +53,12 @@ abstract public class Terminal implements Serializable, Subject{
 
   }
 
+  public TerminalState getPreviousState(){
+    return _previousState;
+  }
+  public void changePreviousState(TerminalState state){
+    _previousState = state;
+  }
   public void addCurrentCommunication(InteractiveCommunication communication){
     _currentCommunication = communication;
   }
@@ -189,8 +197,8 @@ abstract public class Terminal implements Serializable, Subject{
     this.setState(this.getBusy());
   }
 
-  public boolean isFriend(Terminal terminal){
-    return this._friendlyTerminals.containsKey(terminal.getKey());
+  public boolean isFriend(String terminalId){
+    return this._friendlyTerminals.containsKey(terminalId);
   }
 
   public boolean hasActivity(){
