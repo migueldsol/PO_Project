@@ -16,7 +16,10 @@ public class TerminalOff extends TerminalState{
 
     @Override
     public boolean changeToSilence() {
-        return false;
+        Terminal terminal = super.getTerminal();
+        terminal.changePreviousState(terminal.getTerminalState());
+        terminal.setState(new TerminalSilence(terminal));
+        return true;
     }
 
     @Override 

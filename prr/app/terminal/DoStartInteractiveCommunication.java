@@ -32,6 +32,7 @@ class DoStartInteractiveCommunication extends TerminalCommand {
     } catch (KeyNotFoundException knfe){
       throw new UnknownTerminalKeyException(terminalKey);
     } catch (FailedInteractiveCommunicationException fice){
+      _network.registerObserver(_receiver,terminalKey);
       TerminalState terminalState = fice.getTerminalState();
       //QUESTION mexer com terminalState nao é uma fuga de privacidade?
       if(terminalState.isOff()){
@@ -44,8 +45,7 @@ class DoStartInteractiveCommunication extends TerminalCommand {
         _display.popup(Message.destinationIsSilent(terminalKey));
       }
     } catch (Exception e){
-      //QUESTIONS e suposto fazer algo qd o terminal liga a si mesmo?
-      
+      _display.popup(Message.destinationIsBusy(terminalKey));
     }
   }
 }

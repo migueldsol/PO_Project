@@ -11,7 +11,7 @@ import java.util.SortedMap;
 import java.util.HashMap;
 import java.util.Iterator;
 
-public class Client implements Serializable, Observer, Notifiable{
+public class Client implements Serializable, Observer{
 
     private static final long serialVersionUID = 202208091753L;
     private final String KEY;
@@ -31,7 +31,7 @@ public class Client implements Serializable, Observer, Notifiable{
     private double _debts;
     private boolean _notificationsOn;
     private PricingSystem _pricingSystem;
-    private NotificationDecorator _deliverySystem;
+    private NotificationSender _deliverySystem;
 
     public Client(String key, String name, int taxNumber) {
         KEY = key;
@@ -44,7 +44,7 @@ public class Client implements Serializable, Observer, Notifiable{
         _clientType =  _normalType;
         _notificationsOn = true;
         _pricingSystem = new BasePricingSystem();
-        _deliverySystem = new OmissionDecorator(this);
+        _deliverySystem = new NotificationSender(new OmissionSystem());
     }
 
     public String getKey() {
@@ -182,18 +182,7 @@ public class Client implements Serializable, Observer, Notifiable{
         _deliverySystem.sendNotification(key, notificationType);
     }
 
-    //QUESTIONS isto é para todos?
-    public String getNotificationString(String key, NotificationType notificationType){
-        return key + "|" + notificationType.toString();
-    }
-
-
-    public List<String> getNotifications(){
-
-        //QUESTION epah horrivel...
-        //OmissionDecorator omission = (OmissionDecorator) _deliverySystem;
-        //return omission.getNotifications();
-
-        return _deliverySystem.getNotifications();
+    public List <String> getNotifications(){
+        return _deliverySystem.getAllNotificationMessage();
     }
 }
