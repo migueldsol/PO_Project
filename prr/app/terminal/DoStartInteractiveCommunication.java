@@ -32,7 +32,6 @@ class DoStartInteractiveCommunication extends TerminalCommand {
     } catch (KeyNotFoundException knfe){
       throw new UnknownTerminalKeyException(terminalKey);
     } catch (FailedInteractiveCommunicationException fice){
-      _network.registerObserver(_receiver,terminalKey);
       TerminalState terminalState = fice.getTerminalState();
       //QUESTION mexer com terminalState nao é uma fuga de privacidade?
       if(terminalState.isOff()){
