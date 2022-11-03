@@ -3,13 +3,8 @@ package prr.core;
 import java.util.List;
 import java.io.Serializable;
 import java.util.ArrayList;
-import java.util.Collection;
-import java.util.Collections;
 import java.util.Map;
-import java.util.TreeMap;
-import java.util.SortedMap;
 import java.util.HashMap;
-import java.util.Iterator;
 
 public class Client implements Serializable, Observer{
 

@@ -1,11 +1,6 @@
 package prr.core;
 
-import java.io.Serializable;
-
-public class FancyTerminal extends Terminal implements Serializable {
-
-    private static final long serialVersionUID = 202208091753L;
-
+public class FancyTerminal extends Terminal{
 
     public FancyTerminal(String key, Client client, TerminalType terminalType){
         super(key, client, terminalType);

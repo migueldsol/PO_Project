@@ -397,8 +397,7 @@ public class Network implements Serializable {
     current.setDuration(duration);
     current.setPrice(terminal.getClient().getType().getTarrif(current));
     if (terminal.isFriend(current.getDestinationId())) {
-      current.discount(); //SOL mas estas a aplicar um desconto antes de calculares o preço?
-      // supostamente so se calcula o preço qd se termina a communication
+      current.discount(); 
     }
     current.endCommunication();
     Terminal target = _terminals.get(current.getDestinationId());

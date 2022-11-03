@@ -1,10 +1,8 @@
 package prr.core;
 
-import java.io.Serializable;
 
-public class TerminalSilence extends TerminalState implements Serializable {
+public class TerminalSilence extends TerminalState{
 
-    private static final long serialVersionUID = 202208091753L;
     private final static String STATE_NAME = "SILENCE";
 
     public TerminalSilence(Terminal terminal){

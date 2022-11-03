@@ -1,10 +1,7 @@
 package prr.core;
 
-import java.io.Serializable;
 
-public class TerminalIdle extends TerminalState implements Serializable {
-
-    private static final long serialVersionUID = 202208091753L;
+public class TerminalIdle extends TerminalState{
 
     private final static String STATE_NAME = "IDLE";
 

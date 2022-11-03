@@ -1,12 +1,10 @@
 package prr.core;
 
-import java.io.Serializable;
+public class NormalType extends ClientType{
 
-public class NormalType extends ClientType implements Serializable {
-
-    private static final long serialVersionUID = 202208091753L;
+    private static final String TYPE_NAME = "NORMAL";
     public NormalType(Client client){
-        super("NORMAL", client);
+        super(TYPE_NAME, client);
     }
 
     public double getTarrif(TextCommunication communication){

@@ -1,17 +1,12 @@
 package prr.core;
 
-import java.io.Serializable;
 import java.util.List;
-import java.util.SortedMap;
 
-public class GoldType extends ClientType implements Serializable {
+public class GoldType extends ClientType{
 
-    //QUESTIONS coloco isto em singleton?
-    // also faz sentido no Client ter todas as instancias de ClientType diferentes?
-
-    private static final long serialVersionUID = 202208091753L;
+    private static final String TYPE_NAME = "GOLD";
     public GoldType(Client client) {
-        super("GOLD", client);
+        super(TYPE_NAME, client);
     }
 
     public double getTarrif(TextCommunication communication) {

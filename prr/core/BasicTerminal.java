@@ -1,10 +1,6 @@
 package prr.core;
 
-import java.io.Serializable;
-
-public class BasicTerminal extends Terminal implements Serializable {
-
-    private static final long serialVersionUID = 202208091753L;
+public class BasicTerminal extends Terminal{
 
     public BasicTerminal(String key, Client client, TerminalType terminalType){
         super(key, client, terminalType);

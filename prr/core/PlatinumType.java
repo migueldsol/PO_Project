@@ -1,14 +1,13 @@
 package prr.core;
 
-import java.io.Serializable;
 import java.util.List;
 
-public class PlatinumType extends ClientType implements Serializable {
+public class PlatinumType extends ClientType{
 
-    private static final long serialVersionUID = 202208091753L;
+    private static final String TYPE_NAME = "PLATINUM";
 
     public PlatinumType(Client client) {
-        super("PLATINUM", client);
+        super(TYPE_NAME, client);
     }
 
     public double getTarrif(TextCommunication communication) {
