@@ -210,7 +210,9 @@ public class Client implements Serializable, Observer, Notifiable{
     public List<String> getNotifications(){
 
         //QUESTION epah horrivel...
-        OmissionDecorator omission = (OmissionDecorator) _deliverySystem;
-        return omission.getNotifications();
+        //OmissionDecorator omission = (OmissionDecorator) _deliverySystem;
+        //return omission.getNotifications();
+
+        return _deliverySystem.getNotifications();
     }
 }
