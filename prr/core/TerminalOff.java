@@ -27,8 +27,8 @@ public class TerminalOff extends TerminalState{
     @Override
     public boolean changeToIdle(){
         Terminal terminal = super.getTerminal();
-        terminal.changePreviousState(terminal.getOff());
-        terminal.setState(terminal.getIdle());
+        terminal.changePreviousState(terminal.getTerminalState());
+        terminal.setState(new TerminalIdle(terminal));
         return true;
     }
 

@@ -20,7 +20,7 @@ class DoSilenceTerminal extends TerminalCommand {
     if(_receiver.getTerminalState().toString().equals("SILENCE")){
       _display.popup(Message.alreadySilent());
     }
-    _receiver.setState(_receiver.getSilence());
+    _receiver.getTerminalState().changeToSilence();
   }
 }
 

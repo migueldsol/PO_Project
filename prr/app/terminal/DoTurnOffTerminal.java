@@ -20,6 +20,6 @@ class DoTurnOffTerminal extends TerminalCommand {
     if(_receiver.getTerminalState().toString().equals("OFF")){
       _display.popup(Message.alreadyOff());
     }
-    _receiver.setState(_receiver.getOff());
+    _receiver.getTerminalState().changeToOff();
   }
 }

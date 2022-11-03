@@ -19,15 +19,7 @@ abstract public class Terminal implements Serializable, Subject{
   private final TreeMap<Integer, Communication> _communicationsMade;
   private final TreeMap<Integer, Communication> _communicationsReceived;
   private TerminalState _terminalState;
-
   private InteractiveCommunication _currentCommunication;
-
-  //FIXME colocar final
-  private TerminalState _off;
-  private TerminalState _busy;
-  private TerminalState _silence;
-  private TerminalState _idle;
-
   private TerminalState _previousState;
   private final Client CLIENT;
   private final TreeMap<String, Terminal> _friendlyTerminals;
@@ -39,12 +31,7 @@ abstract public class Terminal implements Serializable, Subject{
     CLIENT = client;
     _communicationsMade = new TreeMap<>();
     _communicationsReceived = new TreeMap<>();
-    
-    _off = new TerminalOff(this);
-    _busy = new TerminalBusy(this);
-    _silence = new TerminalSilence(this);
-    _idle = new TerminalIdle(this);
-    _terminalState = _idle;
+    _terminalState = new TerminalIdle(this);
     _previousState = _terminalState;
 
     _friendlyTerminals = new TreeMap<>();
@@ -120,23 +107,6 @@ abstract public class Terminal implements Serializable, Subject{
     }
     return null;
 }
-
-  public TerminalState getOff(){
-    return _off;
-  }
-
-  public TerminalState getIdle(){
-    return _idle;
-  }
-  
-  public TerminalState getBusy(){
-    return _busy;
-  }
-
-  public TerminalState getSilence(){
-    return _silence;
-  }
-
   public void addCommunicationMade(Communication communication){
     _communicationsMade.put(communication.getId(),communication);
   }
@@ -148,12 +118,6 @@ abstract public class Terminal implements Serializable, Subject{
     return _communicationsMade.get(id);
   }
 
-  /**
-   * Checks if this terminal can start a new communication.
-   *
-   * @return true if this terminal is neither off neither busy, false otherwise.
-   **/
-
   public abstract void makeCommunication(String targetKey, String type);
 
   public abstract void startInteractiveCommunication(String targetKey, String type);
@@ -162,9 +126,7 @@ abstract public class Terminal implements Serializable, Subject{
     return KEY;
   }
 
-  public TerminalState getTerminalState() {
-    return _terminalState;
-  }
+  public TerminalState getTerminalState() {return _terminalState;}
 
   public Client getClient() {
     return CLIENT;
