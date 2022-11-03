@@ -14,24 +14,24 @@ public class TerminalIdle extends TerminalState{
 
     public boolean changeToBusy() {
         Terminal terminal = super.getTerminal();
-        terminal.changePreviousState(terminal.getIdle());
-        terminal.setState(terminal.getBusy());
+        terminal.changePreviousState(terminal.getTerminalState());
+        terminal.setState(new TerminalBusy(terminal));
         return true;
     }
 
     @Override
     public boolean changeToOff() {
         Terminal terminal = super.getTerminal();
-        terminal.changePreviousState(terminal.getIdle());
-        terminal.setState(terminal.getOff());
+        terminal.changePreviousState(terminal.getTerminalState());
+        terminal.setState(new TerminalOff(terminal));
         return true;
     }
 
     @Override
     public boolean changeToSilence() {
         Terminal terminal = super.getTerminal();
-        terminal.changePreviousState(terminal.getIdle());
-        terminal.setState(terminal.getSilence());
+        terminal.changePreviousState(terminal.getTerminalState());
+        terminal.setState(new TerminalSilence(terminal));
         return true;
     }
 

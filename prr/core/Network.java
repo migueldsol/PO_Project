@@ -217,9 +217,11 @@ public class Network implements Serializable {
     if (!_terminals.containsKey(friendKey)) {
       throw new KeyNotFoundException(friendKey);
     }
-    Terminal newTerminal = _terminals.get(terminalKey);
-    Terminal friend = _terminals.get(friendKey);
-    addFriend(newTerminal, friend);
+    else if(!terminalKey.equals(friendKey)) {
+      Terminal newTerminal = _terminals.get(terminalKey);
+      Terminal friend = _terminals.get(friendKey);
+      addFriend(newTerminal, friend);
+    }
   }
 
   /**
@@ -262,6 +264,14 @@ public class Network implements Serializable {
       if (!i.hasActivity()) {
         message.add(i.toString());
       }
+    }
+    return message;
+  }
+
+  public List<String> doShowAllCommunications(){
+    List<String> message = new ArrayList<>();
+    for(Communication comm: _communications){
+      message.add(comm.toString());
     }
     return message;
   }
@@ -348,9 +358,8 @@ public class Network implements Serializable {
 
   public void addInteractiveCommunication(Terminal terminal, Terminal targetTerminal, Communication communication) {
     terminal.addInteractiveCommunicationMade(communication);
-    terminal.getTerminalState().changeToBusy();
     targetTerminal.addInteractiveCommunicationReceived(communication);
-    targetTerminal.getTerminalState().changeToBusy();
+    _communications.add(communication);
   }
 
   public String startInteractiveCommunication(Terminal terminal, String terminalKey, String typeComm)

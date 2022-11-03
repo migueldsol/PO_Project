@@ -9,23 +9,23 @@ public class TerminalSilence extends TerminalState{
 
     public boolean changeToIdle() {
         Terminal terminal = super.getTerminal();
-        terminal.changePreviousState(terminal.getSilence());
-        terminal.setState(terminal.getIdle());
+        terminal.changePreviousState(terminal.getTerminalState());
+        terminal.setState(new TerminalIdle(terminal));
         return true;
     }
 
     public boolean changeToBusy() {
         Terminal terminal = super.getTerminal();
-        terminal.changePreviousState(terminal.getSilence());
-        terminal.setState(terminal.getBusy());
+        terminal.changePreviousState(terminal.getTerminalState());
+        terminal.setState(new TerminalBusy(terminal));
         return true;
     }
 
     @Override
     public boolean changeToOff() {
         Terminal terminal = super.getTerminal();
-        terminal.changePreviousState(terminal.getSilence());
-        terminal.setState(terminal.getOff());
+        terminal.changePreviousState(terminal.getTerminalState());
+        terminal.setState(new TerminalOff(terminal));
         return true;
     }
 

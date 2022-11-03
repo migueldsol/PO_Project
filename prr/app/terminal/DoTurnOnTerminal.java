@@ -20,7 +20,7 @@ class DoTurnOnTerminal extends TerminalCommand {
     if(_receiver.getTerminalState().toString().equals("IDLE")){
       _display.popup(Message.alreadyOn());
     }
-    _receiver.setState(_receiver.getIdle());
+    _receiver.getTerminalState().changeToIdle();
   }
 }
 
