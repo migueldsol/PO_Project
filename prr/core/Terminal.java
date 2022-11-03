@@ -189,12 +189,12 @@ abstract public class Terminal implements Serializable, Subject{
 
   public void addInteractiveCommunicationMade(Communication communication){
     _communicationsMade.put(communication.getId(),communication);
-    this.setState(this.getBusy());
+    this.getTerminalState().changeToBusy();
   }
 
   public void addInteractiveCommunicationReceived(Communication communication){
     _communicationsReceived.put(communication.getId(),communication);
-    this.setState(this.getBusy());
+    this.getTerminalState().changeToBusy();
   }
 
   public boolean isFriend(String terminalId){
