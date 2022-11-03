@@ -11,7 +11,7 @@ import java.util.SortedMap;
 import java.util.HashMap;
 import java.util.Iterator;
 
-public class Client implements Serializable{
+public class Client implements Serializable, Observer, Notifiable{
 
     private static final long serialVersionUID = 202208091753L;
     private final String KEY;
@@ -29,9 +29,9 @@ public class Client implements Serializable{
     //  Pq nao ter só um metodo que calcula qd for preciso?
     private double _payments;
     private double _debts;
-    private final List<Notification> _notifications;
     private boolean _notificationsOn;
     private PricingSystem _pricingSystem;
+    private NotificationDecorator _deliverySystem;
 
     public Client(String key, String name, int taxNumber) {
         KEY = key;
@@ -42,9 +42,9 @@ public class Client implements Serializable{
         _goldType = new GoldType(this);
         _platinumType = new PlatinumType(this);
         _clientType =  _normalType;
-        _notifications = new ArrayList<>();
         _notificationsOn = true;
         _pricingSystem = new BasePricingSystem();
+        _deliverySystem = new OmissionDecorator(this);
     }
 
     public String getKey() {
@@ -193,11 +193,24 @@ public class Client implements Serializable{
         return communications;
     }
 
-    public void addNotification(Notification newNotification){
-        _notifications.add(newNotification);
-    }
-
     public boolean getNotificationsOn(){
         return _notificationsOn;
+    }
+
+    public void update(String key,NotificationType notificationType){
+        _deliverySystem.sendNotification(key, notificationType);
+    }
+
+    //QUESTIONS isto é para todos?
+    public String getNotificationString(String key, NotificationType notificationType){
+        return key + "|" + notificationType.toString();
+    }
+
+
+    public List<String> getNotifications(){
+
+        //QUESTION epah horrivel...
+        OmissionDecorator omission = (OmissionDecorator) _deliverySystem;
+        return omission.getNotifications();
     }
 }

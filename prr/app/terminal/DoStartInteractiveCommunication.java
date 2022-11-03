@@ -44,7 +44,7 @@ class DoStartInteractiveCommunication extends TerminalCommand {
         _display.popup(Message.destinationIsSilent(terminalKey));
       }
     } catch (Exception e){
-      //FIXME e suposto fazer algo qd o terminal liga a si mesmo?
+      //QUESTIONS e suposto fazer algo qd o terminal liga a si mesmo?
       
     }
   }

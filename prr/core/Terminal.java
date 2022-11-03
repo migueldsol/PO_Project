@@ -226,9 +226,13 @@ abstract public class Terminal implements Serializable, Subject{
 
   public void notifyObserver(NotificationType notificationType){
     for (Observer i : _observers){
-      i.update(notificationType);
+      i.update(this.KEY,notificationType);
     }
 
+    /*QUESTIONS é possível desistir a meio de ser notificado?
+                Ou seja se eu tiver notifications on, tentar comunicar
+                desligar e depois esse terminal ficar on eu recebo a notification?
+    */
     unregisterObservers();
   }
 }

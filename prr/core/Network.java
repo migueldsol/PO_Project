@@ -1,7 +1,6 @@
 package prr.core;
 
 import java.io.Serializable;
-import java.lang.reflect.Executable;
 import java.io.IOException;
 
 import prr.core.exception.*;
@@ -103,6 +102,14 @@ public class Network implements Serializable {
       return null;
     }
     return client.toString();
+  }
+
+  public List<String> toStringNotifications(String clientID){
+    Client client = _clients.get(clientID);
+    if (client == null){
+      return null;
+    }
+    return client.getNotifications();
   }
 
   public boolean turnOffNotification(String clientID) throws KeyNotFoundException {
@@ -354,9 +361,7 @@ public class Network implements Serializable {
     } else if (!targetTerminal.getTerminalState().canReceiveInteractiveCommunication()) {
         if (terminal.getClient().getNotificationsOn()){
           //FIXME estou a adicionar uma notificação e devia de fazer uma função no network para isto
-          Notification newNotification = new Notification(terminalKey);
-          terminal.registerObserver(newNotification);
-          terminal.getClient().addNotification(newNotification);
+          terminal.registerObserver(terminal.getClient());
         }
       throw new FailedInteractiveCommunicationException(targetTerminal.getTerminalState());
     }
