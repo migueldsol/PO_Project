@@ -79,7 +79,7 @@ abstract public class Terminal implements Serializable, Subject{
 
   //FIXME verificar 
   public void setState(TerminalState state){
-    NotificationType notificationType = changeType(this.getTerminalState(), state);
+    NotificationType notificationType = changeType(this.getPreviousState(), state);
     if (notificationType != null){
       notifyObserver(notificationType);
     }
@@ -90,8 +90,9 @@ abstract public class Terminal implements Serializable, Subject{
 
     boolean inicialOff = inicialState.isOff();
     boolean inicialBusy = inicialState.isBusy();
-    boolean finalIdle = inicialState.isIdle();
-    boolean finalSilence = inicialState.isSilence();
+    boolean inicialSilence = inicialState.isSilence();
+    boolean finalIdle = finalState.isIdle();
+    boolean finalSilence = finalState.isSilence();
     
     if (inicialOff && finalSilence){
         return NotificationType.O2S;
@@ -99,8 +100,8 @@ abstract public class Terminal implements Serializable, Subject{
     else if (inicialOff && finalIdle){
         return NotificationType.O2I;
     }
-    else if (inicialBusy && finalSilence){
-        return NotificationType.B2S;
+    else if (inicialSilence && finalIdle){
+        return NotificationType.S2I;
     }
     else if (inicialBusy && finalIdle){
         return NotificationType.B2I;
@@ -186,8 +187,11 @@ abstract public class Terminal implements Serializable, Subject{
     return getTerminalType().name() + "|" + KEY + "|" + CLIENT.getKey() + "|" + _terminalState.toString() + "|"
             + Math.round(getDebts()) + "|" + Math.round(getPayments()) + "|" + String.join(",",friends);
   }
+
   public void registerObserver(Observer observer){
-    _observers.add(observer);
+    if (!_observers.contains(observer)){
+      _observers.add(observer);
+    }
   }
     //FIXME posso fazer isto?
   public void unregisterObservers(){
@@ -198,11 +202,8 @@ abstract public class Terminal implements Serializable, Subject{
     for (Observer i : _observers){
       i.update(this.KEY,notificationType);
     }
-
-    /*QUESTIONS é possível desistir a meio de ser notificado?
-                Ou seja se eu tiver notifications on, tentar comunicar
-                desligar e depois esse terminal ficar on eu recebo a notification?
-    */
     unregisterObservers();
   }
+
+  //QUESTIONS verificar se o terminal de chegada é basic numa video commu
 }

@@ -25,7 +25,7 @@ public class Network implements Serializable {
     _pricingSystems = new ArrayList<PricingSystem>();
     PricingSystem base = new BasePricingSystem();
     this.addPricingSystem(base);
-    _terminals = new HashMap<String, Terminal>();
+    _terminals = new HashMap<String, Terminal>(); //FIXME passar para SortedMap
     _communications = new ArrayList<Communication>();
   }
 
@@ -409,6 +409,12 @@ public class Network implements Serializable {
       throw new OngoingCommunicationNotFound();
     }
     return terminal.getCurrentComunication().toString();
+  }
+
+  public void registerObserver(Terminal Senderterminal, String targetTerminalKey){
+    Terminal targetTerminal = _terminals.get(targetTerminalKey);
+
+    targetTerminal.registerObserver(Senderterminal.getClient());
   }
 
   /**
