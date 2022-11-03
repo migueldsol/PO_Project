@@ -1,6 +1,5 @@
 package prr.core;
 
-import java.io.Serializable;
 
 public class TextCommunication extends Communication{
 

@@ -325,6 +325,9 @@ public class Network implements Serializable {
     Terminal targetTerminal = checkTerminalKey(secondTerminal);
     // QUESTIONS substituir "SILENCE" pelo atributo da classe? É seguro?
     if (targetTerminal.getTerminalState().isOff()) {
+      if (terminal.getClient().getNotificationsOn()){
+        targetTerminal.registerObserver(terminal.getClient());
+      }
       return false;
     }
     if (checkTerminals(terminal, targetTerminal)) {
@@ -371,11 +374,12 @@ public class Network implements Serializable {
     Terminal targetTerminal = checkTerminalKey(terminalKey);
     if (typeComm.equals("VIDEO") && targetTerminal.getTerminalType() == TerminalType.BASIC) {
       throw new UnsuportedInteractiveCommunicationException();
-    } else if (!targetTerminal.getTerminalState().canReceiveInteractiveCommunication()) {
-        if (terminal.getClient().getNotificationsOn()){
-          //FIXME estou a adicionar uma notificação e devia de fazer uma função no network para isto
-          terminal.registerObserver(terminal.getClient());
-        }
+    } 
+    else if (!targetTerminal.getTerminalState().canReceiveInteractiveCommunication()) {
+      if (terminal.getClient().getNotificationsOn()){
+        //FIXME estou a adicionar uma notificação e devia de fazer uma função no network para isto
+        terminal.registerObserver(terminal.getClient());
+      }
       throw new FailedInteractiveCommunicationException(targetTerminal.getTerminalState());
     }
     if (checkTerminals(terminal, targetTerminal)) {
