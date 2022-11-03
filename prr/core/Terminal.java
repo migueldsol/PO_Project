@@ -2,6 +2,7 @@ package prr.core;
 
 import java.io.Serializable;
 import java.util.*;
+import java.util.ArrayList;
 
 
 /**
@@ -63,7 +64,7 @@ abstract public class Terminal implements Serializable, Subject{
   }
   public double getDebts(){
     double debt = 0;
-    for(Communication communication: _communicationsMade()){
+    for(Communication communication: _communicationsMade){
       if(!communication.isPaid()){
         debt += communication.getPrice();
       }
@@ -113,14 +114,19 @@ abstract public class Terminal implements Serializable, Subject{
     return null;
 }
   public void addCommunicationMade(Communication communication){
-    _communicationsMade.add(communication.getId(),communication);
+    _communicationsMade.add(communication);
   }
 
   public void addCommunicationReceived(Communication communication){
-    _communicationsReceived.add(communication.getId(),communication);
+    _communicationsReceived.add(communication);
   }
   public Communication getMadeCommunication(int id){
-    return _communicationsMade.get(id);
+    for(Communication comm: _communicationsMade){
+      if(comm.getId() == id){
+        return comm;
+      }
+    }
+    return null;
   }
 
   public abstract void makeCommunication(String targetKey, String type);
@@ -142,7 +148,7 @@ abstract public class Terminal implements Serializable, Subject{
   }
 
   public Communication getLastCommunication(){
-    return _communicationsMade.get(_communicationsMade.lastKey());
+    return _communicationsMade.get((_communicationsMade.size()-1));
   }
 
   public void addFriendlyTerminal(Terminal newTerminal) {
@@ -155,12 +161,12 @@ abstract public class Terminal implements Serializable, Subject{
   abstract public TerminalType getTerminalType();
 
   public void addInteractiveCommunicationMade(Communication communication){
-    _communicationsMade.put(communication.getId(),communication);
+    _communicationsMade.add(communication);
     this.getTerminalState().changeToBusy();
   }
 
   public void addInteractiveCommunicationReceived(Communication communication){
-    _communicationsReceived.put(communication.getId(),communication);
+    _communicationsReceived.add(communication);
     this.getTerminalState().changeToBusy();
   }
 
@@ -173,11 +179,11 @@ abstract public class Terminal implements Serializable, Subject{
   }
 
 // TODO: pode se passar um treemap normalmente ou tem que ser unmodifyable
-  public TreeMap<Integer,Communication> getCommunicationsMade(){
+  public List<Communication> getCommunicationsMade(){
     return _communicationsMade;
   }
 
-  public TreeMap<Integer,Communication> getCommunicationsReceived(){
+  public List<Communication> getCommunicationsReceived(){
     return _communicationsReceived;
   }
   @Override

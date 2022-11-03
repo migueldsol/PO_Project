@@ -1,9 +1,12 @@
 package prr.core;
 
+import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
 
-public class OmissionSystem implements Notifiable{
+public class OmissionSystem implements Notifiable, Serializable {
+
+    private static final long serialVersionUID = 202208091753L;
 
     private List <String> _notifications;
     public OmissionSystem(){

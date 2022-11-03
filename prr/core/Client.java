@@ -94,25 +94,6 @@ public class Client implements Serializable, Observer{
     }
     //FIXME ns se esta certo
     //FIXME codigo repetido
-    public boolean verifyPlatinumToGold(){
-        SortedMap<Integer,Communication> communications = this.getCommunicationsMade();
-        List<Communication> communicationsList = new ArrayList<>(communications.values());
-        Collections.reverse(communicationsList);
-        Iterator<Communication> iterator = communicationsList.iterator();
-        Communication communication = iterator.next();
-        int i = 0;
-        while (i < 2){
-            if (!iterator.hasNext()){
-                return false;
-            }
-            else if (!communication.isText()){
-                return false;
-            }
-            i++;
-            communication = iterator.next();
-        }
-        return true;
-    }
 
     public PricingSystem getPricingSystem(){
         return _pricingSystem;
@@ -165,14 +146,15 @@ public class Client implements Serializable, Observer{
         return false;
     }
 
-    public SortedMap<Integer,Communication> getCommunicationsMade(){
-        SortedMap <Integer, Communication> communications = new TreeMap<>();
-        Collection <Terminal> terminals = _terminals.values();
-        for (Terminal i : terminals){
-            communications.putAll(i.getCommunicationsMade());
+    public List<Communication> getCommunicationsMade(){
+        ArrayList<Communication> communications = new ArrayList<>();
+        for (Terminal i : _terminals.values()){
+            communications.addAll(i.getCommunicationsMade());
         }
+        communications.sort(new CommunicationComparator());
         return communications;
     }
+
 
     public boolean getNotificationsOn(){
         return _notificationsOn;

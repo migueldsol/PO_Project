@@ -39,7 +39,10 @@ public class Network implements Serializable {
     if (terminal.getMadeCommunication(id) == null) {
       return false;
     } else {
-      // FIXME: resolve payment
+      terminal.getMadeCommunication(id).pay();
+      if(terminal.getClient().getType().isNormal()){
+        terminal.getClient().getType().changeType();
+      }
       return true;
     }
   }
@@ -335,6 +338,9 @@ public class Network implements Serializable {
     }
     communication.endCommunication();
     addCommunications(terminal, targetTerminal, communication);
+    if(terminal.getClient().getType().isGold() || terminal.getClient().getType().isPlatinum()){
+      terminal.getClient().getType().changeType();
+    }
     return true;
   }
 
@@ -399,6 +405,9 @@ public class Network implements Serializable {
     target.setState(target.getPreviousState());
     terminal.removeCurrentCommunication();
     terminal.setState(terminal.getPreviousState());
+    if(terminal.getClient().getType().isGold() || terminal.getClient().getType().isPlatinum()){
+      terminal.getClient().getType().changeType();
+    }
     return current.getPrice();
   }
 
