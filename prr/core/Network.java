@@ -64,7 +64,6 @@ public class Network implements Serializable {
    * @param key
    * @param name
    * @param taxNumber
-   * @return return if the client was added to the network
    */
 
   public void registerClient(String key, String name, int taxNumber) throws ClientKeyAlreadyExistsException {
@@ -200,7 +199,6 @@ public class Network implements Serializable {
    * 
    * @param terminal
    * @param friend
-   * @throws KeyNotFoundException
    */
   public void addFriend(Terminal terminal, Terminal friend) {
     terminal.addFriendlyTerminal(friend);

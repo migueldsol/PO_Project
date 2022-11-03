@@ -16,8 +16,8 @@ abstract public class Terminal implements Serializable, Subject{
 
   public final TerminalType TERMINAL_TYPE;
   private final String KEY;
-  private final TreeMap<Integer, Communication> _communicationsMade;
-  private final TreeMap<Integer, Communication> _communicationsReceived;
+  private final List<Communication> _communicationsMade;
+  private final List<Communication> _communicationsReceived;
   private TerminalState _terminalState;
   private InteractiveCommunication _currentCommunication;
   private TerminalState _previousState;
@@ -29,8 +29,8 @@ abstract public class Terminal implements Serializable, Subject{
   public Terminal(String key, Client client, TerminalType terminalType) {
     KEY = key;
     CLIENT = client;
-    _communicationsMade = new TreeMap<>();
-    _communicationsReceived = new TreeMap<>();
+    _communicationsMade = new ArrayList<>();
+    _communicationsReceived = new ArrayList<>();
     _terminalState = new TerminalIdle(this);
     _previousState = _terminalState;
 
@@ -57,9 +57,13 @@ abstract public class Terminal implements Serializable, Subject{
   public InteractiveCommunication getCurrentComunication(){
     return _currentCommunication;
   }
+
+  public double getBalance(){
+    return getPayments() - getDebts();
+  }
   public double getDebts(){
     double debt = 0;
-    for(Communication communication: _communicationsMade.values()){
+    for(Communication communication: _communicationsMade()){
       if(!communication.isPaid()){
         debt += communication.getPrice();
       }
@@ -69,7 +73,7 @@ abstract public class Terminal implements Serializable, Subject{
 
   public double getPayments(){
     double payment = 0;
-    for(Communication communication: _communicationsMade.values()){
+    for(Communication communication: _communicationsMade){
       if(communication.isPaid()){
         payment += communication.getPrice();
       }
@@ -108,11 +112,11 @@ abstract public class Terminal implements Serializable, Subject{
     return null;
 }
   public void addCommunicationMade(Communication communication){
-    _communicationsMade.put(communication.getId(),communication);
+    _communicationsMade.add(communication.getId(),communication);
   }
 
   public void addCommunicationReceived(Communication communication){
-    _communicationsReceived.put(communication.getId(),communication);
+    _communicationsReceived.add(communication.getId(),communication);
   }
   public Communication getMadeCommunication(int id){
     return _communicationsMade.get(id);
