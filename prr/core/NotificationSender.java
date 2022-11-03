@@ -3,7 +3,7 @@ package prr.core;
 import java.io.Serializable;
 import java.util.List;
 
-public  class NotificationSender implements Notifiable, Serializable {
+public class NotificationSender implements Notifiable, Serializable {
 
     private static final long serialVersionUID = 202208091753L;
 

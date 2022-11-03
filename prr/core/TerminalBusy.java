@@ -1,10 +1,8 @@
 package prr.core;
 
-import java.io.Serializable;
 
-public class TerminalBusy extends TerminalState implements Serializable {
+public class TerminalBusy extends TerminalState{
 
-    private static final long serialVersionUID = 202208091753L;
     private final static String STATE_NAME = "BUSY";
 
     public TerminalBusy(Terminal terminal){
