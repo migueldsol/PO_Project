@@ -322,7 +322,7 @@ public class Network implements Serializable {
     TextCommunication communication = new TextCommunication((_communications.size() + 1), terminal, targetTerminal,
         message);
     communication.setPrice(terminal.getClient().getType().getTarrif(communication));
-    if (terminal.isFriend(targetTerminal)) {
+    if (terminal.isFriend(targetTerminal.getKey())) {
       communication.discount();
     }
     communication.endCommunication();
@@ -348,15 +348,15 @@ public class Network implements Serializable {
 
   public void addInteractiveCommunication(Terminal terminal, Terminal targetTerminal, Communication communication) {
     terminal.addInteractiveCommunicationMade(communication);
-    terminal.setState(terminal.getBusy());
+    terminal.getTerminalState().changeToBusy();
     targetTerminal.addInteractiveCommunicationReceived(communication);
-    targetTerminal.setState(targetTerminal.getBusy());
+    targetTerminal.getTerminalState().changeToBusy();
   }
 
   public String startInteractiveCommunication(Terminal terminal, String terminalKey, String typeComm)
       throws KeyNotFoundException, UnsuportedInteractiveCommunicationException, FailedInteractiveCommunicationException,Exception {
     Terminal targetTerminal = checkTerminalKey(terminalKey);
-    if (typeComm == "VIDEO" && targetTerminal.getTerminalType() == TerminalType.BASIC) {
+    if (typeComm.equals("VIDEO") && targetTerminal.getTerminalType() == TerminalType.BASIC) {
       throw new UnsuportedInteractiveCommunicationException();
     } else if (!targetTerminal.getTerminalState().canReceiveInteractiveCommunication()) {
         if (terminal.getClient().getNotificationsOn()){
@@ -369,18 +369,13 @@ public class Network implements Serializable {
       throw new Exception();
     }
     InteractiveCommunication communication;
-    if (typeComm == "Video") {
+    if (typeComm.equals("VIDEO")) {
       communication = new VideoCommunication((_communications.size() + 1), terminal, targetTerminal);
     } else {
       communication = new VoiceCommunication((_communications.size() + 1), terminal, targetTerminal);
     }
-    if (terminal.isFriend(targetTerminal)) {
-      communication.discount(); //SOL mas estas a aplicar um desconto antes de calculares o preço?
-                                // supostamente so se calcula o preço qd se termina a communication
-    }
     addInteractiveCommunication(terminal, targetTerminal, communication);
     terminal.addCurrentCommunication(communication);
-    terminal.setState(terminal.getBusy());
     return null;
   }
 
@@ -388,10 +383,15 @@ public class Network implements Serializable {
     InteractiveCommunication current = terminal.getCurrentComunication();
     current.setDuration(duration);
     current.setPrice(terminal.getClient().getType().getTarrif(current));
+    if (terminal.isFriend(current.getDestinationId())) {
+      current.discount(); //SOL mas estas a aplicar um desconto antes de calculares o preço?
+      // supostamente so se calcula o preço qd se termina a communication
+    }
     current.endCommunication();
-    _terminals.get(current.getDestinationId()).setState(terminal.getIdle());
+    Terminal target = _terminals.get(current.getDestinationId());
+    target.setState(target.getPreviousState());
     terminal.removeCurrentCommunication();
-    terminal.setState(terminal.getIdle());
+    terminal.setState(terminal.getPreviousState());
     return current.getPrice();
   }
 
