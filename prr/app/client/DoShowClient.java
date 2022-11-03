@@ -29,6 +29,11 @@ class DoShowClient extends Command<Network> {
       throw new UnknownClientKeyException(clientID);
     }
 
-    _display.popup(_receiver.toStringClient(clientID));
+    _display.addLine(_receiver.toStringClient(clientID));
+    List <String> notifications = _receiver.toStringNotifications(clientID);
+    if (notifications.size() > 0){
+      _display.addAll(notifications);
+    }
+    _display.display();
   }
 }
