@@ -1,7 +1,10 @@
 package prr.core;
 
-public class NormalType extends ClientType{
+import java.io.Serializable;
 
+public class NormalType extends ClientType implements Serializable {
+
+    private static final long serialVersionUID = 202208091753L;
     public NormalType(Client client){
         super("NORMAL", client);
     }
@@ -17,5 +20,10 @@ public class NormalType extends ClientType{
         if (super.getClient().getBalance() > 500){
             super.getClient().setType(super.getClient().getGoldType());
         }
+    }
+
+    @Override
+    public boolean isNormal() {
+        return true;
     }
 }

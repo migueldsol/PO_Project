@@ -26,4 +26,12 @@ public abstract class ClientType implements Serializable{
     public Client getClient(){
         return CLIENT;
     }
+
+    public boolean verifyDowngrade(){
+        return getClient().getBalance() < 0;
+    }
+
+    public boolean isNormal(){return false;}
+    public boolean isGold(){return false;}
+    public boolean isPlatinum(){return false;}
 }

@@ -39,7 +39,10 @@ public class Network implements Serializable {
     if (terminal.getMadeCommunication(id) == null) {
       return false;
     } else {
-      // FIXME: resolve payment
+      terminal.getMadeCommunication(id).pay();
+      if(terminal.getClient().getType().isNormal()){
+        terminal.getClient().getType().changeType();
+      }
       return true;
     }
   }
@@ -64,7 +67,6 @@ public class Network implements Serializable {
    * @param key
    * @param name
    * @param taxNumber
-   * @return return if the client was added to the network
    */
 
   public void registerClient(String key, String name, int taxNumber) throws ClientKeyAlreadyExistsException {
@@ -200,7 +202,6 @@ public class Network implements Serializable {
    * 
    * @param terminal
    * @param friend
-   * @throws KeyNotFoundException
    */
   public void addFriend(Terminal terminal, Terminal friend) {
     terminal.addFriendlyTerminal(friend);
@@ -337,6 +338,9 @@ public class Network implements Serializable {
     }
     communication.endCommunication();
     addCommunications(terminal, targetTerminal, communication);
+    if(terminal.getClient().getType().isGold() || terminal.getClient().getType().isPlatinum()){
+      terminal.getClient().getType().changeType();
+    }
     return true;
   }
 
@@ -401,6 +405,9 @@ public class Network implements Serializable {
     target.setState(target.getPreviousState());
     terminal.removeCurrentCommunication();
     terminal.setState(terminal.getPreviousState());
+    if(terminal.getClient().getType().isGold() || terminal.getClient().getType().isPlatinum()){
+      terminal.getClient().getType().changeType();
+    }
     return current.getPrice();
   }
 

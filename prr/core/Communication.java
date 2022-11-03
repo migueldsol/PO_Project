@@ -64,6 +64,10 @@ public abstract class Communication implements Serializable {
         return false;
     }
 
+    public void pay(){
+        _isPaid = true;
+    }
+
     public String getState(){
         return _ended ? "FINISHED" : "ONGOING";
     }

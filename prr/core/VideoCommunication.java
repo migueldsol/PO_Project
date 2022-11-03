@@ -1,6 +1,10 @@
 package prr.core;
 
-public class VideoCommunication extends InteractiveCommunication {
+import java.io.Serializable;
+
+public class VideoCommunication extends InteractiveCommunication implements Serializable {
+
+    private static final long serialVersionUID = 202208091753L;
     public VideoCommunication(int id, Terminal origin, Terminal destination) {
         super(id, origin, destination);
     }
