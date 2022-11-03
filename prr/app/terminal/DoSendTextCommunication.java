@@ -24,6 +24,7 @@ class DoSendTextCommunication extends TerminalCommand {
     String targetTerminal = stringField("terminalId");
     try{
       if(!_network.textCommunication(_receiver,targetTerminal,message)){
+        _network.registerObserver(_receiver,targetTerminal);
         _display.popup(Message.destinationIsOff(targetTerminal));
       }
     }catch(KeyNotFoundException knfe){
