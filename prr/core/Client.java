@@ -1,11 +1,8 @@
 package prr.core;
 
 import java.io.Serial;
-import java.util.List;
+import java.util.*;
 import java.io.Serializable;
-import java.util.ArrayList;
-import java.util.Map;
-import java.util.HashMap;
 
 public class Client implements Serializable, Observer{
 
@@ -13,7 +10,7 @@ public class Client implements Serializable, Observer{
     private final String KEY;
     private final String NAME;
     private final int TAX_NUMBER;
-    private final Map<String,Terminal> _terminals;
+    private final SortedMap<String,Terminal> _terminals;
     private ClientType _clientType;
     //QUESTIONS vale a pena termos este atributos?
     //  Pq nao ter só um metodo que calcula qd for preciso?
@@ -25,7 +22,7 @@ public class Client implements Serializable, Observer{
         KEY = key;
         NAME = name;
         TAX_NUMBER = taxNumber;
-        _terminals = new HashMap<>();
+        _terminals = new TreeMap<>();
         _clientType = new NormalType(this);
         _notificationsOn = true;
         _pricingSystem = new BasePricingSystem();
@@ -118,6 +115,15 @@ public class Client implements Serializable, Observer{
         ArrayList<Communication> communications = new ArrayList<>();
         for (Terminal i : _terminals.values()){
             communications.addAll(i.getCommunicationsMade());
+        }
+        communications.sort(new CommunicationComparator());
+        return communications;
+    }
+
+    public List<Communication> getCommunicationsReceived(){
+        ArrayList<Communication> communications = new ArrayList<>();
+        for (Terminal i : _terminals.values()){
+            communications.addAll(i.getCommunicationsReceived());
         }
         communications.sort(new CommunicationComparator());
         return communications;

@@ -175,7 +175,7 @@ abstract public class Terminal implements Serializable, Subject{
   }
 
   public boolean hasActivity(){
-    return !_communicationsMade.isEmpty() || !_communicationsReceived.isEmpty();
+    return !_communicationsMade.isEmpty() && !_communicationsReceived.isEmpty();
   }
 
 // TODO: pode se passar um treemap normalmente ou tem que ser unmodifyable
