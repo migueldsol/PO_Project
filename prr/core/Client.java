@@ -1,8 +1,10 @@
 package prr.core;
 
-import java.io.Serial;
-import java.util.*;
 import java.io.Serializable;
+import java.util.ArrayList;
+import java.util.List;
+import java.util.SortedMap;
+import java.util.TreeMap;
 
 public class Client implements Serializable, Observer{
 
@@ -12,20 +14,18 @@ public class Client implements Serializable, Observer{
     private final int TAX_NUMBER;
     private final SortedMap<String,Terminal> _terminals;
     private ClientType _clientType;
-    //QUESTIONS vale a pena termos este atributos?
-    //  Pq nao ter só um metodo que calcula qd for preciso?
     private boolean _notificationsOn;
     private PricingSystem _pricingSystem;
     private NotificationSender _deliverySystem;
 
-    public Client(String key, String name, int taxNumber) {
+    public Client(String key, String name, int taxNumber, PricingSystem base) {
         KEY = key;
         NAME = name;
         TAX_NUMBER = taxNumber;
         _terminals = new TreeMap<>();
         _clientType = new NormalType(this);
         _notificationsOn = true;
-        _pricingSystem = new BasePricingSystem();
+        _pricingSystem = base;
         _deliverySystem = new NotificationSender(new OmissionSystem());
     }
 
@@ -74,18 +74,11 @@ public class Client implements Serializable, Observer{
     public ClientType getType(){
         return _clientType;
     }
-    //FIXME ns se esta certo
-    //FIXME codigo repetido
 
     public PricingSystem getPricingSystem(){
         return _pricingSystem;
     }
 
-    /*FIXME 
-        temos que pensar se colocamos aqui a communication
-        e deixamos o clientType lidar com o tipo de communication
-        ou se o terminal é que lida com isso
-    */
     public double getBalance(){
         double balance = 0;
         for(Terminal terminal: _terminals.values()){

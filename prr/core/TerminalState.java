@@ -8,7 +8,6 @@ public abstract class TerminalState implements Serializable{
 
     //BUSY, IDLE, SILENCE, OFF
 
-    //FIXME meter coisas final
     private Terminal _terminal;
     private String _name;
 
