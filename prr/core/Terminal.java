@@ -23,7 +23,7 @@ abstract public class Terminal implements Serializable, Subject{
   private InteractiveCommunication _currentCommunication;
   private TerminalState _previousState;
   private final Client CLIENT;
-  private final TreeMap<String, Terminal> _friendlyTerminals;
+  private final List <Terminal> _friendlyTerminals;
 
   private List <Observer> _observers;
 
@@ -35,7 +35,7 @@ abstract public class Terminal implements Serializable, Subject{
     _terminalState = new TerminalIdle(this);
     _previousState = _terminalState;
 
-    _friendlyTerminals = new TreeMap<>();
+    _friendlyTerminals = new ArrayList<>();
     TERMINAL_TYPE = terminalType;
     _observers = new ArrayList<>();
 
@@ -152,11 +152,13 @@ abstract public class Terminal implements Serializable, Subject{
   }
 
   public void addFriendlyTerminal(Terminal newTerminal) {
-    _friendlyTerminals.put(newTerminal.getKey(), newTerminal);
+    if (!_friendlyTerminals.contains(newTerminal)){
+      _friendlyTerminals.add(newTerminal);
+    }
   }
 
   public void removeFriendlyTerminal(Terminal newTerminal){
-    _friendlyTerminals.remove(newTerminal.getKey(),newTerminal);
+    _friendlyTerminals.remove(newTerminal);
   }
   abstract public TerminalType getTerminalType();
 
@@ -170,8 +172,8 @@ abstract public class Terminal implements Serializable, Subject{
     this.getTerminalState().changeToBusy();
   }
 
-  public boolean isFriend(String terminalId){
-    return this._friendlyTerminals.containsKey(terminalId);
+  public boolean isFriend(Terminal terminal){
+    return _friendlyTerminals.contains(terminal);
   }
 
   public boolean hasActivity(){
@@ -192,7 +194,11 @@ abstract public class Terminal implements Serializable, Subject{
       return getTerminalType().name() + "|" + KEY + "|" + CLIENT.getKey() + "|" + _terminalState.toString() + "|"
               + Math.round(getPayments()) + "|" + Math.round(getDebts());
     }
-    List<String> friends = new ArrayList<>(_friendlyTerminals.keySet());
+    List<String> friends = new ArrayList<>();
+    for (Terminal i : _friendlyTerminals){
+      friends.add(i.getKey());
+    }
+    Collections.sort(friends);
 
     return getTerminalType().name() + "|" + KEY + "|" + CLIENT.getKey() + "|" + _terminalState.toString() + "|"
             + Math.round(getDebts()) + "|" + Math.round(getPayments()) + "|" + String.join(",",friends);
@@ -203,7 +209,6 @@ abstract public class Terminal implements Serializable, Subject{
       _observers.add(observer);
     }
   }
-    //FIXME posso fazer isto?
   public void unregisterObservers(){
     _observers = new ArrayList<>();
   }
@@ -214,6 +219,4 @@ abstract public class Terminal implements Serializable, Subject{
     }
     unregisterObservers();
   }
-
-  //QUESTIONS verificar se o terminal de chegada é basic numa video commu
 }

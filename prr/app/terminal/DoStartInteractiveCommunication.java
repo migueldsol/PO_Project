@@ -29,7 +29,6 @@ class DoStartInteractiveCommunication extends TerminalCommand {
     String terminalKey = stringField("terminalId");
     String type = stringField("type");
     try{
-      //QUESTIONS o receiver ser um terminal nao estraga a privacidade toda?
       _network.startInteractiveCommunication(_receiver,terminalKey,type);
     } catch (KeyNotFoundException knfe){
       throw new UnknownTerminalKeyException(terminalKey);
@@ -39,7 +38,6 @@ class DoStartInteractiveCommunication extends TerminalCommand {
       _display.popup(Message.unsupportedAtDestination(tuce.getTerminalId(), tuce.getCommunicationType()));
     } catch (FailedInteractiveCommunicationException fice){
       TerminalState terminalState = fice.getTerminalState();
-      //QUESTION mexer com terminalState nao é uma fuga de privacidade?
       if(terminalState.isOff()){
         _display.popup(Message.destinationIsOff(terminalKey));
       }
