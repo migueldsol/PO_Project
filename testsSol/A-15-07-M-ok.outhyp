@@ -267,7 +267,7 @@ GESTÃO DE CLIENTES
 6 - Mostrar saldo de cliente
 0 - Sair
 Escolha uma opção: 2
-CLIENT|cli001|Manuel Pinheiro|103443|GOLD|YES|4|900|80
+CLIENT|cli001|Manuel Pinheiro|103443|PLATINUM|YES|4|900|80
 CLIENT|cli002|Pedro Pinheiro|103447|NORMAL|YES|2|0|0
 CLIENT|cli003|Pedro Oliveira|103449|NORMAL|YES|3|0|0
 CLIENT|cli201|Ludgero Oliveira|103440|NORMAL|YES|0|0|0
