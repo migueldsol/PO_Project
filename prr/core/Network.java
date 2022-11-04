@@ -369,15 +369,12 @@ public class Network implements Serializable {
     _communications.add(communication);
   }
 
-  public String startInteractiveCommunication(Terminal terminal, String terminalKey, String typeComm)
-      throws KeyNotFoundException, UnsuportedInteractiveCommunicationException, FailedInteractiveCommunicationException,Exception {
+  public void startInteractiveCommunication(Terminal terminal, String terminalKey, String typeComm)
+      throws KeyNotFoundException, OriginUnsuportedCommunicationException, TargetUnsuportedCommunicationException, FailedInteractiveCommunicationException,Exception {
     Terminal targetTerminal = checkTerminalKey(terminalKey);
-    if (typeComm.equals("VIDEO") && targetTerminal.getTerminalType() == TerminalType.BASIC) {
-      throw new UnsuportedInteractiveCommunicationException();
-    } 
-    else if (!targetTerminal.getTerminalState().canReceiveInteractiveCommunication()) {
+    checkCommunicationType(terminal, targetTerminal, typeComm);
+    if (!targetTerminal.getTerminalState().canReceiveInteractiveCommunication()) {
       if (terminal.getClient().getNotificationsOn()){
-        //FIXME estou a adicionar uma notificação e devia de fazer uma função no network para isto
         targetTerminal.registerObserver(terminal.getClient());
       }
       throw new FailedInteractiveCommunicationException(targetTerminal.getTerminalState());
@@ -393,7 +390,16 @@ public class Network implements Serializable {
     }
     addInteractiveCommunication(terminal, targetTerminal, communication);
     terminal.addCurrentCommunication(communication);
-    return null;
+  }
+
+  public void checkCommunicationType(Terminal terminal, Terminal targetTerminal, String typeComm)
+    throws OriginUnsuportedCommunicationException, TargetUnsuportedCommunicationException{
+    if (typeComm.equals("VIDEO") && terminal.getTerminalType() == TerminalType.BASIC){
+      throw new OriginUnsuportedCommunicationException(terminal.getKey(), typeComm);
+    }
+    else if (typeComm.equals("VIDEO") && targetTerminal.getTerminalType() == TerminalType.BASIC){
+      throw new TargetUnsuportedCommunicationException(targetTerminal.getKey(), typeComm);
+    }
   }
 
   public double endCommunication(Terminal terminal, int duration) {
