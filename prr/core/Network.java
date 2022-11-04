@@ -23,7 +23,7 @@ public class Network implements Serializable {
     _pricingSystems = new ArrayList<>();
     PricingSystem base = new BasePricingSystem();
     this.addPricingSystem(base);
-    _terminals = new TreeMap<>(); //FIXME passar para SortedMap
+    _terminals = new TreeMap<>();
     _communications = new ArrayList<>();
   }
 
