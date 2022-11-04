@@ -2,9 +2,7 @@ package prr.core;
 
 import java.io.Serializable;
 
-public class BasePricingSystem extends PricingSystem implements Serializable{
-
-    private static final long serialVersionUID = 202208091753L;
+public class BasePricingSystem extends PricingSystem{
 
     private final static String NAME = "Base";
 

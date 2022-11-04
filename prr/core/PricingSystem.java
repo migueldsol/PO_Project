@@ -1,7 +1,10 @@
 package prr.core;
 
+import java.io.Serializable;
 
-public abstract class PricingSystem{
+public abstract class PricingSystem implements Serializable{
+
+    private static final long serialVersionUID = 202208091753L;
 
     private final String PRICING_SYSTEM_NAME;
 
