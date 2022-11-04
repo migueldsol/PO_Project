@@ -9,7 +9,6 @@ import java.util.HashMap;
 
 public class Client implements Serializable, Observer{
 
-    @Serial
     private static final long serialVersionUID = 202208091753L;
     private final String KEY;
     private final String NAME;
