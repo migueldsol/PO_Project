@@ -422,7 +422,7 @@ public class Network implements Serializable {
     TextCommunication communication = new TextCommunication((_communications.size() + 1), terminal, targetTerminal,
         message);
     communication.setPrice(terminal.getClient().getType().getTarrif(communication));
-    if (terminal.isFriend(targetTerminal.getKey())) {
+    if (terminal.isFriend(targetTerminal)) {
       communication.discount();
     }
     communication.endCommunication();
@@ -492,11 +492,11 @@ public class Network implements Serializable {
     InteractiveCommunication current = terminal.getCurrentComunication();
     current.setDuration(duration);
     current.setPrice(terminal.getClient().getType().getTarrif(current));
-    if (terminal.isFriend(current.getDestinationId())) {
+    Terminal target = _terminals.get(current.getDestinationId());
+    if (terminal.isFriend(target)) {
       current.discount(); 
     }
     current.endCommunication();
-    Terminal target = _terminals.get(current.getDestinationId());
     target.setState(target.getPreviousState());
     terminal.removeCurrentCommunication();
     terminal.setState(terminal.getPreviousState());
