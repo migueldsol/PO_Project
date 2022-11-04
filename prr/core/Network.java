@@ -27,6 +27,21 @@ public class Network implements Serializable {
     _communications = new ArrayList<>();
   }
 
+  public long getGlobalPayments(){
+    double payments=0;
+    for(Client client: _clients.values()){
+      payments += client.getClientPayments();
+    }
+    return Math.round(payments);
+  }
+  public long getGlobalDebts(){
+    double debts=0;
+    for(Client client: _clients.values()){
+      debts += client.getClientDebts();
+    }
+    return Math.round(debts);
+  }
+
   /**
    * payCommunication - Pay a communication
    *
