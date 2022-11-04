@@ -402,9 +402,6 @@ public class Network implements Serializable {
       }
       return false;
     }
-    if (checkTerminals(terminal, targetTerminal)) {
-      return true;  //SOL isto esta certo?
-    }
     TextCommunication communication = new TextCommunication((_communications.size() + 1), terminal, targetTerminal,
         message);
     communication.setPrice(terminal.getClient().getType().getTarrif(communication));
