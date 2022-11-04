@@ -378,7 +378,7 @@ public class Network implements Serializable {
     else if (!targetTerminal.getTerminalState().canReceiveInteractiveCommunication()) {
       if (terminal.getClient().getNotificationsOn()){
         //FIXME estou a adicionar uma notificação e devia de fazer uma função no network para isto
-        terminal.registerObserver(terminal.getClient());
+        targetTerminal.registerObserver(terminal.getClient());
       }
       throw new FailedInteractiveCommunicationException(targetTerminal.getTerminalState());
     }
