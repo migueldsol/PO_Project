@@ -4,11 +4,8 @@ import java.io.Serializable;
 import java.io.IOException;
 
 import prr.core.exception.*;
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Map;
-import java.util.Collections;
-import java.util.HashMap;
+
+import java.util.*;
 
 public class Network implements Serializable {
 
@@ -18,7 +15,7 @@ public class Network implements Serializable {
   private final Map<String, Client> _clients;
   //TODO: PricingSystem vale a pena ter uma lista visto que so aplicamos 1
   private final List<PricingSystem> _pricingSystems;
-  private final Map<String, Terminal> _terminals;
+  private final SortedMap<String, Terminal> _terminals;
   private final List<Communication> _communications;
 
   public Network() {
@@ -26,7 +23,7 @@ public class Network implements Serializable {
     _pricingSystems = new ArrayList<>();
     PricingSystem base = new BasePricingSystem();
     this.addPricingSystem(base);
-    _terminals = new HashMap<>(); //FIXME passar para SortedMap
+    _terminals = new TreeMap<>(); //FIXME passar para SortedMap
     _communications = new ArrayList<>();
   }
 
@@ -278,11 +275,58 @@ public class Network implements Serializable {
    */
   public List<String> unusedTerminalsToString() {
     List<String> message = new ArrayList<>();
-    List<Terminal> order = new ArrayList<>(_terminals.values());
-    Collections.sort(order, new TerminalComparator());
-    for (Terminal i : order) {
-      if (!i.hasActivity()) {
-        message.add(i.toString());
+    for(Terminal terminal: _terminals.values())
+      if(!terminal.hasActivity()){
+        message.add(terminal.toString());
+    }
+    return message;
+  }
+  public void clientKeyExists(String key) throws KeyNotFoundException{
+    if(!_clients.containsKey(key)){
+      throw new KeyNotFoundException(key);
+    }
+  }
+
+  public List<String> showTerminalsWithPositiveBalance(){
+    List<String> message = new ArrayList<>();
+    for(Terminal terminal: _terminals.values()){
+      if(terminal.getBalance() > 0){
+        message.add(terminal.toString());
+      }
+    }
+    return message;
+  }
+  public List<String> showCommunicationsFromClient(String clientId) throws KeyNotFoundException{
+    clientKeyExists(clientId);
+    List<String> message = new ArrayList<>();
+    for(Communication comm:_clients.get(clientId).getCommunicationsMade()){
+      message.add(comm.toString());
+    }
+    return message;
+  }
+  public List<String> showCommunicationsToClient(String clientId) throws KeyNotFoundException{
+    clientKeyExists(clientId);
+    List<String> message = new ArrayList<>();
+    for(Communication comm:_clients.get(clientId).getCommunicationsReceived()){
+      message.add(comm.toString());
+    }
+    return message;
+  }
+  public List<String> showClientsWithDebts() {
+    List<String> message = new ArrayList<>();
+    for(Client client: _clients.values()){
+      if(client.getBalance() < 0){
+        message.add(client.toString());
+      }
+    }
+    return message;
+  }
+
+  public List<String> showClientsWithoutDebts() {
+    List<String> message = new ArrayList<>();
+    for(Client client: _clients.values()){
+      if(client.getBalance() >= 0){
+        message.add(client.toString());
       }
     }
     return message;
@@ -303,10 +347,8 @@ public class Network implements Serializable {
    */
   public List<String> toStringAllTerminals() {
     List<String> message = new ArrayList<>();
-    List<Terminal> order = new ArrayList<>(_terminals.values());
-    Collections.sort(order, new TerminalComparator());
-    for (Terminal i : order) {
-      message.add(i.toString());
+    for (Terminal terminal: _terminals.values()) {
+      message.add(terminal.toString());
     }
     return message;
   }
