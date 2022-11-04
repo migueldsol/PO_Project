@@ -20,9 +20,9 @@ public class GoldType extends ClientType{
     public void changeType() {
         Client client = super.getClient();
         if (verifyDowngrade()) {
-            client.setType(client.getNormalType());
+            client.setType(new NormalType(super.getClient()));
         } else if (verifyGoldToPlatinum()) {
-            client.setType(client.getPlatinumType());
+            client.setType(new PlatinumType(super.getClient()));
         }
     }
 
