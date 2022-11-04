@@ -16,24 +16,26 @@ public class Network implements Serializable {
 
   private static final long serialVersionUID = 202208091753L;
   private final Map<String, Client> _clients;
+  //TODO: PricingSystem vale a pena ter uma lista visto que so aplicamos 1
   private final List<PricingSystem> _pricingSystems;
   private final Map<String, Terminal> _terminals;
   private final List<Communication> _communications;
 
   public Network() {
-    _clients = new HashMap<String, Client>();
-    _pricingSystems = new ArrayList<PricingSystem>();
+    _clients = new HashMap<>();
+    _pricingSystems = new ArrayList<>();
     PricingSystem base = new BasePricingSystem();
     this.addPricingSystem(base);
-    _terminals = new HashMap<String, Terminal>(); //FIXME passar para SortedMap
-    _communications = new ArrayList<Communication>();
+    _terminals = new HashMap<>(); //FIXME passar para SortedMap
+    _communications = new ArrayList<>();
   }
 
   /**
+   * payCommunication - Pay a communication
    *
-   * @param id
-   * @param terminal
-   * @return
+   * @param id - id of the communication
+   * @param terminal - terminal where the communication is
+   * @return true if the communication has been paid
    */
   public boolean payCommunication(int id, Terminal terminal) {
     if (terminal.getMadeCommunication(id) == null) {
@@ -50,9 +52,9 @@ public class Network implements Serializable {
   /**
    * getTerminal -> returns a terminal given a certain terminal id
    * 
-   * @param terminalID
+   * @param terminalID - terminal identification
    * @return returns the terminal with given terminalID
-   * @throws KeyNotFoundException
+   * @throws KeyNotFoundException - if hey doesn't exist
    */
   public Terminal getTerminal(String terminalID) throws KeyNotFoundException {
     if (!_terminals.containsKey(terminalID)) {
@@ -64,9 +66,9 @@ public class Network implements Serializable {
   /**
    * registerClient -> register a new client
    * 
-   * @param key
-   * @param name
-   * @param taxNumber
+   * @param key - client id
+   * @param name - client name
+   * @param taxNumber - client tax number
    */
 
   public void registerClient(String key, String name, int taxNumber) throws ClientKeyAlreadyExistsException {
@@ -106,6 +108,11 @@ public class Network implements Serializable {
     return client.toString();
   }
 
+  /**
+   *  toStringNotificaions -> returns a string with all the notifications of a client
+   * @param clientID
+   * @return
+   */
   public List<String> toStringNotifications(String clientID){
     Client client = _clients.get(clientID);
     if (client == null){
@@ -114,6 +121,12 @@ public class Network implements Serializable {
     return client.getNotifications();
   }
 
+  /**
+   * turnOffNotification -> turns off a notification
+   * @param clientID
+   * @return
+   * @throws KeyNotFoundException
+   */
   public boolean turnOffNotification(String clientID) throws KeyNotFoundException {
     Client client = _clients.get(clientID);
     if (client == null) {
@@ -122,6 +135,12 @@ public class Network implements Serializable {
     return client.setNotificationOff();
   }
 
+  /**
+   * TurnOnNotification -> turns on a notification
+   * @param clientID
+   * @return
+   * @throws KeyNotFoundException
+   */
   public boolean TurnOnNotification(String clientID) throws KeyNotFoundException {
     Client client = _clients.get(clientID);
     if (client == null) {
@@ -301,10 +320,22 @@ public class Network implements Serializable {
     _pricingSystems.add(pricingSystem);
   }
 
+  /**
+   * checkTerminals -> checks if the terminals are equal
+   * @param terminalOne
+   * @param terminalTwo
+   * @return
+   */
   public boolean checkTerminals(Terminal terminalOne, Terminal terminalTwo) {
     return terminalOne.getKey().equals(terminalTwo.getKey());
   }
 
+  /**
+   * checkTerminalKey -> checks if the terminal key exist
+   * @param terminal
+   * @return the terminal
+   * @throws KeyNotFoundException
+   */
   public Terminal checkTerminalKey(String terminal) throws KeyNotFoundException {
     if (_terminals.get(terminal) == null) {
       throw new KeyNotFoundException(terminal);
