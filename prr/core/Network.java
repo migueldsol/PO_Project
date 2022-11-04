@@ -127,10 +127,8 @@ public class Network implements Serializable {
    * @throws KeyNotFoundException
    */
   public boolean turnOffNotification(String clientID) throws KeyNotFoundException {
+    clientKeyExists(clientID);
     Client client = _clients.get(clientID);
-    if (client == null) {
-      throw new KeyNotFoundException(clientID);
-    }
     return client.setNotificationOff();
   }
 
@@ -141,10 +139,8 @@ public class Network implements Serializable {
    * @throws KeyNotFoundException
    */
   public boolean TurnOnNotification(String clientID) throws KeyNotFoundException {
+    clientKeyExists(clientID);
     Client client = _clients.get(clientID);
-    if (client == null) {
-      throw new KeyNotFoundException(clientID);
-    }
     return client.setNotificationOn();
   }
 
@@ -184,6 +180,11 @@ public class Network implements Serializable {
     client.registerTerminal(newTerminal);
   }
 
+  public void terminalKeyExists(String key) throws KeyNotFoundException {
+    if (!_terminals.containsKey(key)) {
+      throw new KeyNotFoundException(key);
+    }
+  }
   /**
    * registerTerminal -> gets the client to register the terminal
    * and registers the terminal
@@ -198,10 +199,8 @@ public class Network implements Serializable {
    */
   public void registerTerminal(String key, TerminalType type, String clientKey)
       throws NumberFormatException, InvalidSizeKey, KeyNotFoundException, TerminalKeyAlreadyExistsException {
+    clientKeyExists(clientKey);
     Client client = _clients.get(clientKey);
-    if (client == null) {
-      throw new KeyNotFoundException(key);
-    }
     registerTerminal(key, type, client);
   }
 

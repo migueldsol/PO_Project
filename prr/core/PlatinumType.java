@@ -31,7 +31,7 @@ public class PlatinumType extends ClientType{
         List<Communication> communications = getClient().getCommunicationsMade();
         if(communications.size() < 5){return false;}
             for (int i = (communications.size() - 1); i >= communications.size() - 3; i--) {
-                if (communications.get(i).isVoice() || communications.get(i).isText()) {
+                if (communications.get(i).isVoice()|| communications.get(i).isVideo()) {
                     return false;
                 }
             }
