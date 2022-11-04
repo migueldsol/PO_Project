@@ -82,7 +82,6 @@ abstract public class Terminal implements Serializable, Subject{
     return payment;
   }
 
-  //FIXME verificar 
   public void setState(TerminalState state){
     NotificationType notificationType = changeType(this.getPreviousState(), state);
     if (notificationType != null){
@@ -180,7 +179,6 @@ abstract public class Terminal implements Serializable, Subject{
     return !_communicationsMade.isEmpty() && !_communicationsReceived.isEmpty();
   }
 
-// TODO: pode se passar um treemap normalmente ou tem que ser unmodifyable
   public List<Communication> getCommunicationsMade(){
     return _communicationsMade;
   }
