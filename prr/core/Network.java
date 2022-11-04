@@ -31,8 +31,8 @@ public class Network implements Serializable {
   }
 
   /**
-   *
-   * @return
+   * getBasePricingSystem - gets the base pricing System
+   * @return 
    */
   public PricingSystem getBasePricingSystem() {
     for (PricingSystem i : _pricingSystems) {
@@ -43,6 +43,10 @@ public class Network implements Serializable {
     return null;
   }
 
+  /**
+   * getGlobalPayments -> gets the payments of all clients
+   * @return the payments of all clients
+   */
   public long getGlobalPayments() {
     double payments = 0;
     for (Client client : _clients.values()) {
@@ -52,8 +56,8 @@ public class Network implements Serializable {
   }
 
   /**
-   *
-   * @return
+   * getGlobalDebts -> gets the debts of all clients
+   * @return the debts of all clients
    */
   public long getGlobalDebts() {
     double debts = 0;
@@ -64,7 +68,7 @@ public class Network implements Serializable {
   }
 
   /**
-   * payCommunication - Pay a communication
+   * payCommunication -> Pay a communication
    *
    * @param id       - id of the communication
    * @param terminal - terminal where the communication is
@@ -323,7 +327,7 @@ public class Network implements Serializable {
   }
 
   /**
-   *
+   * clientKeyExists -> verifies if the clientKey exists
    * @param key
    * @throws KeyNotFoundException
    */
@@ -334,8 +338,9 @@ public class Network implements Serializable {
   }
 
   /**
-   *
-   * @return
+   * showTerminalsWithPositiveBalance -> gets all the terminals with 
+   *  positive balance ready to print out
+   * @return  
    */
   public List<String> showTerminalsWithPositiveBalance() {
     List<String> message = new ArrayList<>();
@@ -348,7 +353,7 @@ public class Network implements Serializable {
   }
 
   /**
-   *
+   * ShowCommunicationsFromClient -> gets all the communications the client made
    * @param clientId
    * @return
    * @throws KeyNotFoundException
@@ -363,7 +368,7 @@ public class Network implements Serializable {
   }
 
   /**
-   *
+   * showCommunicationsToClient -> gets all the communications the client received
    * @param clientId
    * @return
    * @throws KeyNotFoundException
@@ -378,7 +383,7 @@ public class Network implements Serializable {
   }
 
   /**
-   *
+   * showClientsWithDebts -> gets all the clients with balance < 0
    * @return
    */
   public List<String> showClientsWithDebts() {
@@ -394,7 +399,7 @@ public class Network implements Serializable {
   }
 
   /**
-   *
+   * showClientsWithoutDebts -> gets all the clients with balance > 0
    * @return
    */
   public List<String> showClientsWithoutDebts() {
@@ -411,7 +416,7 @@ public class Network implements Serializable {
   }
 
   /**
-   *
+   * doShowAllCommunications -> gets all the communications in the network
    * @return
    */
   public List<String> doShowAllCommunications() {
@@ -470,7 +475,7 @@ public class Network implements Serializable {
   }
 
   /**
-   *
+   * addCommunication -> adds the communication to the network and to the terminal
    * @param terminal
    * @param targetTerminal
    * @param communication
@@ -482,11 +487,12 @@ public class Network implements Serializable {
   }
 
   /**
-   *
-   * @param terminal
-   * @param secondTerminal
-   * @param message
-   * @return
+   * textCommunication -> makes a text communication, calculates its price
+   *  and adds it to the network
+   * @param terminal        terminal of origin
+   * @param secondTerminal  terminal of destination
+   * @param message         the message of the text
+   * @return                if the communication was made or not
    * @throws KeyNotFoundException
    */
 
@@ -514,7 +520,7 @@ public class Network implements Serializable {
   }
 
   /**
-   *
+   * getClientPayments -> gets the client payments
    * @param clientId
    * @return
    * @throws KeyNotFoundException
@@ -528,7 +534,7 @@ public class Network implements Serializable {
   }
 
   /**
-   *
+   * getClientDebts -> gets the client debts
    * @param clientId
    * @return
    * @throws KeyNotFoundException
@@ -542,7 +548,7 @@ public class Network implements Serializable {
   }
 
   /**
-   *
+   * addInteractiveCommunication -> adds an interactive communication to the network
    * @param terminal
    * @param targetTerminal
    * @param communication
@@ -554,10 +560,12 @@ public class Network implements Serializable {
   }
 
   /**
-   *
-   * @param terminal
-   * @param terminalKey
-   * @param typeComm
+   * startInteractiveCommunication -> makes an interactive communication,  checks if the 
+   * target terminal can receive it, adds the client to the observer list if needed and adds
+   * the communication to the network
+   * @param terminal                  origin terminal
+   * @param terminalKey               target terminal
+   * @param typeComm                  VOICE or VIDEO
    * @throws KeyNotFoundException
    * @throws OriginUnsuportedCommunicationException
    * @throws TargetUnsuportedCommunicationException
@@ -589,7 +597,7 @@ public class Network implements Serializable {
   }
 
   /**
-   *
+   * checkCommunicationType -> checks if the target or origin terminal can receive/make the communication
    * @param terminal
    * @param targetTerminal
    * @param typeComm
@@ -606,10 +614,11 @@ public class Network implements Serializable {
   }
 
   /**
-   *
-   * @param terminal
-   * @param duration
-   * @return
+   * endCommunication -> ends the communication, calculates its price and changes the client type
+   * if needed
+   * @param terminal     
+   * @param duration  
+   * @return              price of the communication
    */
   public double endCommunication(Terminal terminal, int duration) {
     InteractiveCommunication current = terminal.getCurrentComunication();
@@ -630,7 +639,7 @@ public class Network implements Serializable {
   }
 
   /**
-   *
+   * showOngoingCommunication -> gets the communication that is not ended
    * @param terminal
    * @return
    * @throws OngoingCommunicationNotFound
@@ -643,7 +652,7 @@ public class Network implements Serializable {
   }
 
   /**
-   *
+   * registerObserver -> registers the observer to the respective terminal
    * @param Senderterminal
    * @param targetTerminalKey
    */
