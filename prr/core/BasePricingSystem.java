@@ -1,7 +1,5 @@
 package prr.core;
 
-import java.io.Serializable;
-
 public class BasePricingSystem extends PricingSystem{
 
     private final static String NAME = "Base";
