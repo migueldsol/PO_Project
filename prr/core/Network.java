@@ -35,9 +35,11 @@ public class Network implements Serializable {
    * @return true if the communication has been paid
    */
   public boolean payCommunication(int id, Terminal terminal) {
-    if (terminal.getMadeCommunication(id) == null) {
+    Communication communication = terminal.getMadeCommunication(id);
+    if (communication ==  null || communication.isPaid()){
       return false;
-    } else {
+    } 
+    else{
       terminal.getMadeCommunication(id).pay();
       if(terminal.getClient().getType().isNormal()){
         terminal.getClient().getType().changeType();
