@@ -1,5 +1,6 @@
 package prr.core;
 
+import java.io.Serial;
 import java.util.List;
 import java.io.Serializable;
 import java.util.ArrayList;
@@ -8,22 +9,15 @@ import java.util.HashMap;
 
 public class Client implements Serializable, Observer{
 
+    @Serial
     private static final long serialVersionUID = 202208091753L;
     private final String KEY;
     private final String NAME;
     private final int TAX_NUMBER;
     private final Map<String,Terminal> _terminals;
     private ClientType _clientType;
-
-    //FIXME nao e preciso isto;
-    private ClientType _normalType;
-    private ClientType _goldType;
-    private ClientType _platinumType;
-
     //QUESTIONS vale a pena termos este atributos?
     //  Pq nao ter só um metodo que calcula qd for preciso?
-    private double _payments;
-    private double _debts;
     private boolean _notificationsOn;
     private PricingSystem _pricingSystem;
     private NotificationSender _deliverySystem;
@@ -33,10 +27,7 @@ public class Client implements Serializable, Observer{
         NAME = name;
         TAX_NUMBER = taxNumber;
         _terminals = new HashMap<>();
-        _normalType = new NormalType(this);
-        _goldType = new GoldType(this);
-        _platinumType = new PlatinumType(this);
-        _clientType =  _normalType;
+        _clientType = new NormalType(this);
         _notificationsOn = true;
         _pricingSystem = new BasePricingSystem();
         _deliverySystem = new NotificationSender(new OmissionSystem());
@@ -48,19 +39,23 @@ public class Client implements Serializable, Observer{
     }
 
     public double getClientPayments() {
-        return _payments;
+        double payments = 0;
+        for(Terminal terminal: _terminals.values()){
+            payments += terminal.getPayments();
+        }
+        return payments;
     }
 
     public double getClientDebts(){
-        return _debts;
+        double debts = 0;
+        for(Terminal terminal: _terminals.values()){
+            debts += terminal.getDebts();
+        }
+        return debts;
     }
 
-    public boolean registerTerminal(Terminal terminal) {
-        if (_terminals.containsKey(terminal.getKey())){
-            return false;
-        }
+    public void registerTerminal(Terminal terminal) {
         _terminals.put(terminal.getKey(),terminal);
-        return true;
     }
 
     public String getStringNotificationsOn(){
@@ -80,10 +75,6 @@ public class Client implements Serializable, Observer{
         _clientType = newType;
     }
 
-    public void changeType(){
-        _clientType.changeType();
-    }
-
     public ClientType getType(){
         return _clientType;
     }
@@ -99,10 +90,6 @@ public class Client implements Serializable, Observer{
         e deixamos o clientType lidar com o tipo de communication
         ou se o terminal é que lida com isso
     */
-    public int getTarrif(){
-        return 0; //FIXME implementar
-    }
-
     public double getBalance(){
         double balance = 0;
         for(Terminal terminal: _terminals.values()){
@@ -110,21 +97,8 @@ public class Client implements Serializable, Observer{
         }
         return balance;
     }
-
-    public ClientType getNormalType(){
-        return _normalType;
-    }
-
-    public ClientType getGoldType(){
-        return _goldType;
-    }
-    
-    public ClientType getPlatinumType(){
-        return _platinumType;
-    }
-
     public boolean setNotificationOn(){
-        if (_notificationsOn != true){
+        if (!_notificationsOn){
             _notificationsOn = true;
             return true;
         }
@@ -134,7 +108,7 @@ public class Client implements Serializable, Observer{
     }
 
     public boolean setNotificationOff(){
-        if (_notificationsOn != false){
+        if (_notificationsOn){
             _notificationsOn = false;
             return true;
         }
