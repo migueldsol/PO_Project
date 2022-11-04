@@ -2,10 +2,14 @@ package prr.core;
 
 import java.io.Serializable;
 import java.io.IOException;
-
 import prr.core.exception.*;
-
-import java.util.*;
+import java.util.List;
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.Map;
+import java.util.SortedMap;
+import java.util.TreeMap;
+import java.util.Collections;
 
 public class Network implements Serializable {
 
@@ -13,7 +17,6 @@ public class Network implements Serializable {
 
   private static final long serialVersionUID = 202208091753L;
   private final Map<String, Client> _clients;
-  //TODO: PricingSystem vale a pena ter uma lista visto que so aplicamos 1
   private final List<PricingSystem> _pricingSystems;
   private final SortedMap<String, Terminal> _terminals;
   private final List<Communication> _communications;
@@ -25,6 +28,15 @@ public class Network implements Serializable {
     this.addPricingSystem(base);
     _terminals = new TreeMap<>();
     _communications = new ArrayList<>();
+  }
+
+  public PricingSystem getBasePricingSystem(){
+    for (PricingSystem i : _pricingSystems){
+      if (i.getName().equals("Base")){
+        return i;
+      }
+    }
+    return null;
   }
 
   public long getGlobalPayments(){
@@ -89,7 +101,7 @@ public class Network implements Serializable {
     if (_clients.containsKey(key)) {
       throw new ClientKeyAlreadyExistsException(key);
     }
-    Client newClient = new Client(key, name, taxNumber);
+    Client newClient = new Client(key, name, taxNumber,getBasePricingSystem());
     _clients.put(key, newClient);
   }
 
@@ -412,11 +424,9 @@ public class Network implements Serializable {
   }
 
 
-  //FIXME e possivel que seja para por nos terminais (disse o Francisco)
   public boolean textCommunication(Terminal terminal, String secondTerminal, String message)
       throws KeyNotFoundException {
     Terminal targetTerminal = checkTerminalKey(secondTerminal);
-    // QUESTIONS substituir "SILENCE" pelo atributo da classe? É seguro?
     if (targetTerminal.getTerminalState().isOff()) {
       if (terminal.getClient().getNotificationsOn()){
         targetTerminal.registerObserver(terminal.getClient());

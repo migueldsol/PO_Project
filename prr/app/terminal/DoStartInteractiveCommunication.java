@@ -24,8 +24,6 @@ class DoStartInteractiveCommunication extends TerminalCommand {
   
   @Override
   protected final void execute() throws CommandException {
-    /*SOL a func startInteractiveCommunication devia receber as Strings
-     e ir buscar os terminals la dentro para nao lidarmos com terminals na app*/
     String terminalKey = stringField("terminalId");
     String type = stringField("type");
     try{
