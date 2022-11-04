@@ -1,5 +1,5 @@
-*** testsSol/A-15-07-M-ok.out	2022-11-04 13:24:35.611974000 +0000
---- testsSol/A-15-07-M-ok.outhyp	2022-11-04 13:27:50.232750923 +0000
+*** testsSol/A-15-07-M-ok.out	2022-11-04 13:48:54.164811167 +0000
+--- testsSol/A-15-07-M-ok.outhyp	2022-11-04 14:31:38.859757465 +0000
 ***************
 *** 229,235 ****
   0 - Sair
@@ -30,7 +30,7 @@
   6 - Mostrar saldo de cliente
   0 - Sair
   Escolha uma opção: 2
-! CLIENT|cli001|Manuel Pinheiro|103443|GOLD|YES|4|900|80
+! CLIENT|cli001|Manuel Pinheiro|103443|PLATINUM|YES|4|900|80
   CLIENT|cli002|Pedro Pinheiro|103447|NORMAL|YES|2|0|0
   CLIENT|cli003|Pedro Oliveira|103449|NORMAL|YES|3|0|0
   CLIENT|cli201|Ludgero Oliveira|103440|NORMAL|YES|0|0|0

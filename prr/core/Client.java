@@ -62,7 +62,7 @@ public class Client implements Serializable, Observer{
     }
 
     public String toString(){
-        return "CLIENT|" + KEY + "|" + NAME + "|" + TAX_NUMBER + "|" + _clientType.toString() + "|" + getStringNotificationsOn() +
+        return "CLIENT|" + KEY + "|" + NAME + "|" + TAX_NUMBER + "|" + getType().toString() + "|" + getStringNotificationsOn() +
          "|" + _terminals.size() + "|" + Math.round(getClientPayments()) + "|" + Math.round(getClientDebts());
 
     }
