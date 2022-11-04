@@ -330,7 +330,9 @@ public class Network implements Serializable {
   }
   public List<String> showClientsWithDebts() {
     List<String> message = new ArrayList<>();
-    for(Client client: _clients.values()){
+    List<Client> order = new ArrayList<>(_clients.values());
+    Collections.sort(order, new ClientComparator());
+    for(Client client: order){
       if(client.getBalance() < 0){
         message.add(client.toString());
       }
@@ -340,7 +342,9 @@ public class Network implements Serializable {
 
   public List<String> showClientsWithoutDebts() {
     List<String> message = new ArrayList<>();
-    for(Client client: _clients.values()){
+    List<Client> order = new ArrayList<>(_clients.values());
+    Collections.sort(order, new ClientComparator());;
+    for(Client client: order){
       if(client.getBalance() >= 0){
         message.add(client.toString());
       }
