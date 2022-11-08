@@ -31,4 +31,16 @@ public class BaseText implements Serializable{
             return VALUE_1;
         }    
     }
+
+    public int getValue1(){
+        return VALUE_1;
+    }
+
+    public int getValue2(){
+        return VALUE_2;
+    }
+
+    public int getValue3(){
+        return VALUE_3;
+    }
 }
