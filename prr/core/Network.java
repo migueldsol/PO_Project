@@ -76,7 +76,7 @@ public class Network implements Serializable {
    */
   public boolean payCommunication(int id, Terminal terminal) {
     Communication communication = terminal.getMadeCommunication(id);
-    if (communication == null || communication.isPaid()) {
+    if (communication == null || communication.isPaid() || !communication.hasEnded()) {
       return false;
     } else {
       terminal.getMadeCommunication(id).pay();
@@ -391,7 +391,7 @@ public class Network implements Serializable {
     List<Client> order = new ArrayList<>(_clients.values());
     Collections.sort(order, new ClientDebtComparator());
     for (Client client : order) {
-      if (client.getBalance() < 0) {
+      if (client.getClientDebts() > 0) {
         message.add(client.toString());
       }
     }
@@ -408,7 +408,7 @@ public class Network implements Serializable {
     Collections.sort(order, new ClientComparator());
     ;
     for (Client client : order) {
-      if (client.getBalance() >= 0) {
+      if (client.getClientDebts() == 0) {
         message.add(client.toString());
       }
     }
@@ -508,9 +508,6 @@ public class Network implements Serializable {
     TextCommunication communication = new TextCommunication((_communications.size() + 1), terminal, targetTerminal,
         message);
     communication.setPrice(terminal.getClient().getType().getTarrif(communication));
-    if (terminal.isFriend(targetTerminal)) {
-      communication.discount();
-    }
     communication.endCommunication();
     addCommunications(terminal, targetTerminal, communication);
     if (terminal.getClient().getType().isGold() || terminal.getClient().getType().isPlatinum()) {
