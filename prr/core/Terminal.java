@@ -83,7 +83,7 @@ abstract public class Terminal implements Serializable, Subject{
   }
 
   public void setState(TerminalState state){
-    NotificationType notificationType = changeType(this.getPreviousState(), state);
+    NotificationType notificationType = changeType(this.getTerminalState(), state);
     if (notificationType != null){
       notifyObserver(notificationType);
     }
@@ -93,8 +93,6 @@ abstract public class Terminal implements Serializable, Subject{
   public NotificationType changeType(TerminalState inicialState, TerminalState finalState){
 
     boolean inicialOff = inicialState.isOff();
-    boolean inicialBusy = inicialState.isBusy();
-    boolean inicialSilence = inicialState.isSilence();
     boolean finalIdle = finalState.isIdle();
     boolean finalSilence = finalState.isSilence();
     
@@ -104,10 +102,10 @@ abstract public class Terminal implements Serializable, Subject{
     else if (inicialOff && finalIdle){
         return NotificationType.O2I;
     }
-    else if (inicialSilence && finalIdle){
+    else if (inicialState.isSilence() && finalIdle){
         return NotificationType.S2I;
     }
-    else if (inicialBusy && finalIdle){
+    else if (inicialState.isBusy() && finalIdle){
         return NotificationType.B2I;
     }
     return null;

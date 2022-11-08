@@ -630,8 +630,10 @@ public class Network implements Serializable {
     }
     current.endCommunication();
     target.setState(target.getPreviousState());
+    target.changePreviousState(new TerminalBusy(target));
     terminal.removeCurrentCommunication();
     terminal.setState(terminal.getPreviousState());
+    terminal.changePreviousState(new TerminalBusy(terminal));;
     if (terminal.getClient().getType().isGold() || terminal.getClient().getType().isPlatinum()) {
       terminal.getClient().getType().changeType();
     }
