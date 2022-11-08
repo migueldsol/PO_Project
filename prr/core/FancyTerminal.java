@@ -2,7 +2,6 @@ package prr.core;
 
 public class FancyTerminal extends Terminal{
 
-
     public FancyTerminal(String key, Client client, TerminalType terminalType){
         super(key, client, terminalType);
 

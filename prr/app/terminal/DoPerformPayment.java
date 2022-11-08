@@ -19,7 +19,7 @@ class DoPerformPayment extends TerminalCommand {
   protected final void execute() throws CommandException {
     int id = integerField("id");
     if (!_network.payCommunication(id,_receiver)) {
-      _display.popup(Message.commKey());
+      _display.popup(Message.invalidCommunication());
     }
   }
 }

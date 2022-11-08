@@ -8,7 +8,6 @@ public abstract class TerminalState implements Serializable{
 
     //BUSY, IDLE, SILENCE, OFF
 
-    //FIXME meter coisas final
     private Terminal _terminal;
     private String _name;
 
@@ -17,15 +16,39 @@ public abstract class TerminalState implements Serializable{
         _name = name;
     }
 
-    public abstract boolean changeToOff();
-    public abstract boolean changeToSilence();
+    public boolean changeToOff() {
+        Terminal terminal = getTerminal();
+        terminal.changePreviousState(terminal.getTerminalState());
+        terminal.setState(new TerminalOff(terminal));
+        return true;
+    }
+    
+    public boolean changeToSilence() {
+        Terminal terminal = getTerminal();
+        terminal.changePreviousState(terminal.getTerminalState());
+        terminal.setState(new TerminalSilence(terminal));
+        return true;
+    }
+
+    public boolean changeToBusy() {
+        Terminal terminal = getTerminal();
+        terminal.changePreviousState(terminal.getTerminalState());
+        terminal.setState(new TerminalBusy(terminal));
+        return true;
+    }
+
+    public boolean changeToIdle() {
+        Terminal terminal = getTerminal();
+        terminal.changePreviousState(terminal.getTerminalState());
+        terminal.setState(new TerminalIdle(terminal));
+        return true;
+    }
 
     abstract public boolean canStartCommunication();
     abstract public boolean canReceiveTextCommunication();
     abstract public boolean canReceiveInteractiveCommunication();
     abstract public boolean canEndCurrentCommunication();
 
-    //FIXME pode estar errado
     public boolean isOff(){
         return false;
     }

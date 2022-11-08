@@ -2,13 +2,14 @@ package prr.core;
 
 import java.io.Serializable;
 import java.io.IOException;
-
 import prr.core.exception.*;
-import java.util.ArrayList;
 import java.util.List;
-import java.util.Map;
-import java.util.Collections;
+import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.Map;
+import java.util.SortedMap;
+import java.util.TreeMap;
+import java.util.Collections;
 
 public class Network implements Serializable {
 
@@ -17,29 +18,71 @@ public class Network implements Serializable {
   private static final long serialVersionUID = 202208091753L;
   private final Map<String, Client> _clients;
   private final List<PricingSystem> _pricingSystems;
-  private final Map<String, Terminal> _terminals;
+  private final SortedMap<String, Terminal> _terminals;
   private final List<Communication> _communications;
 
   public Network() {
-    _clients = new HashMap<String, Client>();
-    _pricingSystems = new ArrayList<PricingSystem>();
+    _clients = new HashMap<>();
+    _pricingSystems = new ArrayList<>();
     PricingSystem base = new BasePricingSystem();
     this.addPricingSystem(base);
-    _terminals = new HashMap<String, Terminal>();
-    _communications = new ArrayList<Communication>();
+    _terminals = new TreeMap<>();
+    _communications = new ArrayList<>();
   }
 
   /**
+   * getBasePricingSystem - gets the base pricing System
+   * @return 
+   */
+  public PricingSystem getBasePricingSystem() {
+    for (PricingSystem i : _pricingSystems) {
+      if (i.getName().equals("Base")) {
+        return i;
+      }
+    }
+    return null;
+  }
+
+  /**
+   * getGlobalPayments -> gets the payments of all clients
+   * @return the payments of all clients
+   */
+  public long getGlobalPayments() {
+    double payments = 0;
+    for (Client client : _clients.values()) {
+      payments += client.getClientPayments();
+    }
+    return Math.round(payments);
+  }
+
+  /**
+   * getGlobalDebts -> gets the debts of all clients
+   * @return the debts of all clients
+   */
+  public long getGlobalDebts() {
+    double debts = 0;
+    for (Client client : _clients.values()) {
+      debts += client.getClientDebts();
+    }
+    return Math.round(debts);
+  }
+
+  /**
+   * payCommunication -> Pay a communication
    *
-   * @param id
-   * @param terminal
-   * @return
+   * @param id       - id of the communication
+   * @param terminal - terminal where the communication is
+   * @return true if the communication has been paid
    */
   public boolean payCommunication(int id, Terminal terminal) {
-    if (terminal.getMadeCommunication(id) == null) {
+    Communication communication = terminal.getMadeCommunication(id);
+    if (communication == null || communication.isPaid()) {
       return false;
     } else {
-      // FIXME: resolve payment
+      terminal.getMadeCommunication(id).pay();
+      if (terminal.getClient().getType().isNormal()) {
+        terminal.getClient().getType().changeType();
+      }
       return true;
     }
   }
@@ -47,9 +90,9 @@ public class Network implements Serializable {
   /**
    * getTerminal -> returns a terminal given a certain terminal id
    * 
-   * @param terminalID
+   * @param terminalID - terminal identification
    * @return returns the terminal with given terminalID
-   * @throws KeyNotFoundException
+   * @throws KeyNotFoundException - if hey doesn't exist
    */
   public Terminal getTerminal(String terminalID) throws KeyNotFoundException {
     if (!_terminals.containsKey(terminalID)) {
@@ -61,17 +104,16 @@ public class Network implements Serializable {
   /**
    * registerClient -> register a new client
    * 
-   * @param key
-   * @param name
-   * @param taxNumber
-   * @return return if the client was added to the network
+   * @param key       - client id
+   * @param name      - client name
+   * @param taxNumber - client tax number
    */
 
   public void registerClient(String key, String name, int taxNumber) throws ClientKeyAlreadyExistsException {
     if (_clients.containsKey(key)) {
       throw new ClientKeyAlreadyExistsException(key);
     }
-    Client newClient = new Client(key, name, taxNumber);
+    Client newClient = new Client(key, name, taxNumber, getBasePricingSystem());
     _clients.put(key, newClient);
   }
 
@@ -104,19 +146,44 @@ public class Network implements Serializable {
     return client.toString();
   }
 
-  public boolean turnOffNotification(String clientID) throws KeyNotFoundException {
+  /**
+   * toStringNotificaions -> returns a string with all the notifications of a
+   * client
+   * 
+   * @param clientID
+   * @return
+   */
+  public List<String> toStringNotifications(String clientID) {
     Client client = _clients.get(clientID);
     if (client == null) {
-      throw new KeyNotFoundException(clientID);
+      return null;
     }
+    return client.getNotifications();
+  }
+
+  /**
+   * turnOffNotification -> turns off a notification
+   * 
+   * @param clientID
+   * @return
+   * @throws KeyNotFoundException
+   */
+  public boolean turnOffNotification(String clientID) throws KeyNotFoundException {
+    clientKeyExists(clientID);
+    Client client = _clients.get(clientID);
     return client.setNotificationOff();
   }
 
+  /**
+   * TurnOnNotification -> turns on a notification
+   * 
+   * @param clientID
+   * @return
+   * @throws KeyNotFoundException
+   */
   public boolean TurnOnNotification(String clientID) throws KeyNotFoundException {
+    clientKeyExists(clientID);
     Client client = _clients.get(clientID);
-    if (client == null) {
-      throw new KeyNotFoundException(clientID);
-    }
     return client.setNotificationOn();
   }
 
@@ -156,6 +223,12 @@ public class Network implements Serializable {
     client.registerTerminal(newTerminal);
   }
 
+  public void terminalKeyExists(String key) throws KeyNotFoundException {
+    if (!_terminals.containsKey(key)) {
+      throw new KeyNotFoundException(key);
+    }
+  }
+
   /**
    * registerTerminal -> gets the client to register the terminal
    * and registers the terminal
@@ -170,10 +243,8 @@ public class Network implements Serializable {
    */
   public void registerTerminal(String key, TerminalType type, String clientKey)
       throws NumberFormatException, InvalidSizeKey, KeyNotFoundException, TerminalKeyAlreadyExistsException {
+    clientKeyExists(clientKey);
     Client client = _clients.get(clientKey);
-    if (client == null) {
-      throw new KeyNotFoundException(key);
-    }
     registerTerminal(key, type, client);
   }
 
@@ -192,7 +263,6 @@ public class Network implements Serializable {
    * 
    * @param terminal
    * @param friend
-   * @throws KeyNotFoundException
    */
   public void addFriend(Terminal terminal, Terminal friend) {
     terminal.addFriendlyTerminal(friend);
@@ -208,10 +278,11 @@ public class Network implements Serializable {
   public void addFriend(String terminalKey, String friendKey) throws KeyNotFoundException {
     if (!_terminals.containsKey(friendKey)) {
       throw new KeyNotFoundException(friendKey);
+    } else if (!terminalKey.equals(friendKey)) {
+      Terminal newTerminal = _terminals.get(terminalKey);
+      Terminal friend = _terminals.get(friendKey);
+      addFriend(newTerminal, friend);
     }
-    Terminal newTerminal = _terminals.get(terminalKey);
-    Terminal friend = _terminals.get(friendKey);
-    addFriend(newTerminal, friend);
   }
 
   /**
@@ -248,12 +319,110 @@ public class Network implements Serializable {
    */
   public List<String> unusedTerminalsToString() {
     List<String> message = new ArrayList<>();
-    List<Terminal> order = new ArrayList<>(_terminals.values());
-    Collections.sort(order, new TerminalComparator());
-    for (Terminal i : order) {
-      if (!i.hasActivity()) {
-        message.add(i.toString());
+    for (Terminal terminal : _terminals.values())
+      if (!terminal.hasActivity()) {
+        message.add(terminal.toString());
       }
+    return message;
+  }
+
+  /**
+   * clientKeyExists -> verifies if the clientKey exists
+   * @param key
+   * @throws KeyNotFoundException
+   */
+  public void clientKeyExists(String key) throws KeyNotFoundException {
+    if (!_clients.containsKey(key)) {
+      throw new KeyNotFoundException(key);
+    }
+  }
+
+  /**
+   * showTerminalsWithPositiveBalance -> gets all the terminals with 
+   *  positive balance ready to print out
+   * @return  
+   */
+  public List<String> showTerminalsWithPositiveBalance() {
+    List<String> message = new ArrayList<>();
+    for (Terminal terminal : _terminals.values()) {
+      if (terminal.getBalance() > 0) {
+        message.add(terminal.toString());
+      }
+    }
+    return message;
+  }
+
+  /**
+   * ShowCommunicationsFromClient -> gets all the communications the client made
+   * @param clientId
+   * @return
+   * @throws KeyNotFoundException
+   */
+  public List<String> showCommunicationsFromClient(String clientId) throws KeyNotFoundException {
+    clientKeyExists(clientId);
+    List<String> message = new ArrayList<>();
+    for (Communication comm : _clients.get(clientId).getCommunicationsMade()) {
+      message.add(comm.toString());
+    }
+    return message;
+  }
+
+  /**
+   * showCommunicationsToClient -> gets all the communications the client received
+   * @param clientId
+   * @return
+   * @throws KeyNotFoundException
+   */
+  public List<String> showCommunicationsToClient(String clientId) throws KeyNotFoundException {
+    clientKeyExists(clientId);
+    List<String> message = new ArrayList<>();
+    for (Communication comm : _clients.get(clientId).getCommunicationsReceived()) {
+      message.add(comm.toString());
+    }
+    return message;
+  }
+
+  /**
+   * showClientsWithDebts -> gets all the clients with balance < 0
+   * @return
+   */
+  public List<String> showClientsWithDebts() {
+    List<String> message = new ArrayList<>();
+    List<Client> order = new ArrayList<>(_clients.values());
+    Collections.sort(order, new ClientComparator());
+    for (Client client : order) {
+      if (client.getBalance() < 0) {
+        message.add(client.toString());
+      }
+    }
+    return message;
+  }
+
+  /**
+   * showClientsWithoutDebts -> gets all the clients with balance > 0
+   * @return
+   */
+  public List<String> showClientsWithoutDebts() {
+    List<String> message = new ArrayList<>();
+    List<Client> order = new ArrayList<>(_clients.values());
+    Collections.sort(order, new ClientComparator());
+    ;
+    for (Client client : order) {
+      if (client.getBalance() >= 0) {
+        message.add(client.toString());
+      }
+    }
+    return message;
+  }
+
+  /**
+   * doShowAllCommunications -> gets all the communications in the network
+   * @return
+   */
+  public List<String> doShowAllCommunications() {
+    List<String> message = new ArrayList<>();
+    for (Communication comm : _communications) {
+      message.add(comm.toString());
     }
     return message;
   }
@@ -265,10 +434,8 @@ public class Network implements Serializable {
    */
   public List<String> toStringAllTerminals() {
     List<String> message = new ArrayList<>();
-    List<Terminal> order = new ArrayList<>(_terminals.values());
-    Collections.sort(order, new TerminalComparator());
-    for (Terminal i : order) {
-      message.add(i.toString());
+    for (Terminal terminal : _terminals.values()) {
+      message.add(terminal.toString());
     }
     return message;
   }
@@ -282,10 +449,24 @@ public class Network implements Serializable {
     _pricingSystems.add(pricingSystem);
   }
 
+  /**
+   * checkTerminals -> checks if the terminals are equal
+   * 
+   * @param terminalOne
+   * @param terminalTwo
+   * @return
+   */
   public boolean checkTerminals(Terminal terminalOne, Terminal terminalTwo) {
     return terminalOne.getKey().equals(terminalTwo.getKey());
   }
 
+  /**
+   * checkTerminalKey -> checks if the terminal key exist
+   * 
+   * @param terminal
+   * @return the terminal
+   * @throws KeyNotFoundException
+   */
   public Terminal checkTerminalKey(String terminal) throws KeyNotFoundException {
     if (_terminals.get(terminal) == null) {
       throw new KeyNotFoundException(terminal);
@@ -293,21 +474,36 @@ public class Network implements Serializable {
     return _terminals.get(terminal);
   }
 
+  /**
+   * addCommunication -> adds the communication to the network and to the terminal
+   * @param terminal
+   * @param targetTerminal
+   * @param communication
+   */
   public void addCommunications(Terminal terminal, Terminal targetTerminal, Communication communication) {
     terminal.addCommunicationMade(communication);
     targetTerminal.addCommunicationReceived(communication);
     _communications.add(communication);
   }
 
+  /**
+   * textCommunication -> makes a text communication, calculates its price
+   *  and adds it to the network
+   * @param terminal        terminal of origin
+   * @param secondTerminal  terminal of destination
+   * @param message         the message of the text
+   * @return                if the communication was made or not
+   * @throws KeyNotFoundException
+   */
+
   public boolean textCommunication(Terminal terminal, String secondTerminal, String message)
       throws KeyNotFoundException {
     Terminal targetTerminal = checkTerminalKey(secondTerminal);
-    // QUESTIONS substituir "SILENCE" pelo atributo da classe? É seguro?
-    if (targetTerminal.getTerminalState().toString().equals("OFF")) {
+    if (targetTerminal.getTerminalState().isOff()) {
+      if (terminal.getClient().getNotificationsOn()) {
+        targetTerminal.registerObserver(terminal.getClient());
+      }
       return false;
-    }
-    if (checkTerminals(terminal, targetTerminal)) {
-      return true;
     }
     TextCommunication communication = new TextCommunication((_communications.size() + 1), terminal, targetTerminal,
         message);
@@ -317,9 +513,18 @@ public class Network implements Serializable {
     }
     communication.endCommunication();
     addCommunications(terminal, targetTerminal, communication);
+    if (terminal.getClient().getType().isGold() || terminal.getClient().getType().isPlatinum()) {
+      terminal.getClient().getType().changeType();
+    }
     return true;
   }
 
+  /**
+   * getClientPayments -> gets the client payments
+   * @param clientId
+   * @return
+   * @throws KeyNotFoundException
+   */
   public double getClientPayments(String clientId) throws KeyNotFoundException {
     Client client = _clients.get(clientId);
     if (client == null) {
@@ -328,6 +533,12 @@ public class Network implements Serializable {
     return client.getClientPayments();
   }
 
+  /**
+   * getClientDebts -> gets the client debts
+   * @param clientId
+   * @return
+   * @throws KeyNotFoundException
+   */
   public double getClientDebts(String clientId) throws KeyNotFoundException {
     Client client = _clients.get(clientId);
     if (client == null) {
@@ -336,62 +547,119 @@ public class Network implements Serializable {
     return client.getClientDebts();
   }
 
+  /**
+   * addInteractiveCommunication -> adds an interactive communication to the network
+   * @param terminal
+   * @param targetTerminal
+   * @param communication
+   */
   public void addInteractiveCommunication(Terminal terminal, Terminal targetTerminal, Communication communication) {
     terminal.addInteractiveCommunicationMade(communication);
-    terminal.setState(terminal.getBusy());
     targetTerminal.addInteractiveCommunicationReceived(communication);
-    targetTerminal.setState(targetTerminal.getBusy());
+    _communications.add(communication);
   }
 
-  public String startInteractiveCommunication(Terminal terminal, String terminalKey, String typeComm)
-      throws KeyNotFoundException {
+  /**
+   * startInteractiveCommunication -> makes an interactive communication,  checks if the 
+   * target terminal can receive it, adds the client to the observer list if needed and adds
+   * the communication to the network
+   * @param terminal                  origin terminal
+   * @param terminalKey               target terminal
+   * @param typeComm                  VOICE or VIDEO
+   * @throws KeyNotFoundException
+   * @throws OriginUnsuportedCommunicationException
+   * @throws TargetUnsuportedCommunicationException
+   * @throws FailedInteractiveCommunicationException
+   * @throws Exception
+   */
+  public void startInteractiveCommunication(Terminal terminal, String terminalKey, String typeComm)
+      throws KeyNotFoundException, OriginUnsuportedCommunicationException, TargetUnsuportedCommunicationException,
+      FailedInteractiveCommunicationException, Exception {
     Terminal targetTerminal = checkTerminalKey(terminalKey);
-    if (typeComm == "VIDEO" && targetTerminal.getTerminalType() == TerminalType.BASIC) {
-      return "UNSUPORTED";
-    } else if (!terminal.getTerminalState().canReceiveInteractiveCommunication()) {
-        if (terminal.getClient().getNotificationsOn()){
-          //FIXME estou a adicionar uma notificação e devia de fazer uma função no network para isto
-          Notification newNotification = new Notification(terminalKey);
-          terminal.registerObserver(newNotification);
-          terminal.getClient().addNotification(newNotification);
-        }
-      return terminal.getTerminalState().toString();
+    checkCommunicationType(terminal, targetTerminal, typeComm);
+    if (!targetTerminal.getTerminalState().canReceiveInteractiveCommunication()) {
+      if (terminal.getClient().getNotificationsOn()) {
+        targetTerminal.registerObserver(terminal.getClient());
+      }
+      throw new FailedInteractiveCommunicationException(targetTerminal.getTerminalState());
     }
     if (checkTerminals(terminal, targetTerminal)) {
-      System.out.println("ola");
-      return null;
+      throw new Exception();
     }
     InteractiveCommunication communication;
-    if (typeComm == "Video") {
+    if (typeComm.equals("VIDEO")) {
       communication = new VideoCommunication((_communications.size() + 1), terminal, targetTerminal);
     } else {
       communication = new VoiceCommunication((_communications.size() + 1), terminal, targetTerminal);
     }
-    if (terminal.isFriend(targetTerminal)) {
-      communication.discount();
-    }
     addInteractiveCommunication(terminal, targetTerminal, communication);
     terminal.addCurrentCommunication(communication);
-    terminal.setState(terminal.getBusy());
-    return null;
   }
 
+  /**
+   * checkCommunicationType -> checks if the target or origin terminal can receive/make the communication
+   * @param terminal
+   * @param targetTerminal
+   * @param typeComm
+   * @throws OriginUnsuportedCommunicationException
+   * @throws TargetUnsuportedCommunicationException
+   */
+  public void checkCommunicationType(Terminal terminal, Terminal targetTerminal, String typeComm)
+      throws OriginUnsuportedCommunicationException, TargetUnsuportedCommunicationException {
+    if (typeComm.equals("VIDEO") && terminal.getTerminalType() == TerminalType.BASIC) {
+      throw new OriginUnsuportedCommunicationException(terminal.getKey(), typeComm);
+    } else if (typeComm.equals("VIDEO") && targetTerminal.getTerminalType() == TerminalType.BASIC) {
+      throw new TargetUnsuportedCommunicationException(targetTerminal.getKey(), typeComm);
+    }
+  }
+
+  /**
+   * endCommunication -> ends the communication, calculates its price and changes the client type
+   * if needed
+   * @param terminal     
+   * @param duration  
+   * @return              price of the communication
+   */
   public double endCommunication(Terminal terminal, int duration) {
     InteractiveCommunication current = terminal.getCurrentComunication();
     current.setDuration(duration);
     current.setPrice(terminal.getClient().getType().getTarrif(current));
+    Terminal target = _terminals.get(current.getDestinationId());
+    if (terminal.isFriend(target)) {
+      current.discount();
+    }
     current.endCommunication();
-    _terminals.get(current.getDestinationId()).setState(terminal.getIdle());
+    target.setState(target.getPreviousState());
     terminal.removeCurrentCommunication();
-    terminal.setState(terminal.getIdle());
+    terminal.setState(terminal.getPreviousState());
+    if (terminal.getClient().getType().isGold() || terminal.getClient().getType().isPlatinum()) {
+      terminal.getClient().getType().changeType();
+    }
     return current.getPrice();
   }
 
-  public String showOngoingCommunication(Terminal terminal) throws OngoingCommunicationNotFound{
-    if(terminal.getCurrentComunication() == null){
+  /**
+   * showOngoingCommunication -> gets the communication that is not ended
+   * @param terminal
+   * @return
+   * @throws OngoingCommunicationNotFound
+   */
+  public String showOngoingCommunication(Terminal terminal) throws OngoingCommunicationNotFound {
+    if (terminal.getCurrentComunication() == null) {
       throw new OngoingCommunicationNotFound();
     }
     return terminal.getCurrentComunication().toString();
+  }
+
+  /**
+   * registerObserver -> registers the observer to the respective terminal
+   * @param Senderterminal
+   * @param targetTerminalKey
+   */
+  public void registerObserver(Terminal Senderterminal, String targetTerminalKey) {
+    Terminal targetTerminal = _terminals.get(targetTerminalKey);
+
+    targetTerminal.registerObserver(Senderterminal.getClient());
   }
 
   /**

@@ -16,10 +16,9 @@ class DoTurnOffTerminal extends TerminalCommand {
   
   @Override
   protected final void execute() throws CommandException {
-      //S substituir "SILENCE" pelo atributo da classe? É seguro?
-    if(_receiver.getTerminalState().toString().equals("OFF")){
+    if(_receiver.getTerminalState().isOff()){
       _display.popup(Message.alreadyOff());
     }
-    _receiver.setState(_receiver.getOff());
+    _receiver.getTerminalState().changeToOff();
   }
 }

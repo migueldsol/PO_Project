@@ -1,10 +1,8 @@
 package prr.core;
 
-import java.io.Serializable;
+public class BasePricingSystem extends PricingSystem{
 
-public class BasePricingSystem implements PricingSystem, Serializable{
-
-    private static final long serialVersionUID = 202208091753L;
+    private final static String NAME = "Base";
 
 
     // TEXT TARIFF
@@ -38,7 +36,7 @@ public class BasePricingSystem implements PricingSystem, Serializable{
     private final int VIDEO_PLATINUM = 10;
 
     public BasePricingSystem(){
-        super();
+        super(NAME);
         _normalBaseText = new BaseText(TEXT_NORMAL_1, TEXT_NORMAL_2, TEXT_NORMAL_3);
         _goldBaseText = new BaseText(TEXT_GOLD_1, TEXT_GOLD_2, TEXT_GOLD_3);
         _platinumBaseText = new BaseText(TEXT_PLATINUM_1, TEXT_PLATINUM_2, TEXT_PLATINUM_3);

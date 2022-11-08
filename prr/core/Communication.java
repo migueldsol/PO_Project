@@ -9,15 +9,15 @@ public abstract class Communication implements Serializable {
     private boolean _ended;
 
     private boolean _isPaid;
-    private Terminal _origin;
-    private Terminal _destination;
+    private final Terminal ORIGIN;
+    private final Terminal DESTINATION;
 
     private double _price;
 
     public Communication(int id, Terminal origin, Terminal destination) {
         ID = id;
-        _origin = origin;
-        _destination = destination;
+        ORIGIN = origin;
+        DESTINATION = destination;
         _isPaid = false;
         _ended = false;
     }
@@ -25,11 +25,6 @@ public abstract class Communication implements Serializable {
     public void endCommunication() {
         _ended = true;
     }
-
-    public boolean hasEnded() {
-        return _ended;
-    }
-
     public void setPrice(double price) {
         _price = price;
     }
@@ -64,14 +59,18 @@ public abstract class Communication implements Serializable {
         return false;
     }
 
+    public void pay(){
+        _isPaid = true;
+    }
+
     public String getState(){
         return _ended ? "FINISHED" : "ONGOING";
     }
     public String getOriginId(){
-        return _origin.getKey();
+        return ORIGIN.getKey();
     }
 
     public String getDestinationId(){
-        return _destination.getKey();
+        return DESTINATION.getKey();
     }
 }

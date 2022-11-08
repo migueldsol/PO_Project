@@ -1,5 +1,6 @@
 package prr.core;
 
+
 public class TerminalOff extends TerminalState{
 
     private final static String STATE_NAME = "OFF";
@@ -9,18 +10,13 @@ public class TerminalOff extends TerminalState{
         super(terminal, STATE_NAME);
     }
 
-    public boolean changeToIdle() {
-        super.getTerminal().setState(new TerminalIdle(super.getTerminal()));
-        return true;
-    }
-
     @Override
     public boolean changeToOff() {
         return false;
     }
 
-    @Override
-    public boolean changeToSilence() {
+    @Override 
+    public boolean changeToBusy(){
         return false;
     }
 

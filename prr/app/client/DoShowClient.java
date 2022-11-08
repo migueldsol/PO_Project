@@ -20,7 +20,6 @@ class DoShowClient extends Command<Network> {
   
   @Override
   protected final void execute() throws CommandException {
-    //FIXME temos que implementar apagar notificações
     String clientID = stringField("clientID");
     
     String stringClient = _receiver.toStringClient(clientID);
@@ -29,6 +28,11 @@ class DoShowClient extends Command<Network> {
       throw new UnknownClientKeyException(clientID);
     }
 
-    _display.popup(_receiver.toStringClient(clientID));
+    _display.addLine(_receiver.toStringClient(clientID));
+    List <String> notifications = _receiver.toStringNotifications(clientID);
+    if (notifications.size() > 0){
+      _display.addAll(notifications);
+    }
+    _display.display();
   }
 }

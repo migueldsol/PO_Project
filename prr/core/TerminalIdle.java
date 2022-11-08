@@ -1,5 +1,6 @@
 package prr.core;
 
+
 public class TerminalIdle extends TerminalState{
 
     private final static String STATE_NAME = "IDLE";
@@ -10,26 +11,6 @@ public class TerminalIdle extends TerminalState{
 
     public boolean changeToIdle() {
         return false;
-    }
-
-    public boolean changeToBusy() {
-        Terminal terminal = super.getTerminal();
-        terminal.setState(terminal.getBusy());
-        return true;
-    }
-
-    @Override
-    public boolean changeToOff() {
-        Terminal terminal = super.getTerminal();
-        terminal.setState(terminal.getOff());
-        return true;
-    }
-
-    @Override
-    public boolean changeToSilence() {
-        Terminal terminal = super.getTerminal();
-        terminal.setState(terminal.getSilence());
-        return true;
     }
 
     @Override

@@ -1,5 +1,5 @@
 package prr.core;
 
 public interface Observer {
-    void update(NotificationType notificationType);
+    void update(String key,NotificationType notificationType);
 }

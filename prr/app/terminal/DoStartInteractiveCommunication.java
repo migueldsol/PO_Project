@@ -2,8 +2,12 @@ package prr.app.terminal;
 
 import prr.core.Network;
 import prr.core.Terminal;
+import prr.core.TerminalState;
 import prr.app.exception.UnknownTerminalKeyException;
+import prr.core.exception.FailedInteractiveCommunicationException;
 import prr.core.exception.KeyNotFoundException;
+import prr.core.exception.OriginUnsuportedCommunicationException;
+import prr.core.exception.TargetUnsuportedCommunicationException;
 import pt.tecnico.uilib.forms.Form;
 import pt.tecnico.uilib.menus.CommandException;
 
@@ -23,18 +27,26 @@ class DoStartInteractiveCommunication extends TerminalCommand {
     String terminalKey = stringField("terminalId");
     String type = stringField("type");
     try{
-      String message = _network.startInteractiveCommunication(_receiver,terminalKey,type);
-      if(message == "OFF"){
-        _display.popup(Message.destinationIsOff(terminalKey));
-      }
-      else if(message == "BUSY"){
-        _display.popup(Message.destinationIsBusy(terminalKey));
-      }
-      else if(message == "SILENCE"){
-        _display.popup(Message.destinationIsSilent(terminalKey));
-      }
+      _network.startInteractiveCommunication(_receiver,terminalKey,type);
     } catch (KeyNotFoundException knfe){
       throw new UnknownTerminalKeyException(terminalKey);
+    } catch (OriginUnsuportedCommunicationException ouce){
+      _display.popup(Message.unsupportedAtOrigin(ouce.getTerminalId(), ouce.getCommunicationType()));
+    } catch (TargetUnsuportedCommunicationException tuce){
+      _display.popup(Message.unsupportedAtDestination(tuce.getTerminalId(), tuce.getCommunicationType()));
+    } catch (FailedInteractiveCommunicationException fice){
+      TerminalState terminalState = fice.getTerminalState();
+      if(terminalState.isOff()){
+        _display.popup(Message.destinationIsOff(terminalKey));
+      }
+      else if(terminalState.isBusy()){
+        _display.popup(Message.destinationIsBusy(terminalKey));
+      }
+      else if(terminalState.isSilence()){
+        _display.popup(Message.destinationIsSilent(terminalKey));
+      }
+    } catch (Exception e){
+      _display.popup(Message.destinationIsBusy(terminalKey));
     }
   }
 }

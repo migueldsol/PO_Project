@@ -2,10 +2,8 @@ package prr.core;
 
 public abstract class InteractiveCommunication extends Communication{
     private int _duration;
-    private boolean _ended;
     public InteractiveCommunication(int id, Terminal origin, Terminal destination){
         super(id,origin,destination);
-        _ended = false;
     }
 
     abstract public String type();

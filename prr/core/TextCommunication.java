@@ -1,6 +1,8 @@
 package prr.core;
 
+
 public class TextCommunication extends Communication{
+
     private final String MESSAGE;
 
     public TextCommunication(int id, Terminal origin, Terminal destination, String message) {
