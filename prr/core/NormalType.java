@@ -14,6 +14,8 @@ public class NormalType extends ClientType{
         return communication.isVideo() ? super.getClient().getPricingSystem().getNormalVideoTariff(communication.getDuration()) : super.getClient().getPricingSystem().getNormalVoiceTariff(communication.getDuration());
     }
 
+    //FIXME isto pode ser um problema visto que só devemos fazer esta mudança depois de realizar um pagamento
+    //deveriamos criar um changeTypeAfterPayment e changeTypeAfterCommunication
     public void changeType(){
         if (super.getClient().getBalance() > 500){
             super.getClient().setType(new GoldType(super.getClient()));

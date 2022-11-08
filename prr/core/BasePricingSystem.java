@@ -39,7 +39,7 @@ public class BasePricingSystem extends PricingSystem{
         super(NAME);
         _normalBaseText = new BaseText(TEXT_NORMAL_1, TEXT_NORMAL_2, TEXT_NORMAL_3);
         _goldBaseText = new BaseText(TEXT_GOLD_1, TEXT_GOLD_2, TEXT_GOLD_3);
-        _platinumBaseText = new BaseText(TEXT_PLATINUM_1, TEXT_PLATINUM_2, TEXT_PLATINUM_3);
+        _platinumBaseText = new PlatinumBaseText(TEXT_PLATINUM_1, TEXT_PLATINUM_2, TEXT_PLATINUM_3);
 
     }
 

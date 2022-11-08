@@ -22,15 +22,16 @@ public class PlatinumType extends ClientType{
         Client client = super.getClient();
         if (verifyDowngrade()) {
             client.setType(new NormalType(super.getClient()));
-        } else if (verifyPlatinumToGold()) {
+        } 
+        else if (verifyPlatinumToGold()) {
             client.setType(new GoldType(super.getClient()));
         }
     }
 
     public boolean verifyPlatinumToGold() {
         List<Communication> communications = getClient().getCommunicationsMade();
-        if(communications.size() < 5){return false;}
-            for (int i = (communications.size() - 1); i >= communications.size() - 3; i--) {
+        if(communications.size() <= 2){return false;}
+            for (int i = (communications.size() - 1); i > communications.size() - 3; i--) {
                 if (communications.get(i).isVoice()|| communications.get(i).isVideo()) {
                     return false;
                 }
