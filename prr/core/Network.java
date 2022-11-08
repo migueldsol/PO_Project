@@ -389,7 +389,7 @@ public class Network implements Serializable {
   public List<String> showClientsWithDebts() {
     List<String> message = new ArrayList<>();
     List<Client> order = new ArrayList<>(_clients.values());
-    Collections.sort(order, new ClientComparator());
+    Collections.sort(order, new ClientDebtComparator());
     for (Client client : order) {
       if (client.getBalance() < 0) {
         message.add(client.toString());
